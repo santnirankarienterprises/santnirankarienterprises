@@ -44,9 +44,15 @@ export const metadata: Metadata = {
     "Available Sidcul Industrial Jobs",
     "onrole jobs",
     "permanent jobs",
-
-    
   ],
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.png", type: "image/png", sizes: "64x64" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: "/icon.png",
+  },
   openGraph: {
     title: "Shiv Shakti Multi Service | Premium Recruitment Consultancy",
     description: "Shiv Shakti Multi Service is a modern recruitment consultancy helping People to get the Jobs.",
@@ -54,11 +60,20 @@ export const metadata: Metadata = {
     siteName: "Shiv Shakti Multi Service",
     locale: "en_IN",
     type: "website",
+    images: [
+      {
+        url: "/opengraph-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Shiv Shakti Multi Service",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Shiv Shakti Multi Service | Premium Recruitment Consultancy",
     description: "Shiv Shakti Multi Service is a modern recruitment consultancy helping People to get the Jobs.",
+    images: ["/opengraph-image.png"],
   },
   alternates: {
     canonical: "/",

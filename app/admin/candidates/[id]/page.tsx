@@ -1,3 +1,4 @@
+// app/admin/candidates/[id]/page.tsx
 "use client";
 
 import { useEffect, useState } from "react";
@@ -228,6 +229,38 @@ export default function CandidateDetailsPage() {
               </div>
             </section>
           )}
+
+          {/* Interview Details */}
+          <section className="mt-8 sm:mt-10 border-t pt-8">
+            <h2 className="mb-5 text-xl font-semibold text-zinc-900">
+              Interview History
+            </h2>
+
+            {candidate.interviews && candidate.interviews.length > 0 ? (
+              <div className="grid gap-4 md:grid-cols-2 md:gap-5">
+                {candidate.interviews.map((interview: any) => (
+                  <div key={interview.id} className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
+                    <div className="mb-3 flex items-center justify-between">
+                      <h3 className="font-bold text-zinc-900">{interview.companyName}</h3>
+                      <span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-medium text-orange-700">
+                        {interview.status}
+                      </span>
+                    </div>
+                    <div className="space-y-2 text-sm text-zinc-600">
+                      <p><span className="font-medium text-zinc-700">Role:</span> {interview.designation || "Not Specified"}</p>
+                      <p><span className="font-medium text-zinc-700">Date:</span> {new Date(interview.date).toLocaleDateString()}</p>
+                      <p><span className="font-medium text-zinc-700">Time:</span> {interview.time}</p>
+                      <p><span className="font-medium text-zinc-700">Location/Link:</span> {interview.location}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="rounded-2xl border border-zinc-200 bg-zinc-50 p-6 text-center text-zinc-500">
+                No interviews scheduled yet.
+              </div>
+            )}
+          </section>
         </div>
       </div>
     </div>

@@ -1,3 +1,4 @@
+// app/candidate/dashboard/page.tsx
 "use client";
 
 import { useEffect, useState } from "react";
@@ -54,6 +55,10 @@ export default function CandidateDashboardPage() {
         const profileResult = await profileResponse.json();
 
         if (profileResponse.ok && profileResult.success) {
+          if (!profileResult.profile) {
+            router.push("/candidate/profile");
+            return;
+          }
           setProfile(profileResult.profile);
         } else {
           setProfile(null);
@@ -188,7 +193,7 @@ export default function CandidateDashboardPage() {
   const isPaid = payment?.status === "SUCCESS";
 
   const interviews = profile?.interviews || [];
-  
+
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
@@ -201,7 +206,7 @@ export default function CandidateDashboardPage() {
       <DashboardNav />
 
       <main className="mx-auto max-w-7xl px-6 py-8">
-        
+
         {/* ========================================
             UNPAID VIEW (PAYMENT WALL)
         ======================================== */}
@@ -214,17 +219,17 @@ export default function CandidateDashboardPage() {
             <p className="mt-4 max-w-xl text-lg text-zinc-500 dark:text-zinc-400">
               Your profile is complete! To start receiving interview calls and direct HR referrals for <strong className="text-zinc-800 dark:text-zinc-200">{jobField}</strong>, please complete your registration payment.
             </p>
-            
+
             <div className="mt-10 flex flex-col sm:flex-row items-center gap-4">
-              <button 
-                onClick={handlePayment} 
+              <button
+                onClick={handlePayment}
                 disabled={paymentProcessing}
                 className="w-full sm:w-auto rounded-xl bg-green-600 px-8 py-4 font-bold text-white text-lg hover:bg-green-700 transition active:scale-95 disabled:opacity-70"
               >
                 {paymentProcessing ? "Processing..." : "Pay Registration Fee Now"}
               </button>
-              
-              <Link 
+
+              <Link
                 href="/#contact"
                 className="w-full sm:w-auto text-center rounded-xl bg-zinc-900 px-8 py-4 font-bold text-white text-lg hover:bg-zinc-800 transition active:scale-95"
               >
@@ -271,7 +276,7 @@ export default function CandidateDashboardPage() {
             </div>
 
             <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
-              
+
               {/* INTERVIEW SCHEDULE */}
               <SectionCard
                 title="Interview Schedule"
@@ -279,9 +284,9 @@ export default function CandidateDashboardPage() {
               >
                 {interviews.length === 0 ? (
                   <div className="flex flex-col items-center justify-center py-10 text-center text-zinc-500">
-                     <Calendar className="h-12 w-12 text-zinc-300 mb-3" />
-                     <p>No interviews scheduled yet.</p>
-                     <p className="text-sm">We will notify you when an employer shortlists your profile.</p>
+                    <Calendar className="h-12 w-12 text-zinc-300 mb-3" />
+                    <p>No interviews scheduled yet.</p>
+                    <p className="text-sm">We will notify you when an employer shortlists your profile.</p>
                   </div>
                 ) : (
                   <div className="flex flex-col gap-6">

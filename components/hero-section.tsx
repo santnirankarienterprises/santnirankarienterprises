@@ -1,7 +1,9 @@
+// components/hero-section.tsx
 import Link from "next/link";
 import {
   ArrowRight,
   Award,
+  Briefcase,
   Check,
   ChevronRight,
   MessageSquare,
@@ -182,6 +184,58 @@ export function HeroSection() {
               >
                 Explore Opportunities
                 <ChevronRight size={15} />
+              </Link>
+            </div>
+
+            {/* Employer CTA */}
+            <div className="mt-3 flex justify-center sm:justify-start">
+              <Link
+                href="/employer/login"
+                className="
+                  group
+                  inline-flex
+                  h-10
+                  w-full
+                  items-center
+                  justify-center
+                  gap-2
+                  rounded-xl
+                  border
+                  border-blue-200
+                  bg-blue-50
+                  px-4
+                  text-xs
+                  font-semibold
+                  text-blue-700
+                  transition-all
+                  duration-300
+                  hover:-translate-y-0.5
+                  hover:border-blue-400
+                  hover:bg-blue-100
+                  hover:shadow-[0_6px_18px_-8px_rgba(59,130,246,0.4)]
+                  focus-visible:outline-none
+                  focus-visible:ring-2
+                  focus-visible:ring-blue-500
+                  focus-visible:ring-offset-2
+                  sm:h-11
+                  sm:w-auto
+                  sm:justify-start
+                  sm:px-5
+                  sm:text-sm
+                  dark:border-blue-500/30
+                  dark:bg-blue-500/10
+                  dark:text-blue-400
+                  dark:hover:bg-blue-500/20
+                  dark:focus-visible:ring-offset-zinc-950
+                "
+              >
+                <Briefcase size={14} className="shrink-0" />
+                Are you an Employer?
+                <span className="font-bold underline underline-offset-2">Login here</span>
+                <ChevronRight
+                  size={13}
+                  className="transition-transform duration-300 group-hover:translate-x-0.5"
+                />
               </Link>
             </div>
 

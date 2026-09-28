@@ -1,3 +1,4 @@
+// app/api/payment/verify/route.ts
 import { NextResponse } from "next/server";
 import crypto from "crypto";
 import Razorpay from "razorpay";
@@ -240,31 +241,34 @@ export async function POST(req: Request) {
     const pdfBuffer = Buffer.from(pdfBytes);
 
     // EMAIL
-    const emailResult = await resend.emails.send({
-      from: "Shiv Shakti Multi Service <info@shivshaktimultiservice.co.in>",
-      to: user.email,
-      replyTo: "jobshiring.hrteam@gmail.com",
-      subject: "Payment Receipt - Shiv Shakti Multi Service",
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; color: #18181b;">
-          <h2 style="margin-bottom: 5px;">Shiv Shakti Multi Service</h2>
-          <p>Dear Sir/Mam ${user.fullName},</p>
-          <p>Your candidate registration payment has been successfully verified.</p>
-          <div style="border: 1px solid #e4e4e7; border-radius: 8px; padding: 18px; margin: 20px 0;">
-            <p><strong>Receipt Number:</strong> ${finalReceiptNumber}</p>
-            <p><strong>Receipt Date:</strong> ${receiptDate}</p>
-            <p><strong>Amount Paid:</strong> INR ${(paymentRecord.amount / 100).toFixed(2)}</p>
-            <p><strong>Payment Status:</strong> <span style="color:#087f3f;">SUCCESS</span></p>
+    try {
+      const emailResult = await resend.emails.send({
+        from: "Shiv Shakti Multi Service <info@shivshaktimultiservice.co.in>",
+        to: user.email,
+        replyTo: "jobshiring.hrteam@gmail.com",
+        subject: "Payment Receipt - Shiv Shakti Multi Service",
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; color: #18181b;">
+            <h2 style="margin-bottom: 5px;">Shiv Shakti Multi Service</h2>
+            <p>Dear Sir/Mam ${user.fullName},</p>
+            <p>Your candidate registration payment has been successfully verified.</p>
+            <div style="border: 1px solid #e4e4e7; border-radius: 8px; padding: 18px; margin: 20px 0;">
+              <p><strong>Receipt Number:</strong> ${finalReceiptNumber}</p>
+              <p><strong>Receipt Date:</strong> ${receiptDate}</p>
+              <p><strong>Amount Paid:</strong> INR ${(paymentRecord.amount / 100).toFixed(2)}</p>
+              <p><strong>Payment Status:</strong> <span style="color:#087f3f;">SUCCESS</span></p>
+            </div>
+            <p>Your payment receipt is attached to this email as a PDF.</p>
+            <p>Please keep this receipt for your records.</p>
+            <p>Regards,<br /><strong>Shiv Shakti Multi Service</strong></p>
           </div>
-          <p>Your payment receipt is attached to this email as a PDF.</p>
-          <p>Please keep this receipt for your records.</p>
-          <p>Regards,<br /><strong>Shiv Shakti Multi Service</strong></p>
-        </div>
-      `,
-      attachments: [{ filename: `${finalReceiptNumber}.pdf`, content: pdfBuffer }],
-    });
-
-    console.log("Receipt email sent:", emailResult);
+        `,
+        attachments: [{ filename: `${finalReceiptNumber}.pdf`, content: pdfBuffer }],
+      });
+      console.log("Receipt email sent:", emailResult);
+    } catch (emailError) {
+      console.error("Failed to send receipt email:", emailError);
+    }
 
     // SUCCESS RESPONSE
     return NextResponse.json({

@@ -18,6 +18,9 @@ export async function GET(
       },
       include: {
         user: true,
+        interviews: {
+          orderBy: { date: 'desc' }
+        }
       },
     });
 

@@ -804,6 +804,9 @@ _Recruitment & Placement Services_
                         Preferred Job
                       </th>
                       <th className="p-4 text-left">
+                        Interviews
+                      </th>
+                      <th className="p-4 text-left">
                         Phone
                       </th>
                       <th className="p-4 text-center">
@@ -873,6 +876,10 @@ _Recruitment & Placement Services_
 
                             <td className="p-4">
                               {candidate.preferredJobField || "-"}
+                            </td>
+
+                            <td className="p-4 text-center">
+                              {candidate._count?.interviews || 0}
                             </td>
 
                             <td className="p-4">
@@ -1054,6 +1061,15 @@ _Recruitment & Placement Services_
                           </span>
                           <p className="mt-1 wrap-break-words text-zinc-600">
                             {candidate.preferredJobField || "-"}
+                          </p>
+                        </div>
+
+                        <div>
+                          <span className="font-medium text-zinc-700">
+                            Interviews
+                          </span>
+                          <p className="mt-1 text-zinc-600">
+                            {candidate._count?.interviews || 0}
                           </p>
                         </div>
 

@@ -1,3 +1,4 @@
+// app/api/admin/candidates/route.ts
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/require-admin";
@@ -17,6 +18,9 @@ export async function GET(req: Request) {
             payments: true,
           }
         },
+        _count: {
+          select: { interviews: true }
+        }
       },
       orderBy: {
         createdAt: "desc",
