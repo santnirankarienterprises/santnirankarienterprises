@@ -55,7 +55,7 @@ export function SiteFooter() {
               <div className="relative h-10 w-10 overflow-hidden rounded-lg bg-white dark:bg-black">
                 <Image
                   src="/logo_img.png"
-                  alt="Shiv Shakti Multi Service"
+                  alt="Sant Nirankari Enterprise"
                   fill
                   sizes="40px"
                   className="object-contain p-1"
@@ -65,7 +65,7 @@ export function SiteFooter() {
 
               <div>
                 <p className="text-base font-extrabold uppercase tracking-[0.1em]">
-                  Shiv Shakti
+                  Sant Nirankari
                 </p>
 
                 <p className="text-[8px] font-semibold uppercase tracking-[0.25em] text-zinc-400 dark:text-zinc-600">
@@ -160,7 +160,7 @@ export function SiteFooter() {
               <div>
                 <p className="mb-2 text-[10px] font-semibold text-zinc-500">Official</p>
                 <div className="flex gap-4">
-                  <a href="https://www.instagram.com/shivshaktimultiservice?stkn=MTh2aXo3Z2R2aWhlbw%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer" className="text-[#E4405F] transition hover:opacity-80">
+                  <a href="https://www.instagram.com/santnirankarienterprise?stkn=MTh2aXo3Z2R2aWhlbw%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer" className="text-[#E4405F] transition hover:opacity-80">
                     <InstagramIcon size={16} />
                   </a>
                   <a href="https://www.facebook.com/share/1Dbw2Y7CJj/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" className="text-[#1877F2] transition hover:opacity-80">
@@ -192,7 +192,7 @@ export function SiteFooter() {
 
         {/* Bottom */}
         <div className="flex flex-col gap-2 border-t border-white/20 py-4 text-[10px] text-zinc-400 dark:border-black/20 dark:text-zinc-600 sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} Shiv Shakti Multi Service.</p>
+          <p>© {new Date().getFullYear()} Sant Nirankari Enterprise.</p>
 
           <div className="flex flex-wrap items-center gap-3">
 

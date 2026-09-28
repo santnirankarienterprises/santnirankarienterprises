@@ -16,14 +16,14 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.shivshaktimultiservice.co.in"),
-  title: "Shiv Shakti Multi Service | Premium Recruitment Consultancy",
-  description: "Shiv Shakti Multi Service is a modern recruitment consultancy helping teams hire with clarity and confidence.",
+  metadataBase: new URL("https://www.santnirankarienterprise.co.in"),
+  title: "Sant Nirankari Enterprise | Premium Recruitment Consultancy",
+  description: "Sant Nirankari Enterprise is a modern recruitment consultancy helping teams hire with clarity and confidence.",
   keywords: [
     "Recruitment in Haridwar", 
     "Job Consultancy", 
     "Hiring agency", 
-    "Shiv Shakti Multi Service", 
+    "Sant Nirankari Enterprise", 
     "Jobs in Uttarakhand", 
     "Placement agency",
     "Career Opportunities",
@@ -54,10 +54,10 @@ export const metadata: Metadata = {
     apple: "/icon.png",
   },
   openGraph: {
-    title: "Shiv Shakti Multi Service | Premium Recruitment Consultancy",
-    description: "Shiv Shakti Multi Service is a modern recruitment consultancy helping People to get the Jobs.",
-    url: "https://www.shivshaktimultiservice.co.in/",
-    siteName: "Shiv Shakti Multi Service",
+    title: "Sant Nirankari Enterprise | Premium Recruitment Consultancy",
+    description: "Sant Nirankari Enterprise is a modern recruitment consultancy helping People to get the Jobs.",
+    url: "https://www.santnirankarienterprise.co.in/",
+    siteName: "Sant Nirankari Enterprise",
     locale: "en_IN",
     type: "website",
     images: [
@@ -65,14 +65,14 @@ export const metadata: Metadata = {
         url: "/opengraph-image.png",
         width: 1200,
         height: 630,
-        alt: "Shiv Shakti Multi Service",
+        alt: "Sant Nirankari Enterprise",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Shiv Shakti Multi Service | Premium Recruitment Consultancy",
-    description: "Shiv Shakti Multi Service is a modern recruitment consultancy helping People to get the Jobs.",
+    title: "Sant Nirankari Enterprise | Premium Recruitment Consultancy",
+    description: "Sant Nirankari Enterprise is a modern recruitment consultancy helping People to get the Jobs.",
     images: ["/opengraph-image.png"],
   },
   alternates: {

@@ -121,7 +121,7 @@ export default function EmployerRegisterPage() {
             </p>
             <div className="mt-8 flex items-center gap-2 text-xs text-zinc-500">
               <Building2 size={15} />
-              <span>Partner with Shiv Shakti Multi Service to scale your team.</span>
+              <span>Partner with Sant Nirankari Enterprise to scale your team.</span>
             </div>
           </div>
         </section>

@@ -335,13 +335,13 @@ We are pleased to confirm that your payment has been successfully received. Welc
 \u{2705} Your Premium Candidate service is now *Active*.
 
 \u{2B50} *We Value Your Feedback*
-We would love to hear about your experience with Shiv Shakti Multi Service.
+We would love to hear about your experience with Sant Nirankari Enterprise.
 \u{1F449} [Leave a Review: https://g.page/r/CZZBLKQak0G_EBE/review]
 
 Thank you for choosing us! \u{1F91D}
 
 *Warm Regards,*
-*Shiv Shakti Multi Service*
+*Sant Nirankari Enterprise*
 _Recruitment & Placement Services_
 ━━━━━━━━━━━━━━━━━━━━━`;
 
@@ -387,7 +387,7 @@ _Recruitment & Placement Services_
 
 Dear Sir/Mam ${schedulingFor.user?.fullName || "Candidate"},
 
-Greetings from Shiv Shakti Multi Service.
+Greetings from Sant Nirankari Enterprise.
 
 We are pleased to inform you that your interview has been officially scheduled with ${interviewForm.companyName}. Kindly find the interview details below:
 
@@ -406,7 +406,7 @@ We wish you success in your interview and look forward to your presence.
 Please Provide Rating : https://g.page/r/CZZBLKQak0G_EBE/review 
 
 Warm Regards,
-Shiv Shakti Multi Service
+Sant Nirankari Enterprise
 Recruitment • Placement • Multi Services`;
 
         // Open WhatsApp automatically with pre-filled message
@@ -487,7 +487,7 @@ We are pleased to inform you that your profile has been processed successfully. 
 Thank you! \u{1F91D}
 
 *Warm Regards,*
-*Shiv Shakti Multi Service*
+*Sant Nirankari Enterprise*
 _Recruitment & Placement Services_
 ━━━━━━━━━━━━━━━━━━━━━`;
 
@@ -540,13 +540,13 @@ We are pleased to confirm that your online payment has been successfully receive
 \u{2705} Your Premium Candidate service is now *Active*.
 
 \u{2B50} *We Value Your Feedback*
-We would love to hear about your experience with Shiv Shakti Multi Service.
+We would love to hear about your experience with Sant Nirankari Enterprise.
 \u{1F449} [Leave a Review: https://g.page/r/CZZBLKQak0G_EBE/review]
 
 Thank you for choosing us! \u{1F91D}
 
 *Warm Regards,*
-*Shiv Shakti Multi Service*
+*Sant Nirankari Enterprise*
 _Recruitment & Placement Services_
 ━━━━━━━━━━━━━━━━━━━━━`;
 

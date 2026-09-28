@@ -66,14 +66,14 @@ if (!success) {
     });
 
     await resend.emails.send({
-      from: "Shiv Shakti Multi Service <info@shivshaktimultiservice.co.in>",
+      from: "Sant Nirankari Enterprise <info@santnirankarienterprise.co.in>",
       to: cleanEmail,
       replyTo: "jobshiring.hrteam@gmail.com",
       subject: "Password Reset OTP",
 
       html: `
         <div style="font-family:Arial;padding:30px">
-          <h2>Shiv Shakti Multi Service</h2>
+          <h2>Sant Nirankari Enterprise</h2>
 
           <p>Your OTP is:</p>
 

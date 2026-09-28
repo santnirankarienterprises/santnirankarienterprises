@@ -197,7 +197,7 @@ export default function LoginPage() {
             </AuthCard>
 
             <p className="mt-5 text-center text-[10px] leading-5 text-zinc-400">
-              By continuing, you agree to use Shiv Shakti Multi Service for
+              By continuing, you agree to use Sant Nirankari Enterprise for
               legitimate career and recruitment purposes.
             </p>
           </div>

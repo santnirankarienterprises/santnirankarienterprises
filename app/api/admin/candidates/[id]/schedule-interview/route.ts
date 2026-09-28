@@ -65,7 +65,7 @@ export async function POST(
     // Send email
     try {
       await resend.emails.send({
-        from: "Shiv Shakti Multi Service <info@shivshaktimultiservice.co.in>",
+        from: "Sant Nirankari Enterprise <info@santnirankarienterprise.co.in>",
         to: candidate.user.email,
         replyTo: "jobshiring.hrteam@gmail.com",
         subject: `✨ INTERVIEW INVITATION: ${companyName}`,
@@ -75,7 +75,7 @@ export async function POST(
 
             <p>Dear Sir/Mam ${candidate.user.fullName},</p>
 
-            <p>Greetings from Shiv Shakti Multi Service.</p>
+            <p>Greetings from Sant Nirankari Enterprise.</p>
 
             <p>We are pleased to inform you that your interview has been officially scheduled with <strong>${companyName}</strong>. Kindly find the interview details below:</p>
 
@@ -94,7 +94,7 @@ export async function POST(
             Please Provide Rating: <a href="https://g.page/r/CZZBLKQak0G_EBE/review" style="color: #0066cc;">https://g.page/r/CZZBLKQak0G_EBE/review</a></p>
 
             <p>Warm Regards,<br/>
-            <strong>Shiv Shakti Multi Service</strong><br/>
+            <strong>Sant Nirankari Enterprise</strong><br/>
             <span style="color: #666; font-size: 0.9em;">Recruitment • Placement • Multi Services</span></p>
           </div>
         `,

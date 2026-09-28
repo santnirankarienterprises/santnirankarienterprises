@@ -40,7 +40,7 @@ export default function AdminNavbar({
           </button>
 
           <h1 className="text-lg font-bold text-orange-500 sm:text-xl md:text-2xl">
-            Shiv Shakti
+            Sant Nirankari
             <span className="hidden sm:inline">
               {" "}Multi Service
             </span>

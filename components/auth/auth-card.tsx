@@ -15,7 +15,7 @@ export function AuthCard({ title, description, children, footer, className = "" 
 )}>
       <div className="space-y-2 text-center">
         <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-zinc-500 dark:text-zinc-400">
- Shiv Shakti Multi Service
+ Sant Nirankari Enterprise
 </p>
         <h1 className="text-2xl font-semibold tracking-tight text-zinc-950 dark:text-white sm:text-[1.75rem]">
           {title}

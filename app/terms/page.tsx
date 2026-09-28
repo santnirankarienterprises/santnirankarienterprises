@@ -8,15 +8,15 @@ const termsData = {
   en: {
     title: "Terms & Conditions",
     subtitle: "Candidate Terms",
-    description: "Please read these terms carefully before registering with Shiv Shakti Multi Service. They explain the candidate registration process, interview opportunities, communication and candidate responsibilities.",
+    description: "Please read these terms carefully before registering with Sant Nirankari Enterprise. They explain the candidate registration process, interview opportunities, communication and candidate responsibilities.",
     tags: ["Starts at ₹499 (Non-Refundable)", "Candidate Process", "Updated September 2026"],
     questions: "Questions about these terms?",
-    contactDesc: "If you need clarification about the candidate registration or interview process, contact Shiv Shakti Multi Service before proceeding.",
+    contactDesc: "If you need clarification about the candidate registration or interview process, contact Sant Nirankari Enterprise before proceeding.",
     terms: [
       {
         number: "01",
         title: "Candidate Registration",
-        text: "Only candidates who have successfully completed the registration process with Shiv Shakti Multi Service are eligible to be considered for interview opportunities and job-related assistance.",
+        text: "Only candidates who have successfully completed the registration process with Sant Nirankari Enterprise are eligible to be considered for interview opportunities and job-related assistance.",
       },
       {
         number: "02",
@@ -36,12 +36,12 @@ const termsData = {
       {
         number: "05",
         title: "Missed Interviews & Rescheduling",
-        text: "Where possible, reasonable rescheduling opportunities may be provided. If a candidate repeatedly misses or fails to attend scheduled interviews after approximately 2–3 rescheduling attempts, Shiv Shakti Multi Service may discontinue further interview assistance. We will not be responsible for opportunities lost because of repeated absence, late arrival, non-response or failure to follow instructions.",
+        text: "Where possible, reasonable rescheduling opportunities may be provided. If a candidate repeatedly misses or fails to attend scheduled interviews after approximately 2–3 rescheduling attempts, Sant Nirankari Enterprise may discontinue further interview assistance. We will not be responsible for opportunities lost because of repeated absence, late arrival, non-response or failure to follow instructions.",
       },
       {
         number: "06",
         title: "No Guarantee of Employment",
-        text: "Registration does not guarantee a job, interview selection, salary, joining or employment with any particular company. Final selection depends on the concerned employer's requirements and recruitment process. Shiv Shakti Multi Service is not responsible if a candidate does not clear an employer's selection process.",
+        text: "Registration does not guarantee a job, interview selection, salary, joining or employment with any particular company. Final selection depends on the concerned employer's requirements and recruitment process. Sant Nirankari Enterprise is not responsible if a candidate does not clear an employer's selection process.",
       },
       {
         number: "07",
@@ -66,7 +66,7 @@ const termsData = {
       {
         number: "11",
         title: "First Salary Deduction (Placement Fee)",
-        text: "If the candidate is successfully placed and receives a monthly salary of ₹15,000 or above, 50% of the first month's salary must be paid to Shiv Shakti Multi Service as a placement fee.",
+        text: "If the candidate is successfully placed and receives a monthly salary of ₹15,000 or above, 50% of the first month's salary must be paid to Sant Nirankari Enterprise as a placement fee.",
       },
       {
         number: "12",
@@ -76,7 +76,7 @@ const termsData = {
       {
         number: "13",
         title: "Acceptance of Terms",
-        text: "By registering with Shiv Shakti Multi Service, the candidate confirms that they have read and understood these Terms & Conditions and agree to follow the candidate responsibilities described above.",
+        text: "By registering with Sant Nirankari Enterprise, the candidate confirms that they have read and understood these Terms & Conditions and agree to follow the candidate responsibilities described above.",
       },
     ]
   },
@@ -256,7 +256,7 @@ export default function TermsPage() {
         </section>
 
         <footer className="flex flex-col gap-2 border-t border-zinc-200 py-6 text-[10px] text-zinc-400 dark:border-white/10 dark:text-zinc-600 sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} Shiv Shakti Multi Service.</p>
+          <p>© {new Date().getFullYear()} Sant Nirankari Enterprise.</p>
           <div className="flex gap-4">
             <Link href="/" className="transition hover:text-zinc-950 dark:hover:text-white">
               {lang === "en" ? "Home" : "होम"}

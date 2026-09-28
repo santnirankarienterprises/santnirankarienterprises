@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRight, MapPin } from "lucide-react";
+import { ArrowRight, MapPin, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { JobCard } from "@/components/home/JobCard";
 
@@ -41,222 +41,41 @@ export function FeaturedJobs() {
   return (
     <section
       id="jobs"
-      className="
-        relative
-        overflow-hidden
-        bg-white
-        py-12
-        text-zinc-950
-        sm:py-16
-        lg:py-20
-
-        dark:bg-zinc-950
-        dark:text-white
-      "
+      className="relative overflow-hidden bg-white py-16 text-zinc-950 sm:py-24 lg:py-32 dark:bg-[#030303] dark:text-white"
     >
-      {/* =====================================================
-          BACKGROUND
-      ====================================================== */}
-
-      <div
-        aria-hidden="true"
-        className="
-          pointer-events-none
-          absolute
-          inset-0
-        "
-      >
-        <div
-          className="
-            absolute
-            -right-24
-            top-20
-            h-64
-            w-64
-            rounded-full
-            bg-zinc-100/70
-            blur-3xl
-
-            dark:bg-white/[0.02]
-          "
-        />
-
-        <div
-          className="
-            absolute
-            -left-24
-            bottom-0
-            h-64
-            w-64
-            rounded-full
-            bg-amber-50/70
-            blur-3xl
-
-            dark:bg-amber-500/[0.02]
-          "
-        />
+      {/* Background Decor */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+        <div className="absolute -left-32 top-10 h-[500px] w-[500px] rounded-full bg-blue-600/5 blur-[120px] dark:bg-blue-600/10" />
+        <div className="absolute -right-32 bottom-10 h-[500px] w-[500px] rounded-full bg-violet-600/5 blur-[120px] dark:bg-violet-600/10" />
       </div>
 
-      <div
-        className="
-          relative
-          mx-auto
-          max-w-6xl
-          px-4
-          sm:px-6
-          lg:px-8
-        "
-      >
-        {/* =====================================================
-            HEADER
-        ====================================================== */}
-
-        <div
-          className="
-            flex
-            flex-col
-            gap-4
-            sm:flex-row
-            sm:items-end
-            sm:justify-between
-          "
-        >
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <div className="max-w-2xl">
-            {/* Eyebrow */}
-
-            <div
-              className="
-                mb-3
-                flex
-                items-center
-                gap-2
-                text-[9px]
-                font-semibold
-                uppercase
-                tracking-[0.18em]
-                text-zinc-500
-                sm:text-[10px]
-
-                dark:text-zinc-400
-              "
-            >
-              <span
-                className="
-                  h-px
-                  w-5
-                  bg-zinc-400
-
-                  dark:bg-zinc-600
-                "
-              />
-
-              Opportunities
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-blue-600 dark:text-blue-400">
+              <Sparkles size={14} />
+              <span>Featured Opportunities</span>
             </div>
-
-            {/* Heading */}
-
-            <h2
-              className="
-                text-2xl
-                font-semibold
-                tracking-[-0.04em]
-                text-zinc-950
-                sm:text-4xl
-                lg:text-[2.7rem]
-
-                dark:text-white
-              "
-            >
-              Explore career opportunities.
+            <h2 className="mt-4 text-3xl font-serif font-bold tracking-tight text-black sm:text-4xl lg:text-5xl dark:text-white">
+              Discover roles that match <br className="hidden sm:block" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-violet-600 to-emerald-500">your ambition.</span>
             </h2>
-
-            {/* Description */}
-
-            <p
-              className="
-                mt-2.5
-                max-w-xl
-                text-xs
-                leading-5
-                text-zinc-500
-                sm:mt-3
-                sm:text-sm
-                sm:leading-6
-
-                dark:text-zinc-400
-              "
-            >
-              Discover opportunities across leading companies and
-              growing industries through Shiv Shakti Multi Service.
+            <p className="mt-4 max-w-xl text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
+              Explore hand-picked career opportunities across leading enterprises and rapidly growing industries.
             </p>
           </div>
 
-          {/* =================================================
-              LOCATION
-          ================================================== */}
-
-          <div
-            className="
-              inline-flex
-              w-fit
-              items-center
-              gap-1.5
-              rounded-full
-              border
-              border-zinc-200
-              bg-zinc-50
-              px-3
-              py-1.5
-              text-[9px]
-              font-medium
-              text-zinc-500
-              sm:text-[10px]
-
-              dark:border-white/10
-              dark:bg-white/[0.03]
-              dark:text-zinc-300
-            "
-          >
-            <MapPin
-              size={12}
-              className="
-                shrink-0
-                text-zinc-500
-
-                dark:text-zinc-300
-              "
-            />
-
-            <span
-              className="
-                text-zinc-600
-                dark:text-zinc-300
-              "
-            >
-              Haridwar &amp; Beyond
-            </span>
+          <div className="relative rounded-full p-[2px] bg-gradient-to-r from-blue-700 via-violet-700 to-emerald-600 shadow-sm shrink-0 self-start sm:self-auto">
+            <div className="flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-bold text-zinc-900 dark:bg-[#030303] dark:text-white">
+              <MapPin size={16} className="text-blue-600 dark:text-blue-400" />
+              <span>Prime Locations</span>
+            </div>
           </div>
         </div>
 
-        {/* =====================================================
-            COMPANY GRID
-        ====================================================== */}
-
-        <div
-          className="
-            mt-6
-            grid
-            grid-cols-3
-            gap-2
-
-            sm:mt-8
-            sm:grid-cols-2
-            sm:gap-3
-
-            lg:grid-cols-3
-            lg:gap-4
-          "
-        >
+        {/* Company Grid */}
+        <div className="mt-12 grid grid-cols-2 gap-3 sm:mt-16 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6 xl:gap-8">
           {companies.map((company) => (
             <JobCard
               key={`${company.company}-${company.location}`}
@@ -267,81 +86,19 @@ export function FeaturedJobs() {
           ))}
         </div>
 
-        {/* =====================================================
-            BOTTOM CTA
-        ====================================================== */}
-
-        <div className="mt-6 flex justify-center sm:mt-8">
+        {/* Bottom CTA */}
+        <div className="mt-12 flex flex-col items-center justify-center gap-4 sm:mt-16">
           <Link
             href="/login"
-            className="
-              group
-              inline-flex
-              min-h-10
-              items-center
-              justify-center
-              gap-2
-              rounded-xl
-              border
-              border-zinc-300
-              bg-white
-              px-5
-              text-[11px]
-              font-semibold
-              text-zinc-900
-              transition-all
-              duration-300
-
-              hover:-translate-y-0.5
-              hover:border-zinc-400
-              hover:bg-zinc-50
-
-              sm:min-h-11
-              sm:px-6
-              sm:text-xs
-
-              dark:border-zinc-700
-              dark:bg-white
-              dark:text-black
-              dark:hover:border-zinc-500
-              dark:hover:bg-zinc-100
-            "
+            className="group inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-blue-600 px-8 text-sm font-semibold text-white shadow-[0_8px_20px_-8px_rgba(37,99,235,0.6)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-blue-700 hover:shadow-[0_8px_25px_-8px_rgba(37,99,235,0.8)] dark:bg-blue-600 dark:text-white dark:hover:bg-blue-500"
           >
-            <span className="text-black dark:text-black">
-              Explore Opportunities
-            </span>
-
-            <ArrowRight
-              size={14}
-              className="
-                text-black
-                transition-transform
-                duration-300
-                group-hover:translate-x-1
-              "
-            />
+            Explore All Opportunities
+            <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
+          <p className="text-center text-xs text-zinc-400 dark:text-zinc-500">
+            Hundreds of new roles added every week.
+          </p>
         </div>
-
-        {/* =====================================================
-            SUPPORTING TEXT
-        ====================================================== */}
-
-        <p
-          className="
-            mt-3
-            text-center
-            text-[9px]
-            leading-4
-            text-zinc-400
-            sm:text-[10px]
-
-            dark:text-zinc-500
-          "
-        >
-          Explore career opportunities available through our
-          recruitment network.
-        </p>
       </div>
     </section>
   );

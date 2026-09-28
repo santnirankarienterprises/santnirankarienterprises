@@ -52,35 +52,80 @@ const locations = [
 ];
 
 export default function CompaniesSection() {
-  /*
-   * Duplicate the data so the second copy follows the first
-   * and the animation can continuously move across the screen.
-   */
   const companyTicker = [...moreCompanies, ...moreCompanies];
   const locationTicker = [...locations, ...locations];
+
+  // Main companies divided into 3 running rows
+  const companyRows = [
+    companies.slice(0, 4),
+    companies.slice(4, 8),
+    companies.slice(8, 12),
+  ];
 
   return (
     <section
       id="companies"
-      className="
-        relative
-        overflow-hidden
-        border-b
-        border-zinc-200
-        bg-white
-        py-16
-        dark:border-zinc-800
-        dark:bg-zinc-950
-        sm:py-20
-        lg:py-24
-      "
+      className="relative overflow-hidden bg-zinc-50 py-20 dark:bg-[#030303] sm:py-28"
     >
-      {/* =====================================================
-          MARQUEE ANIMATION
-         ===================================================== */}
+      {/* =========================================
+          BACKGROUND DECOR
+      ========================================= */}
+
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0"
+      >
+        <div className="absolute right-0 top-1/4 h-[400px] w-[400px] rounded-full bg-emerald-500/5 blur-[120px] dark:bg-emerald-500/10" />
+
+        <div className="absolute bottom-0 left-10 h-[400px] w-[400px] rounded-full bg-blue-500/5 blur-[120px] dark:bg-blue-500/10" />
+      </div>
 
       <style>
         {`
+          /* =========================================
+             MAIN COMPANY ROW ANIMATION
+          ========================================= */
+
+          @keyframes companyRowLeft {
+            0% {
+              transform: translate3d(0, 0, 0);
+            }
+
+            100% {
+              transform: translate3d(-50%, 0, 0);
+            }
+          }
+
+          @keyframes companyRowRight {
+            0% {
+              transform: translate3d(-50%, 0, 0);
+            }
+
+            100% {
+              transform: translate3d(0, 0, 0);
+            }
+          }
+
+          .company-row-left {
+            animation: companyRowLeft 28s linear infinite;
+            will-change: transform;
+          }
+
+          .company-row-right {
+            animation: companyRowRight 32s linear infinite;
+            will-change: transform;
+          }
+
+          .company-row-left:hover,
+          .company-row-right:hover {
+            animation-play-state: paused;
+          }
+
+
+          /* =========================================
+             LOWER COMPANY MARQUEE
+          ========================================= */
+
           @keyframes companiesMarquee {
             0% {
               transform: translate3d(0, 0, 0);
@@ -90,6 +135,11 @@ export default function CompaniesSection() {
               transform: translate3d(-50%, 0, 0);
             }
           }
+
+
+          /* =========================================
+             LOCATION MARQUEE
+          ========================================= */
 
           @keyframes locationsMarquee {
             0% {
@@ -101,13 +151,14 @@ export default function CompaniesSection() {
             }
           }
 
+
           .companies-marquee {
-            animation: companiesMarquee 35s linear infinite;
+            animation: companiesMarquee 40s linear infinite;
             will-change: transform;
           }
 
           .locations-marquee {
-            animation: locationsMarquee 40s linear infinite;
+            animation: locationsMarquee 45s linear infinite;
             will-change: transform;
           }
 
@@ -116,27 +167,14 @@ export default function CompaniesSection() {
             animation-play-state: paused;
           }
 
-          @media (max-width: 639px) {
-            .companies-marquee {
-              animation-duration: 24s;
-            }
 
-            .locations-marquee {
-              animation-duration: 28s;
-            }
-          }
-
-          @media (max-width: 380px) {
-            .companies-marquee {
-              animation-duration: 21s;
-            }
-
-            .locations-marquee {
-              animation-duration: 25s;
-            }
-          }
+          /* =========================================
+             REDUCED MOTION
+          ========================================= */
 
           @media (prefers-reduced-motion: reduce) {
+            .company-row-left,
+            .company-row-right,
             .companies-marquee,
             .locations-marquee {
               animation: none;
@@ -145,493 +183,334 @@ export default function CompaniesSection() {
         `}
       </style>
 
-      {/* =====================================================
-          BACKGROUND GRID
-         ===================================================== */}
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
-      <div
-        className="pointer-events-none absolute inset-0 opacity-40"
-        aria-hidden="true"
-      >
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage:
-              "linear-gradient(to right, rgba(0,0,0,0.035) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.035) 1px, transparent 1px)",
-            backgroundSize: "40px 40px",
-          }}
-        />
-      </div>
+        {/* =========================================
+            HEADING
+        ========================================= */}
 
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* =====================================================
-            MAIN HEADING
-           ===================================================== */}
+        <div className="mx-auto max-w-3xl text-center">
 
-        <div className="mx-auto max-w-4xl text-center">
-          {/* Badge */}
+          <p className="text-sm font-bold tracking-wide text-blue-600 dark:text-blue-400 uppercase">
+            Trusted by Industry Leaders
+          </p>
 
-          <div
-            className="
-              mb-5
-              inline-flex
-              items-center
-              gap-2
-              rounded-full
-              border
-              border-black
-              bg-white
-              px-3
-              py-1.5
-              shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]
-            "
-          >
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-black" />
+          <h2 className="mt-4 text-3xl font-serif font-bold tracking-tight text-black sm:text-4xl lg:text-5xl dark:text-white">
+            Connecting You with <br className="hidden sm:block" />
 
-            <span
-              className="
-                text-[10px]
-                font-bold
-                uppercase
-                tracking-[0.18em]
-                text-black
-                sm:text-xs
-              "
-            >
-              Pan India Recruitment Network
-            </span>
-          </div>
-
-          {/* Main heading */}
-
-          <h2
-            className="
-              text-2xl
-              font-bold
-              leading-tight
-              tracking-tight
-              text-zinc-750
-              sm:text-3xl
-              lg:text-4xl
-              xl:text-5xl
-              dark:text-white
-            "
-          >
-            A Network of
-
-            <span className="block">
-              <span className="mr-2">100+</span>
-              Companies Across India
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-violet-600 to-emerald-500">
+              Top Enterprises
             </span>
           </h2>
+
         </div>
 
-        {/* =====================================================
-            FEATURED COMPANIES
-           ===================================================== */}
 
-        <div className="mt-10 sm:mt-12">
-          <div className="mb-4 flex items-center justify-between">
-            <div>
-              <p
-                className="
-                  text-xs
-                  font-bold
-                  uppercase
-                  tracking-[0.16em]
-                  text-zinc-500
-                "
-              >
-                Featured Companies
-              </p>
+        {/* =========================================
+            MAIN COMPANY CARDS
+            3 RUNNING ROWS
+        ========================================= */}
 
-              <p className="mt-1 text-[10px] text-zinc-400 sm:text-xs">
-                A glimpse of our wider recruitment network
-              </p>
-            </div>
+        <div className="relative mt-16 overflow-hidden sm:mt-24">
 
-            <div
-              className="
-                hidden
-                rounded-full
-                border
-                border-black
-                px-3
-                py-1
-                text-[10px]
-                font-bold
-                text-black
-                sm:block
-              "
-            >
-              100+ Network
-            </div>
-          </div>
-
-          {/* Company cards */}
+          {/* LEFT FADE */}
 
           <div
-            className="
-              grid
-              grid-cols-2
-              gap-3
-              sm:grid-cols-3
-              sm:gap-4
-              lg:grid-cols-4
-            "
-          >
-            {companies.map((company, index) => (
-              <div
-                key={company}
-                className="
-                  group
-                  relative
-                  min-h-[100px]
-                  overflow-hidden
-                  rounded-xl
-                  border-2
-                  border-black
-                  bg-white
-                  p-4
-                  shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]
-                  transition-all
-                  duration-300
-                  hover:-translate-y-1
-                  hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]
-                  sm:min-h-[115px]
-                  sm:p-5
-                "
-              >
-                {/* Number */}
+            aria-hidden="true"
+            className="pointer-events-none absolute left-0 top-0 z-20 h-full w-20 bg-gradient-to-r from-zinc-50 via-zinc-50/80 to-transparent dark:from-[#030303] dark:via-[#030303]/80"
+          />
 
-                <span
-                  className="
-                    absolute
-                    right-3
-                    top-3
-                    text-[9px]
-                    font-bold
-                    tracking-wider
-                    text-zinc-300
-                    sm:right-4
-                    sm:top-4
-                    sm:text-[10px]
-                  "
-                >
-                  {String(index + 1).padStart(2, "0")}
-                </span>
+          {/* RIGHT FADE */}
 
-                {/* Company initial */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute right-0 top-0 z-20 h-full w-20 bg-gradient-to-l from-zinc-50 via-zinc-50/80 to-transparent dark:from-[#030303] dark:via-[#030303]/80"
+          />
 
+
+          {/* =========================================
+              RUNNING ROWS
+          ========================================= */}
+
+          <div className="space-y-4 sm:space-y-6">
+
+            {companyRows.map((row, rowIndex) => {
+
+              // Duplicate row for seamless animation
+              const duplicatedRow = [...row, ...row];
+
+              // Middle row moves in opposite direction
+              const isReverse = rowIndex === 1;
+
+              return (
                 <div
-                  className="
-                    mb-3
-                    flex
-                    h-9
-                    w-9
-                    items-center
-                    justify-center
-                    rounded-lg
-                    bg-black
-                    text-sm
-                    font-bold
-                    text-white
-                    transition-transform
-                    duration-300
-                    group-hover:scale-110
-                    sm:h-10
-                    sm:w-10
-                  "
+                  key={rowIndex}
+                  className="relative overflow-hidden"
                 >
-                  {company.charAt(0)}
+
+                  <div
+                    className={`flex w-max gap-2 sm:gap-4 lg:gap-6 ${
+                      isReverse
+                        ? "company-row-right"
+                        : "company-row-left"
+                    }`}
+                  >
+
+                    {duplicatedRow.map((company, index) => (
+
+                      /*
+                       * =================================================
+                       * MAIN COMPANY CARD
+                       *
+                       * OUTER DIV = COMPLETE GRADIENT BORDER
+                       * INNER DIV = ACTUAL CARD
+                       *
+                       * This guarantees the gradient continues around
+                       * all four sides AND all four rounded corners.
+                       * =================================================
+                       */
+
+                      <div
+                        key={`${company}-${rowIndex}-${index}`}
+                        className="
+                          relative
+                          w-[220px]
+                          shrink-0
+                          overflow-hidden
+                          rounded-2xl
+                          bg-gradient-to-r
+                          from-blue-600
+                          via-violet-600
+                          to-emerald-500
+                          p-[2px]
+
+                          transition-all
+                          duration-500
+
+                          hover:-translate-y-1
+                          hover:shadow-[0_12px_40px_-15px_rgba(37,99,235,0.5)]
+
+                          sm:w-[280px]
+
+                          lg:w-[calc((100vw-10rem)/4)]
+                          lg:max-w-[360px]
+                        "
+                      >
+
+                        {/* =========================================
+                            INNER WHITE / DARK CARD
+                        ========================================= */}
+
+                        <div
+                          className="
+                            relative
+                            flex
+                            h-20
+                            w-full
+                            flex-col
+                            items-center
+                            justify-center
+                            overflow-hidden
+
+                            rounded-[14px]
+
+                            bg-white
+
+                            dark:bg-[#030303]
+
+                            sm:h-32
+                          "
+                        >
+
+                          {/* =========================================
+                              COMPANY NAME
+                          ========================================= */}
+
+                          <h3
+                            className="
+                              relative
+                              z-10
+                              px-1
+                              text-center
+                              text-[10px]
+                              font-bold
+                              tracking-tight
+
+                              text-zinc-900
+
+                              transition-colors
+                              duration-300
+
+                              group-hover:text-transparent
+
+                              sm:px-4
+                              sm:text-lg
+
+                              dark:text-zinc-100
+                            "
+                          >
+                            {company}
+                          </h3>
+
+                        </div>
+
+                      </div>
+
+                    ))}
+
+                  </div>
+
                 </div>
+              );
+            })}
 
-                {/* Company name */}
-
-                <h3
-                  className="
-                    pr-5
-                    text-sm
-                    font-bold
-                    leading-5
-                    text-black
-                    sm:text-[15px]
-                  "
-                >
-                  {company}
-                </h3>
-
-                {/* Hover line */}
-
-                <div
-                  className="
-                    absolute
-                    bottom-0
-                    left-0
-                    h-1
-                    w-0
-                    bg-black
-                    transition-all
-                    duration-300
-                    group-hover:w-full
-                  "
-                />
-              </div>
-            ))}
           </div>
         </div>
 
-        {/* =====================================================
-            MORE COMPANIES MARQUEE
-           ===================================================== */}
 
-        <div className="mt-10 sm:mt-12">
-          <div className="mb-3 flex items-center gap-3">
-            <div className="h-px flex-1 bg-zinc-200" />
+        {/* =========================================
+            EXPANDING OUR NETWORK
+        ========================================= */}
 
-            <span
-              className="
-                text-[9px]
-                font-bold
-                uppercase
-                tracking-[0.2em]
-                text-zinc-400
-                sm:text-[10px]
-              "
-            >
-              Part of a Larger Network
-            </span>
+        <div className="mt-20 border-t border-zinc-200 pt-16 dark:border-white/10">
 
-            <div className="h-px flex-1 bg-zinc-200" />
+          <div className="text-center">
+
+            <p className="text-xs font-bold tracking-widest text-zinc-400 uppercase">
+              Expanding Our Network Constantly
+            </p>
+
           </div>
 
-          {/* Marquee viewport */}
 
-          <div
-            className="
-              relative
-              overflow-hidden
-              rounded-xl
-              border-y-2
-              border-black
-              bg-black
-              py-4
-              touch-pan-x
-            "
-          >
-            {/* Left fade */}
+          {/* =========================================
+              COMPANY TICKER
+          ========================================= */}
 
-            <div
-              className="
-                pointer-events-none
-                absolute
-                left-0
-                top-0
-                z-10
-                h-full
-                w-10
-                bg-gradient-to-r
-                from-black
-                to-transparent
-                sm:w-24
-              "
-            />
+          <div className="relative mt-8 overflow-hidden">
 
-            {/* Right fade */}
+            <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-20 bg-gradient-to-r from-zinc-50 to-transparent dark:from-[#030303]" />
 
-            <div
-              className="
-                pointer-events-none
-                absolute
-                right-0
-                top-0
-                z-10
-                h-full
-                w-10
-                bg-gradient-to-l
-                from-black
-                to-transparent
-                sm:w-24
-              "
-            />
+            <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-20 bg-gradient-to-l from-zinc-50 to-transparent dark:from-[#030303]" />
 
-            {/* Moving companies */}
+            <div className="companies-marquee flex w-max select-none gap-4 px-4 py-4">
 
-            <div
-              className="
-                companies-marquee
-                flex
-                w-max
-                select-none
-              "
-            >
               {companyTicker.map((company, index) => (
+
                 <div
                   key={`${company}-${index}`}
-                  className="flex items-center"
-                >
-                  <span
-                    className="
-                      whitespace-nowrap
-                      px-4
-                      text-xs
-                      font-semibold
-                      text-white
-                      sm:px-6
-                      sm:text-sm
-                    "
-                  >
-                    {company}
-                  </span>
+                  className="
+                    group
+                    relative
+                    rounded-full
+                    p-[2px]
 
-                  <span className="h-1 w-1 shrink-0 rounded-full bg-white/50" />
+                    bg-gradient-to-r
+                    from-blue-700/40
+                    via-violet-700/40
+                    to-emerald-600/40
+
+                    transition-all
+
+                    hover:scale-105
+
+                    hover:from-blue-600
+                    hover:via-violet-600
+                    hover:to-emerald-500
+                  "
+                >
+
+                  <div className="flex items-center rounded-full bg-white px-6 py-2.5 dark:bg-[#080808]">
+
+                    <span className="whitespace-nowrap text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-violet-600 to-emerald-500">
+                      {company}
+                    </span>
+
+                  </div>
+
                 </div>
+
               ))}
+
             </div>
+
           </div>
         </div>
 
-        {/* =====================================================
-            LOCATION MARQUEE
-           ===================================================== */}
 
-        <div className="mt-8 sm:mt-10">
-          <div className="mb-3 flex items-center gap-3">
-            <div className="h-px flex-1 bg-zinc-200" />
+        {/* =========================================
+            LOCATION TICKER
+        ========================================= */}
 
-            <span
-              className="
-                text-[9px]
-                font-bold
-                uppercase
-                tracking-[0.2em]
-                text-zinc-400
-                sm:text-[10px]
-              "
-            >
-              Locations Across India
-            </span>
+        <div className="mt-6">
 
-            <div className="h-px flex-1 bg-zinc-200" />
-          </div>
+          <div className="relative overflow-hidden">
 
-          {/* Location marquee viewport */}
+            <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-20 bg-gradient-to-r from-zinc-50 to-transparent dark:from-[#030303]" />
 
-          <div
-            className="
-              relative
-              overflow-hidden
-              rounded-xl
-              border
-              border-zinc-300
-              bg-zinc-50
-              py-4
-              touch-pan-x
-              dark:border-zinc-800
-              dark:bg-zinc-900
-            "
-          >
-            {/* Left fade */}
+            <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-20 bg-gradient-to-l from-zinc-50 to-transparent dark:from-[#030303]" />
 
-            <div
-              className="
-                pointer-events-none
-                absolute
-                left-0
-                top-0
-                z-10
-                h-full
-                w-10
-                bg-gradient-to-r
-                from-zinc-50
-                to-transparent
-                sm:w-24
-                dark:from-zinc-900
-              "
-            />
 
-            {/* Right fade */}
+            <div className="locations-marquee flex w-max select-none gap-4 px-4 py-4">
 
-            <div
-              className="
-                pointer-events-none
-                absolute
-                right-0
-                top-0
-                z-10
-                h-full
-                w-10
-                bg-gradient-to-l
-                from-zinc-50
-                to-transparent
-                sm:w-24
-                dark:from-zinc-900
-              "
-            />
-
-            {/* Moving locations */}
-
-            <div
-              className="
-                locations-marquee
-                flex
-                w-max
-                select-none
-              "
-            >
               {locationTicker.map((location, index) => (
+
                 <div
                   key={`${location}-${index}`}
-                  className="flex items-center"
+                  className="
+                    group
+                    relative
+                    rounded-full
+                    p-[2px]
+
+                    bg-gradient-to-r
+                    from-emerald-600/40
+                    via-blue-700/40
+                    to-violet-700/40
+
+                    transition-all
+
+                    hover:scale-105
+
+                    hover:from-emerald-500
+                    hover:via-blue-600
+                    hover:to-violet-600
+                  "
                 >
-                  <span
-                    className="
-                      mx-2
-                      h-1.5
-                      w-1.5
-                      shrink-0
-                      rounded-full
-                      bg-black
-                      sm:mx-3
-                      dark:bg-white
-                    "
-                  />
 
-                  <span
-                    className="
-                      whitespace-nowrap
-                      text-xs
-                      font-semibold
-                      text-zinc-800
-                      sm:text-sm
-                      dark:text-zinc-200
-                    "
-                  >
-                    {location}
-                  </span>
+                  <div className="flex items-center rounded-full bg-zinc-50 px-6 py-2.5 dark:bg-[#030303]">
+
+                    <span className="mr-2 h-2 w-2 shrink-0 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.8)]" />
+
+                    <span className="whitespace-nowrap text-sm font-bold text-zinc-700 dark:text-zinc-200">
+                      {location}
+                    </span>
+
+                  </div>
+
                 </div>
+
               ))}
+
             </div>
+
           </div>
+
         </div>
 
-        {/* =====================================================
+
+        {/* =========================================
             DISCLAIMER
-           ===================================================== */}
+        ========================================= */}
 
-        <div className="mx-auto mt-7 max-w-3xl text-center">
-          <p
-            className="
-              text-[10px]
-              leading-5
-              text-zinc-500
-              sm:text-xs
-            "
-          >
-            Listing a company does not imply that it is currently
-            hiring through Shiv Shakti Multi Service.
+        <div className="mx-auto mt-16 max-w-2xl text-center">
+
+          <p className="text-xs text-zinc-400">
+            Listing a company does not imply that it is currently hiring through Sant Nirankari Enterprise.
           </p>
+
         </div>
+
       </div>
     </section>
   );

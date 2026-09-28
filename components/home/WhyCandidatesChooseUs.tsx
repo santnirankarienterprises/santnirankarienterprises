@@ -1,37 +1,38 @@
 "use client";
 
 import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
+import { Sparkles, ArrowRight } from "lucide-react";
 
 const benefits = [
-  { number: "01", title: "Registration Process", description: "Pay a nominal fee starting at ₹499 (non-refundable) to create your candidate profile for the recruitment process." },
-  { number: "02", title: "Career Preference Based", description: "Tell us about your preferred role, industry, skills and location so opportunities can align with your career goals." },
-  { number: "03", title: "Multiple Industries", description: "Explore opportunities across automotive, manufacturing, engineering, electrical, EV and other industries." },
-  { number: "04", title: "Multiple Locations", description: "Discover opportunities across Haridwar, SIDCUL, Pantnagar and other growing industrial locations." },
-  { number: "05", title: "Professional Profile", description: "Build a structured candidate profile that presents your education, skills and experience clearly." },
-  { number: "06", title: "Job Opportunities", description: "Our process is designed around giving interview opportunities to candidates as per their skills and experience." },
+  { step: "01", title: "Registration", description: "Pay a nominal fee starting at ₹499 to create your candidate profile.", hoverClass: "hover:shadow-[0_0_25px_rgba(239,68,68,0.5)]", dotColor: "bg-red-500" },
+  { step: "02", title: "Preferences", description: "Tell us your preferred role, industry, skills and location.", hoverClass: "hover:shadow-[0_0_25px_rgba(59,130,246,0.5)]", dotColor: "bg-blue-500" },
+  { step: "03", title: "Industries", description: "Explore opportunities across automotive, manufacturing, EV and more.", hoverClass: "hover:shadow-[0_0_25px_rgba(16,185,129,0.5)]", dotColor: "bg-emerald-500" },
+  { step: "04", title: "Locations", description: "Discover opportunities across Haridwar, SIDCUL, Pantnagar.", hoverClass: "hover:shadow-[0_0_25px_rgba(139,92,246,0.5)]", dotColor: "bg-violet-500" },
+  { step: "05", title: "Profile", description: "Build a structured profile presenting your education and skills.", hoverClass: "hover:shadow-[0_0_25px_rgba(249,115,22,0.5)]", dotColor: "bg-orange-500" },
+  { step: "06", title: "Interviews", description: "We arrange interview opportunities based on your skills and experience.", hoverClass: "hover:shadow-[0_0_25px_rgba(234,179,8,0.5)]", dotColor: "bg-yellow-500" },
 ];
 
 const testimonials = [
-  { name: "Ravi Sharma", role: "Factory / Manufacturing", location: "Haridwar" },
-  { name: "Rahul Kumar", role: "ITI / Technical", location: "Haridwar" },
-  { name: "Rudra Verma", role: "Construction / Civil", location: "Uttarakhand" },
-  { name: "Komal Singh", role: "Driver / Delivery", location: "Haridwar" },
-  { name: "Raju Mehta", role: "Warehouse / Logistics", location: "SIDCUL" },
-  { name: "Amit Rawat", role: "Security", location: "Haridwar" },
-  { name: "Neha Sharma", role: "Housekeeping / Cleaning", location: "Haridwar" },
-  { name: "Vikas Chauhan", role: "Hotel / Hospitality", location: "Uttarakhand" },
-  { name: "Priya Joshi", role: "Restaurant / Food", location: "Haridwar" },
-  { name: "Ankit Kumar", role: "Hospital / Healthcare", location: "Haridwar" },
-  { name: "Pooja Negi", role: "Accounts & Finance", location: "SIDCUL" },
-  { name: "Deepak Singh", role: "HR / Recruitment", location: "Haridwar" },
-  { name: "Shivani Rawat", role: "Office / Back Office", location: "Haridwar" },
-  { name: "Rohit Bisht", role: "Computer / IT", location: "Uttarakhand" },
-  { name: "Anjali Gupta", role: "BPO / Call Center", location: "Haridwar" },
-  { name: "Mohit Kumar", role: "Sales / Marketing", location: "Haridwar" },
-  { name: "Karan Verma", role: "Digital Marketing / Creative", location: "SIDCUL" },
-  { name: "Nisha Kapoor", role: "Retail / Store", location: "Haridwar" },
-  { name: "Arjun Rawat", role: "Automobile / Garage", location: "Haridwar" },
-  { name: "Kavita Sharma", role: "Power / Solar / Electrical", location: "Uttarakhand" },
+  { name: "Aarav Singh", role: "Factory / Manufacturing", location: "Haridwar" },
+  { name: "Vikram Patel", role: "ITI / Technical", location: "Haridwar" },
+  { name: "Neha Desai", role: "Construction / Civil", location: "Uttarakhand" },
+  { name: "Simran Kaur", role: "Driver / Delivery", location: "Haridwar" },
+  { name: "Arjun Reddy", role: "Warehouse / Logistics", location: "SIDCUL" },
+  { name: "Kavya Iyer", role: "Security", location: "Haridwar" },
+  { name: "Siddharth Rao", role: "Housekeeping / Cleaning", location: "Haridwar" },
+  { name: "Priya Nair", role: "Hotel / Hospitality", location: "Uttarakhand" },
+  { name: "Rahul Chhetri", role: "Restaurant / Food", location: "Haridwar" },
+  { name: "Ananya Das", role: "Hospital / Healthcare", location: "Haridwar" },
+  { name: "Manish Tiwari", role: "Accounts & Finance", location: "SIDCUL" },
+  { name: "Sneha Kapoor", role: "HR / Recruitment", location: "Haridwar" },
+  { name: "Rohan Joshi", role: "Office / Back Office", location: "Haridwar" },
+  { name: "Meera Menon", role: "Computer / IT", location: "Uttarakhand" },
+  { name: "Karan Ahluwalia", role: "BPO / Call Center", location: "Haridwar" },
+  { name: "Pooja Bhatt", role: "Sales / Marketing", location: "Haridwar" },
+  { name: "Aditya Sen", role: "Digital Marketing / Creative", location: "SIDCUL" },
+  { name: "Riya Chakraborty", role: "Retail / Store", location: "Haridwar" },
+  { name: "Kabir Khan", role: "Automobile / Garage", location: "Haridwar" },
+  { name: "Ishita Sharma", role: "Power / Solar / Electrical", location: "Uttarakhand" },
 ];
 
 function CandidateSlider() {
@@ -62,7 +63,7 @@ function CandidateSlider() {
   };
 
   useEffect(() => {
-    const speed = 42;
+    const speed = 35; // slightly slower for a more elegant feel
 
     const animate = (time: number) => {
       if (lastTimeRef.current === null) lastTimeRef.current = time;
@@ -126,50 +127,52 @@ function CandidateSlider() {
   };
 
   return (
-    <div className="relative">
-      <div className="pointer-events-none absolute left-0 top-0 z-20 h-full w-8 bg-gradient-to-r from-zinc-50 to-transparent dark:from-zinc-900/80 sm:w-20" />
-      <div className="pointer-events-none absolute right-0 top-0 z-20 h-full w-8 bg-gradient-to-l from-zinc-50 to-transparent dark:from-zinc-900/80 sm:w-20" />
+    <div className="relative mt-12 py-10">
+      <div className="pointer-events-none absolute left-0 top-0 z-20 h-full w-12 bg-gradient-to-r from-zinc-50 to-transparent dark:from-[#030303] sm:w-32" />
+      <div className="pointer-events-none absolute right-0 top-0 z-20 h-full w-12 bg-gradient-to-l from-zinc-50 to-transparent dark:from-[#030303] sm:w-32" />
 
-      <div className={`overflow-hidden rounded-2xl ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}>
+      <div className={`overflow-hidden ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}>
         <div
           ref={sliderRef}
-          className="flex w-max select-none touch-pan-y gap-2 will-change-transform sm:gap-4"
+          className="flex w-max select-none touch-pan-y items-center gap-6 will-change-transform sm:gap-8"
           onPointerDown={handlePointerDown}
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
           onPointerCancel={handlePointerCancel}
         >
-          {candidateTicker.map((candidate, index) => (
-            <article
-              key={`${candidate.name}-${index}`}
-              className="relative flex h-[118px] w-[112px] shrink-0 flex-col justify-between overflow-hidden rounded-xl border-2 border-black bg-white p-3 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-transform duration-200 hover:-translate-y-0.5 dark:border-white dark:bg-zinc-950 dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,0.8)] sm:h-[170px] sm:w-[255px] sm:rounded-2xl sm:p-5 sm:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]"
-            >
-              <div className="flex items-center justify-between">
-                <span className="text-[7px] font-bold uppercase tracking-[0.12em] text-zinc-400 sm:text-[9px] sm:tracking-[0.16em]">Candidate</span>
-                <span className="text-[8px] font-bold text-zinc-300 dark:text-zinc-700 sm:text-[10px]">
-                  {String((index % testimonials.length) + 1).padStart(2, "0")}
-                </span>
-              </div>
+          {candidateTicker.map((candidate, index) => {
+            // Stagger the vertical alignment slightly for a masonry/wave effect
+            const isOffset = index % 2 !== 0;
+            return (
+              <div
+                key={`${candidate.name}-${index}`}
+                className={`group relative flex w-[280px] shrink-0 rounded-3xl p-[2px] bg-gradient-to-r from-blue-700/50 via-violet-700/50 to-emerald-600/50 transition-all duration-300 hover:scale-105 hover:from-blue-500 hover:via-violet-500 hover:to-emerald-400 hover:shadow-[0_0_40px_-10px_rgba(37,99,235,0.4)] ${isOffset ? 'translate-y-4' : '-translate-y-4'}`}
+              >
+                <div className="relative flex w-full flex-col gap-4 overflow-hidden rounded-[22px] bg-white p-6 shadow-sm dark:bg-zinc-900/80 backdrop-blur-md">
+                  {/* Decorative glowing orb in card */}
+                  <div className="absolute -right-4 -top-4 h-16 w-16 rounded-full bg-blue-500/10 blur-xl transition-all duration-500 group-hover:bg-blue-500/30" />
+                  
+                  <div className="flex items-center gap-4">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 via-violet-600 to-emerald-500 text-lg font-bold text-white shadow-lg">
+                      {candidate.name.charAt(0)}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <h4 className="truncate font-serif text-lg font-bold text-zinc-900 dark:text-white">{candidate.name}</h4>
+                      <div className="flex items-center gap-1.5 mt-0.5">
+                        <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                        <p className="truncate text-xs font-medium text-zinc-500">Placed</p>
+                      </div>
+                    </div>
+                  </div>
 
-              <div className="flex items-center gap-2">
-                <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-black text-[9px] font-bold text-white dark:bg-white dark:text-black sm:h-10 sm:w-10 sm:text-xs">
-                  {candidate.name.charAt(0)}
+                  <div className="mt-2 rounded-xl bg-zinc-50 p-3 dark:bg-black/40">
+                    <p className="truncate text-sm font-semibold text-zinc-800 dark:text-zinc-200">{candidate.role}</p>
+                    <p className="mt-1 truncate text-xs text-zinc-500 dark:text-zinc-400">{candidate.location}</p>
+                  </div>
                 </div>
-
-                <div className="min-w-0">
-                  <h4 className="truncate text-[10px] font-bold text-black dark:text-white sm:text-sm">{candidate.name}</h4>
-                  <p className="mt-0.5 truncate text-[7px] font-medium text-zinc-400 sm:text-[10px]">Candidate</p>
-                </div>
               </div>
-
-              <div className="border-t border-zinc-200 pt-2 dark:border-zinc-800 sm:pt-3">
-                <p className="truncate text-[8px] font-bold leading-4 text-zinc-800 dark:text-zinc-200 sm:text-xs sm:leading-5">{candidate.role}</p>
-                <p className="mt-0.5 truncate text-[7px] font-medium text-zinc-500 sm:text-[10px]">{candidate.location}</p>
-              </div>
-
-              <div className="absolute bottom-0 left-0 h-0.5 w-full bg-black dark:bg-white sm:h-1" />
-            </article>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>
@@ -177,91 +180,125 @@ function CandidateSlider() {
 }
 
 export default function WhyCandidatesChooseUs() {
+  const [hoveredStep, setHoveredStep] = useState<string | null>(null);
+
   return (
-    <section id="stories" className="relative overflow-hidden border-b border-zinc-200 bg-zinc-50 py-16 dark:border-zinc-800 dark:bg-zinc-900/40 sm:py-20 lg:py-24">
-      <div className="pointer-events-none absolute right-0 top-0 h-72 w-72 rounded-full bg-zinc-200/60 blur-3xl dark:bg-zinc-800/40" aria-hidden="true" />
-      <div className="pointer-events-none absolute bottom-0 left-0 h-64 w-64 rounded-full bg-zinc-200/50 blur-3xl dark:bg-zinc-800/30" aria-hidden="true" />
+    <section id="why-us" className="relative overflow-hidden bg-zinc-50 py-20 dark:bg-[#030303] sm:py-32">
+      {/* Background Decor */}
+      <div className="pointer-events-none absolute left-0 top-0 h-full w-full overflow-hidden" aria-hidden="true">
+        <div className="absolute -left-1/4 top-1/4 h-[600px] w-[600px] rounded-full bg-blue-500/5 blur-[120px] dark:bg-blue-500/10" />
+        <div className="absolute -right-1/4 bottom-1/4 h-[500px] w-[500px] rounded-full bg-violet-500/5 blur-[100px] dark:bg-violet-500/10" />
+      </div>
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end lg:gap-16">
-          <div>
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-black bg-white px-3 py-1.5 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:border-white dark:bg-zinc-950">
-              <span className="h-1.5 w-1.5 rounded-full bg-black dark:bg-white" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-black dark:text-white sm:text-xs">Candidate First</span>
-            </div>
+        
+        {/* Header Section */}
+        <div className="flex flex-col items-center text-center">
+          <div className="inline-flex items-center gap-2 rounded-full bg-blue-50 px-4 py-2 dark:bg-white/5">
+            <Sparkles className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+            <span className="text-xs font-bold uppercase tracking-widest text-blue-600 dark:text-blue-400">Candidate First</span>
+          </div>
 
-            <h2 className="max-w-xl text-3xl font-bold leading-tight tracking-tight text-zinc-950 sm:text-4xl lg:text-5xl dark:text-white">
-              Get Your Dream Job Oppurtunity With Us.
-            </h2>
+          <h2 className="mt-6 max-w-3xl text-4xl font-serif font-bold leading-tight tracking-tight text-black sm:text-5xl lg:text-6xl dark:text-white">
+            Discover Your Next <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-violet-600 to-emerald-500">Career Milestone.</span>
+          </h2>
+          
+          <p className="mt-6 max-w-xl text-base leading-relaxed text-zinc-500 dark:text-zinc-400 sm:text-lg">
+            We provide a transparent, structured pathway for candidates to connect with leading enterprises and secure meaningful roles.
+          </p>
+        </div>
+
+        {/* Horizontal Timeline Benefits */}
+        <div className="mt-16 sm:mt-24 w-full overflow-x-auto pb-12 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+          <style>{`
+            .scrollbar-hide::-webkit-scrollbar {
+              display: none;
+            }
+          `}</style>
+          
+          <div className="relative flex snap-x snap-mandatory gap-6 px-4 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-2 min-w-max sm:min-w-[1000px] lg:min-w-full">
+            {/* Timeline Line (Desktop Only) */}
+            <div className="hidden sm:block absolute left-[8.33%] right-[8.33%] top-7 h-[2px] -translate-y-1/2 bg-zinc-200 dark:bg-zinc-800" />
+            
+            {benefits.map((b) => (
+              <div 
+                key={b.step}
+                className="group flex flex-col items-center gap-8 w-[75vw] max-w-[280px] shrink-0 snap-center sm:w-auto sm:max-w-none"
+              >
+                {/* Step Circle */}
+                <div 
+                  className="cursor-pointer relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-full border-[2px] border-zinc-200 bg-white dark:border-zinc-800 dark:bg-[#080808] text-zinc-400 transition-all duration-300 group-hover:border-transparent group-hover:text-white group-hover:-translate-y-1 group-hover:shadow-lg"
+                >
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-600 via-violet-600 to-emerald-500 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                  <span className="relative z-10 text-xs font-semibold">{b.step}</span>
+                </div>
+
+                {/* Benefit Card */}
+                <div 
+                  className={`relative w-full h-full rounded-[20px] p-[2px] bg-gradient-to-r from-blue-700 via-violet-700 to-emerald-600 transition-all duration-500 group-hover:-translate-y-2 ${b.hoverClass.replace('hover:', 'group-hover:')}`}
+                >
+                  <div className="relative flex h-full flex-col rounded-[18px] bg-white p-5 sm:p-6 dark:bg-[#080808]">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">STEP {b.step}</span>
+                      <ArrowRight className="h-3 w-3 text-zinc-400 transition-transform duration-300 group-hover:translate-x-1" />
+                    </div>
+                    
+                    <div className={`mt-8 sm:mt-10 h-2.5 w-2.5 rounded-full shadow-sm ${b.dotColor}`} />
+                    
+                    <h3 className="mt-4 sm:mt-5 text-base sm:text-lg font-bold tracking-tight text-zinc-900 dark:text-white">
+                      {b.title}
+                    </h3>
+                    
+                    <p className="mt-2 sm:mt-3 text-[11px] leading-relaxed text-zinc-500 dark:text-zinc-400">
+                      {b.description}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 
-        <div className="mt-10 grid grid-cols-2 gap-3 sm:mt-12 sm:gap-4 lg:grid-cols-3 lg:gap-5">
-          {benefits.map((benefit) => (
-            <div
-              key={benefit.number}
-              className="group relative overflow-hidden rounded-2xl border-2 border-black bg-white p-4 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:border-white dark:bg-zinc-950 dark:shadow-[3px_3px_0px_0px_rgba(255,255,255,0.8)] dark:hover:shadow-[6px_6px_0px_0px_rgba(255,255,255,0.8)] sm:p-6"
-            >
-              <div className="flex items-start justify-between">
-                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-black text-[10px] font-bold text-white dark:bg-white dark:text-black sm:h-9 sm:w-9 sm:text-[11px]">
-                  {benefit.number}
-                </span>
-
-                <span className="text-lg text-zinc-200 transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 dark:text-zinc-800 sm:text-xl">
-                  ↗
-                </span>
-              </div>
-
-              <div className="mt-4 sm:mt-5">
-                <h3 className="text-sm font-bold leading-5 text-black dark:text-white sm:text-lg">{benefit.title}</h3>
-                <p className="mt-2 text-[11px] leading-5 text-zinc-600 dark:text-zinc-400 sm:text-sm sm:leading-6">{benefit.description}</p>
-              </div>
-
-              <div className="absolute bottom-0 left-0 h-1 w-0 bg-black transition-all duration-300 group-hover:w-full dark:bg-white" />
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-16 sm:mt-20 lg:mt-24">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500 sm:text-xs">Candidate Stories</p>
-              <h3 className="mt-2 text-2xl font-bold tracking-tight text-black sm:text-3xl lg:text-4xl dark:text-white">Our Candidates</h3>
-            </div>
-
-            <p className="max-w-md text-xs leading-5 text-zinc-500 sm:text-sm sm:leading-6">
-              Candidates from different backgrounds, skills and career fields exploring their next professional opportunity.
+        {/* Testimonials Slider Section */}
+        <div className="mt-32">
+          <div className="flex flex-col items-center text-center">
+            <h3 className="text-3xl font-serif font-bold tracking-tight text-zinc-900 sm:text-4xl dark:text-white">
+              Success <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-violet-600 to-emerald-500">Stories</span>
+            </h3>
+            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-zinc-500 dark:text-zinc-400 sm:text-base">
+              Thousands of candidates have successfully navigated their career paths with us across multiple industries and locations.
             </p>
           </div>
 
-          <div className="mt-8">
-            <CandidateSlider />
-          </div>
+          <CandidateSlider />
+        </div>
 
-          <div className="mt-4 flex items-center justify-between">
-            <p className="text-[9px] font-medium uppercase tracking-[0.12em] text-zinc-400 sm:text-[10px]">← Swipe / Drag to explore →</p>
+        {/* Final CTA Banner */}
+        <div className="group relative mt-20 overflow-hidden rounded-3xl p-[2px] bg-gradient-to-r from-blue-700 via-violet-700 to-emerald-600 shadow-[0_20px_40px_-15px_rgba(37,99,235,0.4)] sm:mt-32 transition-transform duration-500 hover:scale-[1.02]">
+          <div className="relative flex flex-col items-center justify-between gap-8 rounded-[22px] bg-zinc-950 px-8 py-12 sm:flex-row sm:px-12 dark:bg-[#030303]">
+            {/* Animated background glow inside the banner */}
+            <div className="absolute inset-0 overflow-hidden rounded-[22px]">
+              <div className="absolute -left-1/4 top-0 h-[200px] w-[200px] animate-pulse rounded-full bg-blue-500/20 blur-[80px]" />
+              <div className="absolute -right-1/4 bottom-0 h-[200px] w-[200px] animate-pulse rounded-full bg-emerald-500/20 blur-[80px]" />
+            </div>
 
-            <div className="flex items-center gap-1.5">
-              <span className="h-1.5 w-5 rounded-full bg-black dark:bg-white" />
-              <span className="h-1.5 w-1.5 rounded-full bg-zinc-300 dark:bg-zinc-700" />
-              <span className="h-1.5 w-1.5 rounded-full bg-zinc-300 dark:bg-zinc-700" />
+            <div className="relative z-10 text-center sm:text-left">
+              <h3 className="text-3xl font-serif font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-violet-400 to-emerald-400 sm:text-4xl">
+                Ready to accelerate your career?
+              </h3>
+              <p className="mt-3 text-zinc-400">Join our talent network and start exploring opportunities.</p>
+            </div>
+
+            <div className="relative z-10 shrink-0">
+              <button className="inline-flex h-14 items-center justify-center gap-2 rounded-full bg-blue-600 px-8 text-sm font-bold text-white transition-all hover:bg-blue-500 hover:shadow-[0_0_20px_rgba(37,99,235,0.5)]">
+                Create Your Profile
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </button>
             </div>
           </div>
         </div>
 
-        <div className="mt-10 rounded-2xl border-2 border-black bg-black p-6 text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:border-white dark:bg-white dark:text-black sm:mt-12 sm:p-8">
-          <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between sm:gap-8">
-            <div>
-              <h3 className="mt-2 text-xl font-bold tracking-tight sm:text-2xl">Create your Profile Now and Get your Job :)</h3>
-            </div>
-
-            <div className="shrink-0">
-              <span className="inline-flex items-center rounded-full border border-white/20 px-4 py-2 text-xs font-semibold text-zinc-300 dark:border-black/20 dark:text-zinc-600">
-                Proven Trusted
-              </span>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   );

@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/admin/', '/api/', '/candidate/', '/employer/'],
     },
-    sitemap: 'https://www.shivshaktimultiservice.co.in/sitemap.xml',
+    sitemap: 'https://www.santnirankarienterprise.co.in/sitemap.xml',
   }
 }

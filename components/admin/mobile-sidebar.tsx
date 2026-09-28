@@ -77,7 +77,7 @@ function MobileSidebarContent({
         <div className="flex items-center justify-between border-b p-5">
 
           <h2 className="text-xl font-bold">
-            Shiv Shakti Multi Service
+            Sant Nirankari Enterprise
           </h2>
 
           <button onClick={onClose}>

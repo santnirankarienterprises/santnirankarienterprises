@@ -109,7 +109,7 @@ export default function RegisterPage() {
             </h1>
 
             <p className="mt-7 max-w-md text-base leading-7 text-zinc-300 xl:text-lg xl:leading-8">
-              Create your Shiv Shakti Multi Service account and build a
+              Create your Sant Nirankari Enterprise account and build a
               professional profile around your skills, experience and career
               preferences.
             </p>
@@ -166,7 +166,7 @@ export default function RegisterPage() {
               title="Create Your Account"
               description={
                 <>
-                  Start your candidate journey with Shiv Shakti Multi Service.
+                  Start your candidate journey with Sant Nirankari Enterprise.
                   Create your profile and get ready to explore opportunities.
                 </>
               }
@@ -256,7 +256,7 @@ export default function RegisterPage() {
             </AuthCard>
 
             <p className="mt-5 text-center text-[10px] leading-5 text-zinc-400">
-              Registration is subject to the applicable Shiv Shakti Multi
+              Registration is subject to the applicable Sant Nirankari Multi
               Service process and does not guarantee employment.
             </p>
           </div>

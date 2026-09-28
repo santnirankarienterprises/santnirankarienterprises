@@ -41,7 +41,7 @@ export function DashboardNav() {
   href="/candidate/dashboard"
   className="max-w-[70%] truncate text-base font-bold text-orange-500 sm:max-w-none sm:text-xl lg:text-2xl"
 >
-  Shiv Shakti
+  Sant Nirankari
   <span className="hidden sm:inline">
     {" "}Multi Service
   </span>

@@ -6,49 +6,40 @@ type StepCardProps = {
 
 export function StepCard({ step, title, description }: StepCardProps) {
   return (
-    <div
-      className="
-        rounded-2xl
-        border
-        border-black
-        bg-zinc-50
-        p-6
-
-        transition-all
-        duration-300
-
-        dark:border-white
-        dark:bg-zinc-900/80
-
-        hover:-translate-y-1
-        hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]
-
-        active:translate-y-0
-        active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]
-
-        dark:hover:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.7)]
-        dark:active:shadow-[2px_2px_0px_0px_rgba(255,255,255,0.7)]
-      "
-    >
+    <div className="group relative flex h-full w-full flex-col rounded-2xl p-[2px] bg-gradient-to-r from-blue-700 via-violet-700 to-emerald-600 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_-12px_rgba(37,99,235,0.4)]">
+      <div
+        className="
+          relative
+          flex
+          h-full
+          flex-col
+          overflow-hidden
+          rounded-[14px]
+          bg-white
+          p-6
+          dark:bg-[#030303]
+        "
+      >
       {/* Step Number */}
       <div
         className="
           flex
-          h-10
-          w-10
+          h-12
+          w-12
           items-center
           justify-center
-          rounded-full
-          border
-          border-black
-          bg-white
-          text-sm
-          font-semibold
-          text-zinc-950
-
-          dark:border-white
-          dark:bg-zinc-950
-          dark:text-white
+          rounded-xl
+          bg-blue-50
+          text-base
+          font-bold
+          text-blue-600
+          transition-colors
+          group-hover:bg-blue-600
+          group-hover:text-white
+          dark:bg-blue-500/10
+          dark:text-blue-400
+          dark:group-hover:bg-blue-600
+          dark:group-hover:text-white
         "
       >
         {step}
@@ -57,10 +48,10 @@ export function StepCard({ step, title, description }: StepCardProps) {
       {/* Title */}
       <h3
         className="
-          mt-5
+          mt-6
           text-lg
           font-semibold
-          text-zinc-950
+          text-zinc-900
           dark:text-white
         "
       >
@@ -72,13 +63,14 @@ export function StepCard({ step, title, description }: StepCardProps) {
         className="
           mt-3
           text-sm
-          leading-7
-          text-zinc-600
-          dark:text-zinc-300
+          leading-relaxed
+          text-zinc-500
+          dark:text-zinc-400
         "
       >
         {description}
       </p>
+    </div>
     </div>
   );
 }

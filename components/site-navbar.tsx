@@ -161,31 +161,31 @@ export function SiteNavbar() {
   return (
     <>
       {/* Navbar */}
-      <header className="fixed inset-x-0 top-0 z-[100]">
-        <div className="px-3 pt-3 sm:px-5 sm:pt-4 lg:px-7">
-          <nav className="mx-auto flex min-h-[68px] max-w-7xl items-center justify-between gap-3 rounded-2xl border border-zinc-800/35 bg-white/95 px-3 py-2.5 shadow-[0_10px_35px_-20px_rgba(15,23,42,0.35)] backdrop-blur-xl sm:min-h-[76px] sm:px-5 sm:py-3 dark:border-white/15 dark:bg-zinc-950/95 dark:shadow-black/30">
+      <header className="fixed inset-x-0 top-0 z-[100] border-b border-zinc-200/80 bg-white/80 backdrop-blur-2xl transition-all duration-300 dark:border-white/10 dark:bg-[#030303]/80">
+        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+          <nav className="flex h-[72px] items-center justify-between gap-4">
 
             {/* Brand */}
             <Link
               href="/"
-              aria-label="Shiv Shakti Multi Service - Home"
+              aria-label="Sant Nirankari Enterprise - Home"
               onClick={() => setIsMobileMenuOpen(false)}
               className="group flex min-w-0 shrink items-center gap-2.5 sm:gap-3"
             >
-              <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-xl border border-zinc-200 bg-white transition-transform duration-200 group-hover:scale-[1.02] sm:h-12 sm:w-12 dark:border-white/10 dark:bg-zinc-900">
+              <div className="relative h-9 w-9 shrink-0 overflow-hidden transition-transform duration-200 group-hover:scale-[1.02] sm:h-11 sm:w-11">
                 <Image
                   src="/logo_img.png"
-                  alt="Shiv Shakti Multi Service"
+                  alt="Sant Nirankari Enterprise"
                   fill
                   priority
                   sizes="48px"
-                  className="object-contain p-1"
+                  className="object-contain"
                 />
               </div>
 
               <div className="min-w-0">
-                <p className="truncate font-serif text-[20px] font-semibold leading-none tracking-[-0.03em] text-zinc-950 sm:text-[24px] dark:text-white">
-                  Shiv Shakti
+                <p className="truncate font-serif text-[20px] font-bold leading-none tracking-[-0.03em] text-black sm:text-[24px] dark:text-white">
+                  Sant Nirankari
                 </p>
                 <p className="mt-1 truncate text-[8px] font-medium uppercase leading-none tracking-[0.3em] text-zinc-500 sm:text-[9px] dark:text-zinc-400">
                   Multi Service
@@ -263,7 +263,7 @@ export function SiteNavbar() {
 
                   <Link
                     href="/register"
-                    className="group inline-flex h-9 items-center gap-1.5 rounded-xl bg-zinc-950 px-4 text-xs font-semibold text-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-zinc-800 hover:shadow-md dark:bg-white dark:text-zinc-950 dark:hover:bg-zinc-200"
+                    className="group inline-flex h-9 items-center gap-1.5 rounded-xl bg-blue-600 px-4 text-xs font-semibold text-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-blue-700 hover:shadow-[0_8px_20px_-8px_rgba(37,99,235,0.6)] dark:bg-blue-600 dark:text-white dark:hover:bg-blue-500"
                   >
                     Register
                     <ArrowRight

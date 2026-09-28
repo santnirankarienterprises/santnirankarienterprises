@@ -12,9 +12,9 @@ export default function Home() {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'EmploymentAgency',
-    name: 'Shiv Shakti Multi Service',
-    url: 'https://www.shivshaktimultiservice.co.in/',
-    description: 'Shiv Shakti Multi Service is a modern recruitment consultancy helping People to get the Jobs.',
+    name: 'Sant Nirankari Enterprise',
+    url: 'https://www.santnirankarienterprise.co.in/',
+    description: 'Sant Nirankari Enterprise is a modern recruitment consultancy helping People to get the Jobs.',
     address: {
       '@type': 'PostalAddress',
       streetAddress: 'Nehru Colony , Near by Mantra Apartments , Sidcul ,Haridwar',
