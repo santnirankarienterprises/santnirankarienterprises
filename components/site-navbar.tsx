@@ -186,9 +186,7 @@ export function SiteNavbar() {
 
             {/* Brand */}
             <Link href="/" aria-label="Sant Nirankari Enterprise - Home" onClick={() => setIsMobileMenuOpen(false)} className="group flex min-w-0 shrink items-center gap-2.5 sm:gap-3">
-              <div className="relative h-9 w-9 shrink-0 overflow-hidden transition-transform duration-300 group-hover:scale-105 sm:h-10 sm:w-10">
-                <Image src="/logo_img.png" alt="Sant Nirankari Enterprise" fill priority sizes="48px" className="object-contain" />
-              </div>
+
 
               <div className="min-w-0">
                 <p className="truncate bg-gradient-to-r from-blue-600 via-violet-600 to-emerald-500 bg-clip-text font-serif text-[19px] font-extrabold leading-none tracking-[-0.035em] text-transparent sm:text-[23px]">
@@ -272,9 +270,7 @@ export function SiteNavbar() {
 
               {/* Mobile Brand */}
               <div className="mb-2 flex items-center gap-3 rounded-xl bg-gradient-to-r from-blue-500/10 via-violet-500/10 to-emerald-500/10 px-3 py-3 dark:from-blue-500/10 dark:via-violet-500/10 dark:to-emerald-500/10">
-                <div className="relative h-9 w-9 shrink-0">
-                  <Image src="/logo_img.png" alt="Sant Nirankari Enterprise" fill sizes="40px" className="object-contain" />
-                </div>
+
                 <div>
                   <p className="bg-gradient-to-r from-blue-600 via-violet-600 to-emerald-500 bg-clip-text text-sm font-extrabold text-transparent">Sant Nirankari</p>
                   <p className="bg-gradient-to-r from-blue-500 via-violet-500 to-emerald-500 bg-clip-text text-[7px] font-bold uppercase tracking-[0.35em] text-transparent">Enterprise</p>

@@ -39,9 +39,7 @@ export function SiteFooter() {
           {/* Brand */}
           <div>
             <Link href="/" className="group inline-flex items-center gap-3">
-              <div className="relative h-10 w-10 overflow-hidden rounded-lg bg-white transition-transform duration-200 group-hover:scale-105 dark:bg-black">
-                <Image src="/logo_img.png" alt="Sant Nirankari Enterprise" fill sizes="40px" className="object-contain p-1" priority />
-              </div>
+
 
               <div>
                 <p className="bg-gradient-to-r from-blue-500 via-violet-500 to-emerald-500 bg-clip-text text-base font-extrabold uppercase tracking-[0.1em] text-transparent">

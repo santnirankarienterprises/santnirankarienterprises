@@ -8,17 +8,6 @@ export function Logo() {
       aria-label="Sant Nirankari Enterprise - Home"
       className="group flex items-center gap-3"
     >
-      <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm transition duration-300 group-hover:shadow-md dark:border-white/10 dark:bg-zinc-900">
-        <Image
-          src="/logo.png"
-          alt="Sant Nirankari Enterprise"
-          fill
-          priority
-          sizes="40px"
-          className="object-contain p-1.5"
-        />
-      </div>
-
       <div className="hidden sm:block">
         <div className="leading-none">
           <p className="text-[13px] font-bold tracking-[0.18em] text-zinc-950 dark:text-white">
