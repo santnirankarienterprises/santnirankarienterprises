@@ -6,16 +6,17 @@ import { prisma } from "@/lib/prisma";
 import { Resend } from "resend";
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 
-const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID!,
-  key_secret: process.env.RAZORPAY_KEY_SECRET!,
-});
-
-const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req: Request) {
   try {
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature, userId } = await req.json();
+
+    const razorpay = new Razorpay({
+      key_id: process.env.RAZORPAY_KEY_ID!,
+      key_secret: process.env.RAZORPAY_KEY_SECRET!,
+    });
+
+    const resend = new Resend(process.env.RESEND_API_KEY);
 
     // 1. REQUIRED DATA CHECK
     if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature || !userId) {

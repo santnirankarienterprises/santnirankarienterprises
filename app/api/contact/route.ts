@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import { z } from "zod";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
 
 const contactSchema = z.object({
   name: z.string().min(2, "Name is required"),
@@ -29,6 +28,7 @@ export async function POST(request: Request) {
     const { name, email, phone, message } = result.data;
 
     // Send email using Resend
+    const resend = new Resend(process.env.RESEND_API_KEY);
     await resend.emails.send({
       from: "Sant Nirankari Enterprise <info@santnirankarienterprise.co.in>",
       to: "jobshiring.hrteam@gmail.com",

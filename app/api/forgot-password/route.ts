@@ -3,7 +3,6 @@ import { prisma } from "@/lib/prisma";
 import { Resend } from "resend";
 import { otpRateLimit } from "@/lib/rate-limit";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(request: Request) {
   try {
@@ -65,6 +64,7 @@ if (!success) {
       },
     });
 
+    const resend = new Resend(process.env.RESEND_API_KEY);
     await resend.emails.send({
       from: "Sant Nirankari Enterprise <info@santnirankarienterprise.co.in>",
       to: cleanEmail,

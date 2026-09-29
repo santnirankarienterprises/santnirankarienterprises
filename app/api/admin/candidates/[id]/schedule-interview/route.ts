@@ -3,7 +3,6 @@ import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/require-admin";
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(
   req: Request,
@@ -64,6 +63,7 @@ export async function POST(
 
     // Send email
     try {
+      const resend = new Resend(process.env.RESEND_API_KEY);
       await resend.emails.send({
         from: "Sant Nirankari Enterprise <info@santnirankarienterprise.co.in>",
         to: candidate.user.email,
