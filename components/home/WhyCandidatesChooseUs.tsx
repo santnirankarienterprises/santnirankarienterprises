@@ -183,7 +183,7 @@ export default function WhyCandidatesChooseUs() {
   const [hoveredStep, setHoveredStep] = useState<string | null>(null);
 
   return (
-    <section id="why-us" className="relative overflow-hidden bg-zinc-50 py-20 dark:bg-[#030303] sm:py-32">
+    <section id="stories" className="relative overflow-hidden bg-zinc-50 py-20 dark:bg-[#030303] sm:py-32">
       {/* Background Decor */}
       <div className="pointer-events-none absolute left-0 top-0 h-full w-full overflow-hidden" aria-hidden="true">
         <div className="absolute -left-1/4 top-1/4 h-[600px] w-[600px] rounded-full bg-blue-500/5 blur-[120px] dark:bg-blue-500/10" />

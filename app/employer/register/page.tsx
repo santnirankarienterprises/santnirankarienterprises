@@ -1,16 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { ArrowLeft, Building2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, BriefcaseBusiness, Building2, Sparkles, Users } from "lucide-react";
 import { useState } from "react";
 import { AuthButton } from "@/components/auth/auth-button";
-import { AuthCard } from "@/components/auth/auth-card";
 import { AuthInput } from "@/components/auth/auth-input";
 import { jobCategories, jobCategoryNames } from "@/lib/job-categories";
 
+type FormErrors = Record<string, string>;
+
 export default function EmployerRegisterPage() {
-  const router = useRouter();
   const [formData, setFormData] = useState({
     employerName: "",
     companyName: "",
@@ -22,11 +21,13 @@ export default function EmployerRegisterPage() {
     selectedJobField: "",
     preferredJobField: "",
   });
+
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [errors, setErrors] = useState<FormErrors>({});
 
   const handleChange = (id: string, value: string) => {
     setFormData((prev) => ({ ...prev, [id]: value }));
+
     if (errors[id]) {
       setErrors((prev) => ({ ...prev, [id]: "" }));
     }
@@ -35,36 +36,55 @@ export default function EmployerRegisterPage() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const nextErrors: Record<string, string> = {};
+    const nextErrors: FormErrors = {};
 
-    if (!formData.employerName.trim()) nextErrors.employerName = "Employer name is required.";
-    if (!formData.companyName.trim()) nextErrors.companyName = "Company name is required.";
-    if (!formData.phone.trim()) nextErrors.phone = "Phone number is required.";
-    if (!formData.email.trim()) {
-      nextErrors.email = "Email is required.";
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      nextErrors.email = "Please enter a valid email address.";
+    if (!formData.employerName.trim()) {
+      nextErrors.employerName = "Your name is required.";
     }
+
+    if (!formData.companyName.trim()) {
+      nextErrors.companyName = "Company name is required.";
+    }
+
+    if (!formData.phone.trim()) {
+      nextErrors.phone = "Phone number is required.";
+    }
+
+    if (!formData.email.trim()) {
+      nextErrors.email = "Company email is required.";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      nextErrors.email = "Please enter a valid company email.";
+    }
+
     if (!formData.password.trim()) {
       nextErrors.password = "Password is required.";
     } else if (formData.password.length < 6) {
       nextErrors.password = "Password must be at least 6 characters.";
     }
-    if (!formData.companyAddress.trim()) nextErrors.companyAddress = "Company address is required.";
+
+    if (!formData.companyAddress.trim()) {
+      nextErrors.companyAddress = "Company address is required.";
+    }
+
     if (!formData.candidatesRequired.trim()) {
-      nextErrors.candidatesRequired = "Candidates required is required.";
-    } else if (isNaN(Number(formData.candidatesRequired)) || Number(formData.candidatesRequired) < 1) {
-      nextErrors.candidatesRequired = "Must be a valid number of 1 or more.";
+      nextErrors.candidatesRequired = "Please enter the number of candidates.";
+    } else if (
+      isNaN(Number(formData.candidatesRequired)) ||
+      Number(formData.candidatesRequired) < 1
+    ) {
+      nextErrors.candidatesRequired = "Enter a valid number of 1 or more.";
     }
 
     if (!formData.selectedJobField) {
       nextErrors.selectedJobField = "Please select a job category.";
     }
+
     if (!formData.preferredJobField) {
       nextErrors.preferredJobField = "Please select a preferred job.";
     }
 
     setErrors(nextErrors);
+
     if (Object.keys(nextErrors).length) return;
 
     setLoading(true);
@@ -82,7 +102,9 @@ export default function EmployerRegisterPage() {
       const result = await response.json();
 
       if (!response.ok) {
-        setErrors({ email: result.message });
+        setErrors({
+          email: result.message || "Unable to create your employer account.",
+        });
         return;
       }
 
@@ -90,193 +112,408 @@ export default function EmployerRegisterPage() {
       localStorage.setItem("user", JSON.stringify(result.user));
       window.dispatchEvent(new Event("storage"));
 
-      router.push("/employer/dashboard");
+      window.location.href = "/employer/dashboard";
     } catch (error) {
       console.error(error);
-      setErrors({ email: "Something went wrong. Please try again." });
+
+      setErrors({
+        email: "Something went wrong. Please try again.",
+      });
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950">
-      <main className="grid min-h-screen lg:grid-cols-2">
-        <section className="relative hidden overflow-hidden bg-zinc-950 lg:flex lg:min-h-screen lg:items-center">
-          <div className="absolute -left-24 top-10 h-72 w-72 rounded-full bg-white/10 blur-3xl" />
-          <div className="absolute bottom-0 right-0 h-96 w-96 rounded-full bg-white/5 blur-3xl" />
-          
-          <div className="relative z-10 mx-auto w-full max-w-xl px-12 xl:px-16">
-            <div className="mb-8 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.22em] text-zinc-400">
-              <span className="h-px w-8 bg-zinc-600" />
-              Employer Portal
-            </div>
-            <h1 className="max-w-lg text-5xl font-bold leading-[1.05] tracking-[-0.04em] text-white xl:text-6xl">
-              Hire Top Talent.
-              <br />
-              <span className="text-zinc-400">Start recruiting today.</span>
-            </h1>
-            <p className="mt-7 max-w-md text-base leading-7 text-zinc-300 xl:text-lg xl:leading-8">
-              Create an employer account to post vacancies and connect with thousands of qualified candidates.
-            </p>
-            <div className="mt-8 flex items-center gap-2 text-xs text-zinc-500">
-              <Building2 size={15} />
-              <span>Partner with Sant Nirankari Enterprise to scale your team.</span>
-            </div>
-          </div>
-        </section>
+    <div className="min-h-screen overflow-x-hidden bg-zinc-50 text-zinc-950 dark:bg-[#020617] dark:text-white">
+      <main className="grid min-h-screen lg:grid-cols-[1.02fr_0.98fr]">
 
-        <section className="flex min-h-screen items-center justify-center px-4 py-8 sm:px-6 lg:px-10">
-          <div className="w-full max-w-[500px]">
-            <Link
-              href="/"
-              className="mb-6 inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white px-4 py-2 text-xs font-semibold text-zinc-600 transition hover:border-zinc-300 hover:text-zinc-950 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-400 dark:hover:text-white"
-            >
-              <ArrowLeft size={14} />
-              Back to Home
+        {/* LEFT PANEL */}
+        <section className="relative hidden overflow-hidden bg-[#020617] lg:flex lg:min-h-screen lg:items-start">
+
+          {/* Background Glow */}
+          <div className="absolute -left-32 -top-24 h-[380px] w-[380px] rounded-full bg-blue-600/20 blur-[100px]" />
+          <div className="absolute -bottom-32 -right-24 h-[380px] w-[380px] rounded-full bg-violet-600/20 blur-[100px]" />
+          <div className="absolute left-1/2 top-1/2 h-[260px] w-[260px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-500/10 blur-[90px]" />
+
+          {/* Grid */}
+          <div
+            className="absolute inset-0 opacity-[0.03]"
+            style={{
+              backgroundImage:
+                "linear-gradient(rgba(255,255,255,.8) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.8) 1px,transparent 1px)",
+              backgroundSize: "40px 40px",
+            }}
+          />
+
+          <div className="relative z-10 mx-auto w-full max-w-xl px-8 pt-14 xl:px-12 xl:pt-18">
+
+            {/* Brand */}
+            <Link href="/" className="group mb-8 inline-flex items-center gap-2.5">
+              <div className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl border border-white/10 bg-white/5 transition duration-300 group-hover:scale-105 group-hover:border-violet-400/40">
+                <img
+                  src="/logo_img.png"
+                  alt="Sant Nirankari Enterprise"
+                  className="h-full w-full object-contain p-1.5"
+                />
+              </div>
+
+              <div>
+                <p className="bg-gradient-to-r from-blue-400 via-violet-400 to-emerald-400 bg-clip-text font-serif text-[17px] font-extrabold tracking-[-0.03em] text-transparent">
+                  Sant Nirankari
+                </p>
+
+                <p className="mt-0.5 text-[7px] font-bold uppercase tracking-[0.38em] text-zinc-500">
+                  Enterprise
+                </p>
+              </div>
             </Link>
 
-            <AuthCard
-              className="w-full"
-              title="Employer Registration"
-              description="Create your company profile to start hiring."
-              footer={
-                <div className="space-y-3">
-                  <p>
-                    Already have an account?{" "}
-                    <Link
-                      href="/employer/login"
-                      className="font-semibold text-zinc-950 transition hover:text-zinc-600 dark:text-white dark:hover:text-zinc-300"
-                    >
-                      Sign In
-                    </Link>
+            {/* Badge */}
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[9px] font-semibold uppercase tracking-[0.18em] text-zinc-400">
+              <Building2 size={11} className="text-violet-400" />
+              Employer Registration
+            </div>
+
+            {/* Heading */}
+            <h1 className="max-w-lg text-[42px] font-extrabold leading-[0.98] tracking-[-0.055em] text-white xl:text-5xl">
+              Find the right
+              <br />
+              <span className="bg-gradient-to-r from-blue-400 via-violet-400 to-emerald-400 bg-clip-text text-transparent">
+                people for your team.
+              </span>
+            </h1>
+
+            <p className="mt-5 max-w-md text-[13px] leading-6 text-zinc-400 xl:text-sm xl:leading-6">
+              Set up your employer profile, tell us what you are looking for,
+              and start building your recruitment pipeline with qualified candidates.
+            </p>
+
+            {/* Benefits */}
+            <div className="mt-7 flex max-w-lg flex-col gap-3">
+
+              <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.035] px-4 py-3.5 backdrop-blur-sm">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-blue-500/20 text-blue-400">
+                  <Users size={17} />
+                </div>
+
+                <div>
+                  <h3 className="text-xs font-bold text-white">
+                    Reach Relevant Candidates
+                  </h3>
+
+                  <p className="mt-0.5 text-[11px] leading-5 text-zinc-400">
+                    Share your hiring requirements and discover profiles suited to your needs.
                   </p>
                 </div>
-              }
-            >
-              <form className="space-y-4" onSubmit={handleSubmit} autoComplete="off">
-                <div className="grid grid-cols-2 gap-4">
-                  <AuthInput
-                    id="employerName"
-                    label="Your Name"
-                    type="text"
-                    placeholder="John Doe"
-                    value={formData.employerName}
-                    onChange={(val) => handleChange("employerName", val)}
-                    error={errors.employerName}
-                  />
-                  <AuthInput
-                    id="companyName"
-                    label="Company Name"
-                    type="text"
-                    placeholder="Acme Corp"
-                    value={formData.companyName}
-                    onChange={(val) => handleChange("companyName", val)}
-                    error={errors.companyName}
-                  />
-                </div>
-                
-                <AuthInput
-                  id="email"
-                  label="Company Email"
-                  type="email"
-                  placeholder="hr@company.com"
-                  value={formData.email}
-                  onChange={(val) => handleChange("email", val)}
-                  error={errors.email}
-                />
-                
-                <AuthInput
-                  id="phone"
-                  label="Phone Number"
-                  type="tel"
-                  placeholder="+91 9876543210"
-                  value={formData.phone}
-                  onChange={(val) => handleChange("phone", val)}
-                  error={errors.phone}
-                />
-                
-                <AuthInput
-                  id="companyAddress"
-                  label="Company Address"
-                  type="text"
-                  placeholder="123 Business Park, City"
-                  value={formData.companyAddress}
-                  onChange={(val) => handleChange("companyAddress", val)}
-                  error={errors.companyAddress}
-                />
-                
-                <AuthInput
-                  id="candidatesRequired"
-                  label="Number of Candidates Required"
-                  type="number"
-                  placeholder="e.g. 10"
-                  min="1"
-                  value={formData.candidatesRequired}
-                  onChange={(val) => handleChange("candidatesRequired", val)}
-                  error={errors.candidatesRequired}
-                />
+              </div>
 
-                <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-zinc-700">Job Category</label>
-                  <select
-                    value={formData.selectedJobField}
-                    onChange={(e) => {
-                      handleChange("selectedJobField", e.target.value);
-                      handleChange("preferredJobField", "");
-                    }}
-                    className="w-full rounded-xl border border-zinc-300 bg-white px-4 py-3 text-sm text-zinc-900 outline-none transition focus:border-zinc-900 focus:ring-2 focus:ring-zinc-200"
-                  >
-                    <option value="">Select Category</option>
-                    {jobCategoryNames.map((cat) => (
-                      <option key={cat} value={cat}>
-                        {cat}
-                      </option>
-                    ))}
-                  </select>
-                  {errors.selectedJobField && (
-                    <p className="text-xs text-red-500">{errors.selectedJobField}</p>
-                  )}
+              <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.035] px-4 py-3.5 backdrop-blur-sm">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-violet-500/20 text-violet-400">
+                  <BriefcaseBusiness size={17} />
                 </div>
 
-                <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-zinc-700">Preferred Job</label>
-                  <select
-                    value={formData.preferredJobField}
-                    onChange={(e) => handleChange("preferredJobField", e.target.value)}
-                    disabled={!formData.selectedJobField}
-                    className="w-full rounded-xl border border-zinc-300 bg-white px-4 py-3 text-sm text-zinc-900 outline-none transition focus:border-zinc-900 focus:ring-2 focus:ring-zinc-200 disabled:opacity-50"
-                  >
-                    <option value="">Select Job</option>
-                    {formData.selectedJobField &&
-                      jobCategories[formData.selectedJobField]?.map((job) => (
-                        <option key={job} value={job}>
-                          {job}
-                        </option>
-                      ))}
-                  </select>
-                  {errors.preferredJobField && (
-                    <p className="text-xs text-red-500">{errors.preferredJobField}</p>
-                  )}
+                <div>
+                  <h3 className="text-xs font-bold text-white">
+                    Simplify Your Hiring
+                  </h3>
+
+                  <p className="mt-0.5 text-[11px] leading-5 text-zinc-400">
+                    Organize your recruitment requirements from one dedicated employer workspace.
+                  </p>
                 </div>
+              </div>
 
-                <AuthInput
-                  id="password"
-                  label="Password"
-                  type="password"
-                  placeholder="Create a password"
-                  value={formData.password}
-                  onChange={(val) => handleChange("password", val)}
-                  error={errors.password}
-                />
+            </div>
 
-                <AuthButton loading={loading} type="submit">
-                  Register Company →
-                </AuthButton>
-              </form>
-            </AuthCard>
+            {/* Stats */}
+            <div className="mt-5 grid max-w-lg grid-cols-3 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.025]">
+
+              <div className="px-3 py-3">
+                <Building2 size={14} className="mb-1.5 text-blue-400" />
+                <p className="text-lg font-extrabold text-white">250+</p>
+                <p className="text-[9px] uppercase tracking-wider text-zinc-500">
+                  Companies
+                </p>
+              </div>
+
+              <div className="border-l border-white/10 px-3 py-3">
+                <Users size={14} className="mb-1.5 text-violet-400" />
+                <p className="text-lg font-extrabold text-white">5000+</p>
+                <p className="text-[9px] uppercase tracking-wider text-zinc-500">
+                  Candidates
+                </p>
+              </div>
+
+              <div className="border-l border-white/10 px-3 py-3">
+                <BriefcaseBusiness size={14} className="mb-1.5 text-emerald-400" />
+                <p className="text-lg font-extrabold text-white">6+</p>
+                <p className="text-[9px] uppercase tracking-wider text-zinc-500">
+                  Industries
+                </p>
+              </div>
+
+            </div>
+
           </div>
         </section>
+
+        {/* RIGHT PANEL */}
+        <section className="relative flex min-h-screen items-start justify-center overflow-y-auto px-4 pb-8 pt-6 sm:px-6 lg:px-8 lg:pt-8">
+
+          {/* Background Glow */}
+          <div className="absolute -right-32 -top-32 h-72 w-72 rounded-full bg-blue-500/10 blur-[100px]" />
+          <div className="absolute -bottom-32 -left-32 h-72 w-72 rounded-full bg-violet-500/10 blur-[100px]" />
+
+          <div className="relative z-10 w-full max-w-[500px]">
+
+            {/* Back */}
+            <Link
+              href="/"
+              className="group mb-3 inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white px-3.5 py-1.5 text-[11px] font-semibold text-zinc-600 shadow-sm transition-all hover:-translate-x-0.5 hover:border-violet-300 hover:text-zinc-950 dark:border-white/10 dark:bg-white/[0.03] dark:text-zinc-400 dark:hover:border-violet-500/40 dark:hover:text-white"
+            >
+              <ArrowLeft size={13} className="transition-transform group-hover:-translate-x-0.5" />
+              Return to Home
+            </Link>
+
+            {/* Gradient Card */}
+            <div className="rounded-[23px] bg-gradient-to-br from-blue-600 via-violet-600 to-emerald-500 p-[1px] shadow-[0_20px_70px_-35px_rgba(79,70,229,0.55)]">
+
+              <div className="rounded-[22px] bg-white p-5 sm:p-6 dark:bg-[#080b12]">
+
+                {/* Header */}
+                <div className="mb-5">
+
+                  <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 via-violet-600 to-emerald-500 text-white shadow-lg shadow-violet-500/20">
+                    <Building2 size={18} />
+                  </div>
+
+                  <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-zinc-50 px-3 py-1.5 text-[9px] font-semibold uppercase tracking-[0.18em] text-zinc-500 dark:border-white/10 dark:bg-white/[0.04] dark:text-zinc-400">
+                    <Sparkles size={11} className="text-violet-500" />
+                    Company Setup
+                  </div>
+
+                  <h2 className="text-[24px] font-extrabold tracking-[-0.04em] text-zinc-950 dark:text-white">
+                    Create your employer profile
+                  </h2>
+
+                  <p className="mt-1.5 max-w-sm text-xs leading-5 text-zinc-500 dark:text-zinc-400">
+                    Tell us about your company and hiring requirements to get
+                    started with your recruitment workspace.
+                  </p>
+
+                </div>
+
+                {/* Form */}
+                <form
+                  className="space-y-3"
+                  onSubmit={handleSubmit}
+                  autoComplete="off"
+                >
+
+                  {/* Name + Company */}
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+
+                    <AuthInput
+                      id="employerName"
+                      label="Your name"
+                      type="text"
+                      placeholder="Enter your name"
+                      value={formData.employerName}
+                      onChange={(value) => handleChange("employerName", value)}
+                      error={errors.employerName}
+                      autoComplete="name"
+                    />
+
+                    <AuthInput
+                      id="companyName"
+                      label="Company name"
+                      type="text"
+                      placeholder="Enter company name"
+                      value={formData.companyName}
+                      onChange={(value) => handleChange("companyName", value)}
+                      error={errors.companyName}
+                      autoComplete="organization"
+                    />
+
+                  </div>
+
+                  {/* Email */}
+                  <AuthInput
+                    id="email"
+                    label="Company email"
+                    type="email"
+                    placeholder="hr@company.com"
+                    value={formData.email}
+                    onChange={(value) => handleChange("email", value)}
+                    error={errors.email}
+                    autoComplete="email"
+                  />
+
+                  {/* Phone */}
+                  <AuthInput
+                    id="phone"
+                    label="Contact number"
+                    type="tel"
+                    placeholder="+91 9876543210"
+                    value={formData.phone}
+                    onChange={(value) => handleChange("phone", value)}
+                    error={errors.phone}
+                    autoComplete="tel"
+                  />
+
+                  {/* Address */}
+                  <AuthInput
+                    id="companyAddress"
+                    label="Company address"
+                    type="text"
+                    placeholder="Business address"
+                    value={formData.companyAddress}
+                    onChange={(value) => handleChange("companyAddress", value)}
+                    error={errors.companyAddress}
+                    autoComplete="street-address"
+                  />
+
+                  {/* Candidates */}
+                  <AuthInput
+                    id="candidatesRequired"
+                    label="Hiring requirement"
+                    type="number"
+                    placeholder="Number of candidates"
+                    min="1"
+                    value={formData.candidatesRequired}
+                    onChange={(value) => handleChange("candidatesRequired", value)}
+                    error={errors.candidatesRequired}
+                  />
+
+                  {/* Job Category */}
+                  <div className="space-y-1.5">
+
+                    <label
+                      htmlFor="selectedJobField"
+                      className="block text-xs font-semibold text-zinc-800 dark:text-zinc-200"
+                    >
+                      Job category
+                    </label>
+
+                    <select
+                      id="selectedJobField"
+                      required
+                      value={formData.selectedJobField}
+                      onChange={(event) => {
+                        handleChange("selectedJobField", event.target.value);
+                        handleChange("preferredJobField", "");
+                      }}
+                      className="h-11 w-full rounded-xl border border-zinc-200 bg-white px-4 text-sm text-zinc-900 outline-none transition-all focus:border-violet-500 focus:ring-4 focus:ring-violet-500/10 dark:border-white/10 dark:bg-white/[0.03] dark:text-white dark:focus:border-violet-500"
+                    >
+                      <option value="">Select job category</option>
+
+                      {jobCategoryNames.map((category) => (
+                        <option key={category} value={category}>
+                          {category}
+                        </option>
+                      ))}
+                    </select>
+
+                    {errors.selectedJobField && (
+                      <p className="text-[11px] font-medium text-red-500">
+                        {errors.selectedJobField}
+                      </p>
+                    )}
+
+                  </div>
+
+                  {/* Preferred Job */}
+                  <div className="space-y-1.5">
+
+                    <label
+                      htmlFor="preferredJobField"
+                      className="block text-xs font-semibold text-zinc-800 dark:text-zinc-200"
+                    >
+                      Preferred role
+                    </label>
+
+                    <select
+                      id="preferredJobField"
+                      required
+                      value={formData.preferredJobField}
+                      onChange={(event) =>
+                        handleChange("preferredJobField", event.target.value)
+                      }
+                      disabled={!formData.selectedJobField}
+                      className="h-11 w-full rounded-xl border border-zinc-200 bg-white px-4 text-sm text-zinc-900 outline-none transition-all focus:border-violet-500 focus:ring-4 focus:ring-violet-500/10 disabled:cursor-not-allowed disabled:opacity-50 dark:border-white/10 dark:bg-white/[0.03] dark:text-white dark:focus:border-violet-500"
+                    >
+                      <option value="">Select preferred role</option>
+
+                      {formData.selectedJobField &&
+                        jobCategories[formData.selectedJobField]?.map((job) => (
+                          <option key={job} value={job}>
+                            {job}
+                          </option>
+                        ))}
+                    </select>
+
+                    {errors.preferredJobField && (
+                      <p className="text-[11px] font-medium text-red-500">
+                        {errors.preferredJobField}
+                      </p>
+                    )}
+
+                  </div>
+
+                  {/* Password */}
+                  <AuthInput
+                    id="password"
+                    label="Password"
+                    type="password"
+                    placeholder="Create a password"
+                    value={formData.password}
+                    onChange={(value) => handleChange("password", value)}
+                    error={errors.password}
+                    autoComplete="new-password"
+                  />
+
+                  {/* Submit */}
+                  <div className="pt-1">
+                    <AuthButton loading={loading} type="submit">
+                      Create Employer Account <ArrowRight size={15} />
+                    </AuthButton>
+                  </div>
+
+                </form>
+
+                {/* Footer */}
+                <div className="mt-5 border-t border-zinc-200 pt-4 text-center dark:border-white/10">
+
+                  <p className="text-[11px] text-zinc-500 dark:text-zinc-400">
+                    Already have an employer account?
+                  </p>
+
+                  <Link
+                    href="/employer/login"
+                    className="group mt-2 inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-blue-700 via-violet-700 to-emerald-600 px-4 py-2 text-[11px] font-bold text-white shadow-[0_7px_20px_-8px_rgba(79,70,229,0.8)] transition-all duration-300 hover:-translate-y-0.5 hover:from-blue-600 hover:via-violet-600 hover:to-emerald-500 hover:shadow-[0_10px_25px_-8px_rgba(79,70,229,0.95)]"
+                  >
+                    Sign In to Employer Portal
+                    <ArrowRight
+                      size={13}
+                      className="transition-transform duration-200 group-hover:translate-x-0.5"
+                    />
+                  </Link>
+
+                </div>
+
+              </div>
+            </div>
+
+            {/* Bottom Note */}
+            <p className="mx-auto mt-3 max-w-md text-center text-[9px] leading-4 text-zinc-400 dark:text-zinc-600">
+              By creating an employer account, you agree to use Sant Nirankari
+              Enterprise for genuine recruitment and hiring activities.
+            </p>
+
+          </div>
+        </section>
+
       </main>
     </div>
   );
