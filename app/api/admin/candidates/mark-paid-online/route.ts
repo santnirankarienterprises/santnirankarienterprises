@@ -58,10 +58,24 @@ export async function POST(req: Request) {
       },
     });
 
+    const dateStr = new Date().toLocaleString('en-IN', { 
+      timeZone: 'Asia/Kolkata', 
+      dateStyle: 'long', 
+      timeStyle: 'short' 
+    });
+
     return NextResponse.json({
       success: true,
       message: "Online payment link simulated and paid.",
-      payment: newPayment
+      payment: newPayment,
+      receiptDetails: {
+        amount,
+        receiptNumber,
+        dateStr,
+        candidateName: candidate.user.fullName,
+        phone: candidate.phone,
+        paymentId: newPayment.id,
+      }
     });
 
   } catch (error: any) {

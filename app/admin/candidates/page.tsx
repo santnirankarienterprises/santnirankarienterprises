@@ -335,6 +335,9 @@ We are pleased to confirm that your payment has been successfully received. Welc
 
 \u{2705} Your Premium Candidate service is now *Active*.
 
+🔗 *Download PDF Receipt:*
+${window.location.origin}/receipt/${rd.paymentId}
+
 \u{2B50} *We Value Your Feedback*
 We would love to hear about your experience with Sant Nirankari Enterprise.
 \u{1F449} [Leave a Review: https://g.page/r/CZZBLKQak0G_EBE/review]
@@ -494,12 +497,12 @@ We are pleased to inform you that your profile has been processed successfully. 
 
 *Payment Details:*
 \u{25AA}\u{FE0F} *Amount Due:* ₹${onlinePayForm.amount}
-\u{25AA}\u{FE0F} *Service:* Premium Candidate
+\u{25AA}\u{FE0F} *Service:* Registration Fees
 
 \u{1F449} *Click below to pay securely via Razorpay:*
 \u{1F517} ${onlinePayForm.link}
 
-\u{26A0}\u{FE0F} *Important Note:* Once the payment is completed, kindly reply to this message with a *screenshot of the payment receipt* for confirmation.
+\u{26A0}\u{FE0F} *Important Note:* Once the payment is completed, kindly reply to this message with a *screenshot of the payment* for confirmation.
 
 \u{2B50} *We Value Your Feedback*
 \u{1F449} [Leave a Review: https://g.page/r/CZZBLKQak0G_EBE/review]
@@ -548,16 +551,19 @@ _Recruitment & Placement Services_
 ━━━━━━━━━━━━━━━━━━━━━
 Dear *${rd.candidateName}*,
 
-We are pleased to confirm that your online payment has been successfully received. Welcome to our Premium Candidate service! \u{1F389}
+We are pleased to confirm that your online payment has been successfully received. Welcome to our Job services! \u{1F389}
 
 *Payment Details:*
 \u{25AA}\u{FE0F} *Amount Paid:* ₹${rd.amount}
 \u{25AA}\u{FE0F} *Payment Mode:* Online \u{1F4B3}
 \u{25AA}\u{FE0F} *Receipt ID:* ${rd.receiptNumber}
 \u{25AA}\u{FE0F} *Date:* ${rd.dateStr}
-\u{25AA}\u{FE0F} *Service:* Premium Candidate
+\u{25AA}\u{FE0F} *Service:* Registration
 
-\u{2705} Your Premium Candidate service is now *Active*.
+\u{2705} Your Registration is now *Active*.
+
+🔗 *Download PDF Receipt:*
+${window.location.origin}/receipt/${rd.paymentId}
 
 \u{2B50} *We Value Your Feedback*
 We would love to hear about your experience with Sant Nirankari Enterprise.

@@ -72,6 +72,7 @@ export async function POST(req: Request) {
         dateStr,
         candidateName: candidate.user.fullName,
         phone: candidate.phone,
+        paymentId: newPayment.id,
       }
     });
 
