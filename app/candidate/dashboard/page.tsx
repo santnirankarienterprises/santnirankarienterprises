@@ -55,7 +55,7 @@ export default function CandidateDashboardPage() {
         const profileResult = await profileResponse.json();
 
         if (profileResponse.ok && profileResult.success) {
-          if (!profileResult.profile) {
+          if (!profileResult.profile || !profileResult.profile.user?.profileCompleted) {
             router.push("/candidate/profile");
             return;
           }
@@ -201,40 +201,99 @@ export default function CandidateDashboardPage() {
   const pastInterviews = interviews.filter((int: any) => new Date(int.date) < today);
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950">
+    <div className="min-h-screen bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-orange-50 via-white to-blue-50 dark:from-slate-900 dark:via-[#0a0f18] dark:to-slate-950 relative z-0 overflow-hidden">
+      {/* Background Premium Orbs */}
+      <div className="absolute -z-10 top-20 left-0 w-72 h-72 bg-orange-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse dark:mix-blend-lighten dark:bg-orange-600"></div>
+      <div className="absolute -z-10 top-40 right-10 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse dark:mix-blend-lighten dark:bg-blue-600" style={{ animationDelay: '2s' }}></div>
+
       <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="afterInteractive" />
       <DashboardNav />
 
-      <main className="mx-auto max-w-7xl px-6 py-8">
+      <main className="mx-auto max-w-7xl px-4 pb-12 pt-32 sm:px-6 relative z-10">
 
         {/* ========================================
             UNPAID VIEW (PAYMENT WALL)
         ======================================== */}
+        {/* ========================================
+            UNPAID VIEW (PAYMENT WALL)
+        ======================================== */}
         {!isPaid && (
-          <div className="flex flex-col items-center justify-center rounded-3xl bg-white dark:bg-zinc-900 px-6 py-24 text-center shadow-sm border border-zinc-200 dark:border-zinc-800">
-            <div className="flex h-20 w-20 items-center justify-center rounded-full bg-orange-100 dark:bg-orange-500/10 text-orange-600 mb-6">
-              <BriefcaseBusiness className="h-10 w-10" />
+          <div className="mx-auto mt-12 grid max-w-6xl grid-cols-1 overflow-hidden rounded-3xl border border-white/60 bg-white/40 shadow-[0_8px_30px_rgb(255,150,0,0.06)] backdrop-blur-2xl lg:grid-cols-2 dark:border-slate-800/50 dark:bg-slate-900/40">
+            
+            {/* Left Side: Content */}
+            <div className="flex flex-col justify-center p-10 lg:p-14 relative overflow-hidden">
+              <div className="absolute -left-10 top-0 h-40 w-40 rounded-full bg-orange-400/20 blur-3xl"></div>
+              
+              <div className="relative z-10">
+                <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50 px-4 py-1.5 text-sm font-semibold text-orange-600 dark:border-orange-900/50 dark:bg-orange-900/20 dark:text-orange-400">
+                  <Sparkles size={16} /> Premium Access
+                </div>
+                
+                <h1 className="text-4xl font-extrabold tracking-tight text-zinc-900 sm:text-5xl dark:text-white">
+                  Complete Your <span className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text text-transparent">Registration</span>
+                </h1>
+                
+                <p className="mt-6 text-lg leading-relaxed text-zinc-600 dark:text-zinc-300">
+                  Your profile for <strong className="text-zinc-900 dark:text-white">{jobField}</strong> is ready! To unlock guaranteed interview opportunities and exclusive direct HR referrals, please complete your registration.
+                </p>
+
+                <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+                  <button
+                    onClick={handlePayment}
+                    disabled={paymentProcessing}
+                    className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-orange-500 to-orange-600 px-8 py-4 font-bold text-white shadow-lg shadow-orange-500/25 transition-all hover:-translate-y-1 hover:shadow-orange-500/40 active:translate-y-0 sm:w-auto disabled:opacity-70 disabled:hover:-translate-y-0"
+                  >
+                    {paymentProcessing ? "Processing..." : "Click Here to Pay Fees"}
+                    <ArrowRight size={20} />
+                  </button>
+
+                  <Link
+                    href="/#contact"
+                    className="flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-zinc-200 bg-transparent px-8 py-4 font-bold text-zinc-700 transition-all hover:bg-zinc-100 sm:w-auto dark:border-zinc-700 dark:text-zinc-200 dark:hover:bg-zinc-800"
+                  >
+                    Need Help?
+                  </Link>
+                </div>
+              </div>
             </div>
-            <h1 className="text-3xl font-bold sm:text-4xl text-zinc-900 dark:text-white">Unlock Job Opportunities</h1>
-            <p className="mt-4 max-w-xl text-lg text-zinc-500 dark:text-zinc-400">
-              Your profile is complete! To start receiving interview calls and direct HR referrals for <strong className="text-zinc-800 dark:text-zinc-200">{jobField}</strong>, please complete your registration payment.
-            </p>
 
-            <div className="mt-10 flex flex-col sm:flex-row items-center gap-4">
-              <button
-                onClick={handlePayment}
-                disabled={paymentProcessing}
-                className="w-full sm:w-auto rounded-xl bg-green-600 px-8 py-4 font-bold text-white text-lg hover:bg-green-700 transition active:scale-95 disabled:opacity-70"
-              >
-                {paymentProcessing ? "Processing..." : "Pay Registration Fee Now"}
-              </button>
+            {/* Right Side: Features/Illustration */}
+            <div className="relative hidden bg-gradient-to-br from-orange-50 to-white p-10 lg:flex lg:flex-col lg:justify-center dark:from-slate-800/50 dark:to-slate-900/50">
+              <div className="absolute -right-20 bottom-0 h-64 w-64 rounded-full bg-blue-500/10 blur-3xl"></div>
+              
+              <div className="relative z-10 space-y-6 rounded-2xl border border-white/50 bg-white/60 p-8 backdrop-blur-md shadow-sm dark:border-slate-700/50 dark:bg-slate-800/60">
+                <h3 className="text-xl font-bold text-zinc-900 dark:text-white">Why Registration?</h3>
+                
+                <div className="flex items-start gap-4">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-orange-100 text-orange-600 dark:bg-orange-900/30 dark:text-orange-400">
+                    <BriefcaseBusiness size={20} />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-zinc-900 dark:text-white">Direct HR Referrals</h4>
+                    <p className="text-sm text-zinc-600 dark:text-zinc-400">Skip the line and get your resume directly in front of hiring managers.</p>
+                  </div>
+                </div>
 
-              <Link
-                href="/#contact"
-                className="w-full sm:w-auto text-center rounded-xl bg-zinc-900 px-8 py-4 font-bold text-white text-lg hover:bg-zinc-800 transition active:scale-95"
-              >
-                Have a doubt? Contact Us
-              </Link>
+                <div className="flex items-start gap-4">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">
+                    <Calendar size={20} />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-zinc-900 dark:text-white">Guaranteed Interviews</h4>
+                    <p className="text-sm text-zinc-600 dark:text-zinc-400">We ensure you get interviews for roles matching your profile.</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400">
+                    <ShieldCheck size={20} />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-zinc-900 dark:text-white">Dedicated Support</h4>
+                    <p className="text-sm text-zinc-600 dark:text-zinc-400">Get assistance from our recruitment team every step of the way.</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         )}
@@ -244,23 +303,24 @@ export default function CandidateDashboardPage() {
         ======================================== */}
         {isPaid && (
           <>
-            <SectionCard className="bg-zinc-950 text-white">
-              <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+            <SectionCard className="relative overflow-hidden border-0 bg-gradient-to-r from-blue-600 via-violet-600 to-emerald-500 text-white shadow-[0_10px_40px_-15px_rgba(79,70,229,0.5)]">
+              <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-white/10 blur-3xl"></div>
+              <div className="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
                 <div>
-                  <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs uppercase tracking-widest">
+                  <div className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-3 py-1.5 text-xs font-bold uppercase tracking-wider backdrop-blur-md">
                     <Sparkles size={14} />
                     Premium Candidate
                   </div>
-                  <h1 className="mt-4 text-2xl font-bold sm:text-3xl lg:text-4xl">
+                  <h1 className="mt-5 text-3xl font-extrabold sm:text-4xl lg:text-5xl tracking-tight">
                     Welcome back, {fullName} 👋
                   </h1>
-                  <p className="mt-3 text-zinc-300">
+                  <p className="mt-4 text-lg text-white/80 font-medium">
                     Track your recruitment progress and upcoming interviews.
                   </p>
                 </div>
-                <div className="rounded-2xl bg-white/10 p-5">
-                  <p className="text-sm">Current Status</p>
-                  <p className="mt-2 text-xl font-bold sm:text-2xl text-green-400">
+                <div className="rounded-2xl border border-white/20 bg-white/10 p-5 backdrop-blur-md shadow-inner">
+                  <p className="text-sm font-semibold uppercase tracking-wider text-white/70">Current Status</p>
+                  <p className="mt-1 text-2xl font-bold sm:text-3xl text-emerald-300 drop-shadow-md">
                     {profile?.status || "Applied"}
                   </p>
                 </div>

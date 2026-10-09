@@ -186,8 +186,15 @@ export function SiteNavbar() {
 
             {/* Brand */}
             <Link href="/" aria-label="Sant Nirankari Enterprise - Home" onClick={() => setIsMobileMenuOpen(false)} className="group flex min-w-0 shrink items-center gap-2.5 sm:gap-3">
-
-
+              <div className="relative h-10 w-10 sm:h-12 sm:w-12 shrink-0 overflow-hidden rounded-full border-2 border-white shadow-sm dark:border-zinc-800">
+                <Image
+                  src="/sant-nirankari-enterprise-logo.png"
+                  alt="Sant Nirankari Enterprise Official Logo"
+                  fill
+                  sizes="(max-width: 640px) 40px, 48px"
+                  className="object-cover"
+                />
+              </div>
               <div className="min-w-0">
                 <p className="truncate bg-gradient-to-r from-blue-600 via-violet-600 to-emerald-500 bg-clip-text font-serif text-[19px] font-extrabold leading-none tracking-[-0.035em] text-transparent sm:text-[23px]">
                   Sant Nirankari

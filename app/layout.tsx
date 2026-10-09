@@ -45,14 +45,7 @@ export const metadata: Metadata = {
     "onrole jobs",
     "permanent jobs",
   ],
-  icons: {
-    icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/icon.png", type: "image/png", sizes: "64x64" },
-    ],
-    shortcut: "/favicon.ico",
-    apple: "/icon.png",
-  },
+
   openGraph: {
     title: "Sant Nirankari Enterprise | Premium Recruitment Consultancy",
     description: "Sant Nirankari Enterprise is a modern recruitment consultancy helping People to get the Jobs.",
@@ -62,10 +55,10 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/opengraph-image.png",
+        url: "/sant-nirankari-enterprise-logo.png",
         width: 1200,
         height: 630,
-        alt: "Sant Nirankari Enterprise",
+        alt: "Sant Nirankari Enterprise Official Logo",
       },
     ],
   },
@@ -73,7 +66,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Sant Nirankari Enterprise | Premium Recruitment Consultancy",
     description: "Sant Nirankari Enterprise is a modern recruitment consultancy helping People to get the Jobs.",
-    images: ["/opengraph-image.png"],
+    images: ["/sant-nirankari-enterprise-logo.png"],
   },
   alternates: {
     canonical: "/",
@@ -92,6 +85,19 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-white text-zinc-950 transition-colors dark:bg-zinc-950 dark:text-zinc-50">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "name": "Sant Nirankari Enterprise",
+              "url": "https://www.santnirankarienterprise.co.in",
+              "logo": "https://www.santnirankarienterprise.co.in/sant-nirankari-enterprise-logo.png",
+              "description": "Premium Recruitment Consultancy providing placement services and manpower in Uttarakhand and India.",
+            })
+          }}
+        />
         {children}
         <Toaster richColors position="top-right" />
       </body>

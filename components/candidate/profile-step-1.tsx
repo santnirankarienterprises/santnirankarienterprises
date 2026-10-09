@@ -45,10 +45,10 @@ export default function ProfileStep1({
             value={fullName}
             onChange={(e) => onChange("fullName", e.target.value)}
             placeholder="Enter your name"
-            className={`h-11 w-full rounded-xl border bg-white px-3 transition-all duration-200 focus:border-black focus:ring-2 focus:ring-zinc-300 dark:bg-zinc-900 ${
+            className={`h-11 w-full rounded-xl border bg-white/50 px-3 transition-all duration-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-500/20 outline-none dark:bg-zinc-900/50 ${
               errors?.fullName
                 ? "border-red-500"
-                : "border-zinc-300 dark:border-zinc-700"
+                : "border-zinc-300 hover:border-orange-300 dark:border-zinc-700 dark:hover:border-orange-700"
             }`}
           />
 
@@ -69,10 +69,10 @@ export default function ProfileStep1({
             value={phone}
             onChange={(e) => onChange("phone", e.target.value)}
             placeholder="9623456789"
-            className={`h-11 w-full rounded-xl border bg-white px-3 transition-all duration-200 focus:border-black focus:ring-2 focus:ring-zinc-300 dark:bg-zinc-900 ${
+            className={`h-11 w-full rounded-xl border bg-white/50 px-3 transition-all duration-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-500/20 outline-none dark:bg-zinc-900/50 ${
               errors?.phone
                 ? "border-red-500"
-                : "border-zinc-300 dark:border-zinc-700"
+                : "border-zinc-300 hover:border-orange-300 dark:border-zinc-700 dark:hover:border-orange-700"
             }`}
           />
 
@@ -93,10 +93,10 @@ export default function ProfileStep1({
             type="date"
             value={dob}
             onChange={(e) => onChange("dob", e.target.value)}
-            className={`h-11 w-full rounded-xl border bg-white px-3 transition-all duration-200 focus:border-black focus:ring-2 focus:ring-zinc-300 dark:bg-zinc-900 ${
+            className={`h-11 w-full rounded-xl border bg-white/50 px-3 transition-all duration-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-500/20 outline-none dark:bg-zinc-900/50 ${
               errors?.dob
                 ? "border-red-500"
-                : "border-zinc-300 dark:border-zinc-700"
+                : "border-zinc-300 hover:border-orange-300 dark:border-zinc-700 dark:hover:border-orange-700"
             }`}
           />
 
@@ -116,10 +116,10 @@ export default function ProfileStep1({
           <select
             value={gender}
             onChange={(e) => onChange("gender", e.target.value)}
-            className={`h-11 w-full rounded-xl border bg-white px-3 transition-all duration-200 focus:border-black focus:ring-2 focus:ring-zinc-300 dark:bg-zinc-900 ${
+            className={`h-11 w-full rounded-xl border bg-white/50 px-3 transition-all duration-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-500/20 outline-none dark:bg-zinc-900/50 ${
               errors?.gender
                 ? "border-red-500"
-                : "border-zinc-300 dark:border-zinc-700"
+                : "border-zinc-300 hover:border-orange-300 dark:border-zinc-700 dark:hover:border-orange-700"
             }`}
           >
             <option value="">Select Gender</option>

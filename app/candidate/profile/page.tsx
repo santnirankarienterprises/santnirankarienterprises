@@ -54,6 +54,8 @@ export default function CandidateProfilePage() {
   const [expPastSalary, setExpPastSalary] = useState("");
   const [expExpectedSalary, setExpExpectedSalary] = useState("");
 
+  const [resumeFile, setResumeFile] = useState<File | null>(null);
+
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
@@ -328,8 +330,9 @@ export default function CandidateProfilePage() {
       }
 
       if (!phone.trim()) {
-        newErrors.phone =
-          "Phone Number is required.";
+        newErrors.phone = "Phone Number is required.";
+      } else if (!/^\d{10}$/.test(phone.trim())) {
+        newErrors.phone = "Phone Number must be exactly 10 digits.";
       }
 
       if (!dob) {
@@ -371,6 +374,10 @@ export default function CandidateProfilePage() {
           "Highest Qualification is required.";
       }
 
+      if (!college.trim()) {
+        newErrors.college = "College / University is required.";
+      }
+
       if (!passingYear.trim()) {
         newErrors.passingYear =
           "Passing Year is required.";
@@ -379,6 +386,10 @@ export default function CandidateProfilePage() {
       if (!skills.trim()) {
         newErrors.skills =
           "Skills are required.";
+      }
+
+      if (!resumeFile) {
+        newErrors.resumeFile = "Please upload your resume.";
       }
 
       // Excel wali Job Field / Category
@@ -397,7 +408,7 @@ export default function CandidateProfilePage() {
         newErrors.experience =
           "Please select your experience.";
       } else if (experience === "Experienced") {
-        if (!expIndustry.trim()) newErrors.expIndustry = "Industry is required.";
+        if (!expIndustry.trim()) newErrors.expIndustry = "Company is required.";
         if (!expJobProfile.trim()) newErrors.expJobProfile = "Job Profile is required.";
         if (!expLocation.trim()) newErrors.expLocation = "Location is required.";
         if (!expQualification.trim()) newErrors.expQualification = "Qualification is required.";
@@ -469,6 +480,25 @@ export default function CandidateProfilePage() {
         experience,
       });
 
+      let resumeUrl = "";
+      if (resumeFile) {
+        const formData = new FormData();
+        formData.append("file", resumeFile);
+
+        const uploadRes = await fetch("/api/upload", {
+          method: "POST",
+          body: formData,
+        });
+        const uploadData = await uploadRes.json();
+        if (uploadData.success) {
+          resumeUrl = uploadData.fileUrl;
+        } else {
+          alert("Failed to upload resume.");
+          setIsSubmitting(false);
+          return;
+        }
+      }
+
       const response = await fetch(
         "/api/profile",
         {
@@ -509,6 +539,8 @@ export default function CandidateProfilePage() {
             expTotalYears: experience === "Experienced" ? expTotalYears : "",
             expPastSalary: experience === "Experienced" ? expPastSalary : "",
             expExpectedSalary: experience === "Experienced" ? expExpectedSalary : "",
+            
+            resumeUrl,
           }),
         }
       );
@@ -534,11 +566,15 @@ export default function CandidateProfilePage() {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-[#0f0f10]">
+    <div className="min-h-screen bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-orange-50 via-white to-blue-50 dark:from-slate-900 dark:via-[#0a0f18] dark:to-slate-950">
       <SiteNavbar />
 
-      <main className="mx-auto flex max-w-3xl justify-center px-4 pt-28 pb-8">
-        <div className="w-full rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+      <main className="mx-auto flex max-w-3xl justify-center px-4 pt-28 pb-12 relative z-10">
+        {/* Background Premium Orbs */}
+        <div className="absolute -z-10 top-20 left-0 w-72 h-72 bg-orange-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse dark:mix-blend-lighten dark:bg-orange-600"></div>
+        <div className="absolute -z-10 top-40 right-10 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse dark:mix-blend-lighten dark:bg-blue-600" style={{ animationDelay: '2s' }}></div>
+
+        <div className="w-full rounded-3xl border border-white/60 bg-white/70 p-8 shadow-[0_8px_30px_rgb(255,150,0,0.06)] backdrop-blur-xl transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,100,255,0.08)] dark:border-slate-800/50 dark:bg-slate-900/70">
           <h1 className="text-2xl font-bold lg:text-3xl">
             Complete Your Profile
           </h1>
@@ -553,7 +589,7 @@ export default function CandidateProfilePage() {
             <ProfileProgress step={step} />
           </div>
 
-          <div className="mt-6 rounded-2xl border border-zinc-200 bg-zinc-50 p-8 dark:border-zinc-800 dark:bg-zinc-950">
+          <div className="mt-6 rounded-2xl border border-white/50 bg-white/40 p-8 backdrop-blur-md shadow-sm dark:border-zinc-800/60 dark:bg-zinc-900/40">
             {step === 1 && (
               <ProfileStep1
                 fullName={fullName}
@@ -605,6 +641,8 @@ export default function CandidateProfilePage() {
                 expPastSalary={expPastSalary}
                 expExpectedSalary={expExpectedSalary}
 
+                resumeFile={resumeFile}
+
                 onChange={
                   handleProfessionalChange as any
                 }
@@ -613,6 +651,12 @@ export default function CandidateProfilePage() {
                 onJobFieldChange={
                   handleJobFieldChange
                 }
+
+                // File handler
+                onFileChange={(file) => {
+                  setResumeFile(file);
+                  if (file) setErrors((prev) => ({ ...prev, resumeFile: "" }));
+                }}
 
                 // Excel based data
                 jobCategories={
@@ -653,7 +697,7 @@ export default function CandidateProfilePage() {
       type="button"
       onClick={handleNext}
       disabled={isSubmitting}
-      className="flex h-11 w-full items-center justify-center rounded-xl px-6 text-sm font-semibold transition sm:w-auto sm:min-w-[140px] bg-zinc-950 text-white hover:bg-zinc-800 active:scale-[0.98] dark:bg-white dark:text-black dark:hover:bg-zinc-200 disabled:opacity-70 disabled:cursor-pointer cursor-pointer"
+      className="flex h-11 w-full items-center justify-center rounded-xl px-6 text-sm font-semibold transition sm:w-auto sm:min-w-[140px] bg-orange-500 text-white shadow-md shadow-orange-500/20 hover:bg-orange-600 hover:shadow-orange-500/30 active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
     >
       {isSubmitting ? (
         <span className="flex items-center gap-2">

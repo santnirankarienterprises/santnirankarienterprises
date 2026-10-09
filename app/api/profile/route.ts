@@ -36,6 +36,7 @@ export async function POST(request: Request) {
       expPastSalary,
       expExpectedSalary,
       fullName,
+      resumeUrl,
     } = body;
 
     // Check userId
@@ -85,6 +86,7 @@ export async function POST(request: Request) {
         expTotalYears,
         expPastSalary,
         expExpectedSalary,
+        resumeUrl,
       },
 
       create: {
@@ -119,6 +121,7 @@ export async function POST(request: Request) {
         expTotalYears,
         expPastSalary,
         expExpectedSalary,
+        resumeUrl,
       },
     });
 

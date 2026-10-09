@@ -5,9 +5,9 @@ type InfoCardProps = {
 
 export function InfoCard({ label, value }: InfoCardProps) {
   return (
-    <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50 p-4">
-      <p className="text-xs font-semibold uppercase tracking-[0.24em] text-zinc-500 dark:text-zinc-400">{label}</p>
-      <p className="mt-2 text-sm font-medium text-zinc-950 dark:text-white">{value}</p>
+    <div className="rounded-2xl border border-white/60 dark:border-slate-800/50 bg-white/50 dark:bg-slate-900/50 p-5 backdrop-blur-md shadow-sm transition hover:bg-white/70 dark:hover:bg-slate-800/70">
+      <p className="text-xs font-bold uppercase tracking-wider text-orange-600 dark:text-orange-400">{label}</p>
+      <p className="mt-2 text-lg font-bold text-zinc-900 dark:text-white">{value}</p>
     </div>
   );
 }

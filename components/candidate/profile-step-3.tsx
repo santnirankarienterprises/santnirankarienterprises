@@ -26,6 +26,7 @@ type Props = {
   jobCategoryNames: string[];
 
   errors: Record<string, string>;
+  resumeFile: File | null;
 
   onChange: (
     field:
@@ -46,6 +47,7 @@ type Props = {
   ) => void;
 
   onJobFieldChange: (value: string) => void;
+  onFileChange: (file: File | null) => void;
 };
 
 const experienceLevels = ["Fresher", "Experienced"];
@@ -67,8 +69,10 @@ export default function ProfileStep3({
   expExpectedSalary,
   jobCategories,
   jobCategoryNames,
+  resumeFile,
   onChange,
   onJobFieldChange,
+  onFileChange,
   errors,
 }: Props) {
   const availableJobs =
@@ -93,7 +97,7 @@ export default function ProfileStep3({
         {/* Highest Qualification */}
         <div>
           <label className="mb-2 block text-sm font-semibold">
-            Highest Qualification
+            Highest Qualification (Degree)
           </label>
 
           <input
@@ -119,7 +123,7 @@ export default function ProfileStep3({
         {/* Passing Year */}
         <div>
           <label className="mb-2 block text-sm font-semibold">
-            Passing Year
+            Passing Year (Expected if pursuing)
           </label>
 
           <input
@@ -154,8 +158,17 @@ export default function ProfileStep3({
               onChange("college", e.target.value)
             }
             placeholder="College / University"
-            className="h-11 w-full rounded-xl border border-zinc-300 bg-white px-3 transition-all duration-200 focus:border-black focus:ring-2 focus:ring-zinc-300 dark:border-zinc-700 dark:bg-zinc-900"
+            className={`h-11 w-full rounded-xl border bg-white/50 px-3 transition-all duration-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-500/20 outline-none dark:bg-zinc-900/50 ${
+              errors.college
+                ? "border-red-500"
+                : "border-zinc-300 hover:border-orange-300 dark:border-zinc-700 dark:hover:border-orange-700"
+            }`}
           />
+          {errors.college && (
+            <p className="mt-1 text-sm text-red-500">
+              {errors.college}
+            </p>
+          )}
         </div>
 
         {/* Skills */}
@@ -169,7 +182,7 @@ export default function ProfileStep3({
             onChange={(e) =>
               onChange("skills", e.target.value)
             }
-            placeholder="React, SQL, Java..."
+            placeholder="Electrician, Computer, etc.."
             className={`h-11 w-full rounded-xl border bg-white px-3 transition-all duration-200 focus:outline-none dark:bg-zinc-900 ${
               errors.skills
                 ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-200"
@@ -292,6 +305,45 @@ export default function ProfileStep3({
           )}
         </div>
 
+        {/* Resume Upload */}
+        <div className="md:col-span-2 mt-4">
+          <label className="mb-2 block text-sm font-semibold">
+            Upload Resume (PDF, DOCX)
+          </label>
+          <div className={`relative flex items-center justify-center w-full h-32 border-2 border-dashed rounded-xl transition-all duration-200 ${resumeFile ? 'border-orange-500 bg-orange-500/10' : 'border-zinc-300 dark:border-zinc-700 bg-white/50 dark:bg-zinc-900/50 hover:bg-orange-50 dark:hover:bg-orange-950/20 hover:border-orange-300 dark:hover:border-orange-700'}`}>
+            <input
+              type="file"
+              accept=".pdf,.doc,.docx"
+              onChange={(e) => onFileChange(e.target.files?.[0] || null)}
+              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+            />
+            <div className="text-center pointer-events-none">
+              {resumeFile ? (
+                <>
+                  <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-orange-100 text-orange-600 dark:bg-orange-900/50 dark:text-orange-400">
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
+                  </div>
+                  <p className="mt-2 text-sm font-medium text-orange-600 dark:text-orange-400">{resumeFile.name}</p>
+                  <p className="text-xs text-orange-500/70">Click to change file</p>
+                </>
+              ) : (
+                <>
+                  <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-zinc-100 text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                  </div>
+                  <p className="mt-2 text-sm font-medium text-zinc-600 dark:text-zinc-400">Drag & drop your resume here</p>
+                  <p className="text-xs text-zinc-500">or click to browse</p>
+                </>
+              )}
+            </div>
+          </div>
+          {errors.resumeFile && (
+            <p className="mt-1 text-sm text-red-500">
+              {errors.resumeFile}
+            </p>
+          )}
+        </div>
+
       </div>
 
       {/* Conditional Fields for Experienced Candidates */}
@@ -300,17 +352,17 @@ export default function ProfileStep3({
           <h3 className="mb-4 text-lg font-bold">Experience Details</h3>
           <div className="grid gap-5 md:grid-cols-2">
             
-            {/* Industry */}
+            {/* Company */}
             <div>
-              <label className="mb-2 block text-sm font-semibold">Industry</label>
+              <label className="mb-2 block text-sm font-semibold">Company</label>
               <input
                 value={expIndustry}
                 onChange={(e) => onChange("expIndustry", e.target.value)}
-                placeholder="E.g. IT, Healthcare"
-                className={`h-11 w-full rounded-xl border bg-white px-3 transition-all duration-200 focus:outline-none dark:bg-zinc-900 ${
+                placeholder="E.g. TCS, Infosys, Reliance"
+                className={`h-11 w-full rounded-xl border bg-white/50 px-3 transition-all duration-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-500/20 outline-none dark:bg-zinc-900/50 ${
                   errors.expIndustry
-                    ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-200"
-                    : "border-zinc-300 focus:border-black focus:ring-2 focus:ring-zinc-300 dark:border-zinc-700"
+                    ? "border-red-500"
+                    : "border-zinc-300 hover:border-orange-300 dark:border-zinc-700 dark:hover:border-orange-700"
                 }`}
               />
               {errors.expIndustry && <p className="mt-1 text-sm text-red-500">{errors.expIndustry}</p>}

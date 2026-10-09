@@ -75,6 +75,7 @@ model CandidateProfile {
 
   headline String?
   about    String?
+  resumeUrl String?
 
   interviews Interview[]
 
