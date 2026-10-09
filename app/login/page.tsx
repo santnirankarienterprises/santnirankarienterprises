@@ -83,8 +83,8 @@ export default function LoginPage() {
 
             {/* Brand */}
             <Link href="/" className="group mb-7 inline-flex items-center gap-2.5">
-              <div className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl border border-white/10 bg-white/5 transition duration-300 group-hover:scale-105 group-hover:border-violet-400/40">
-                <img src="/logo_img.png" alt="Sant Nirankari Enterprise" className="h-full w-full object-contain p-1.5" />
+              <div className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-white/10 bg-white/5 transition duration-300 group-hover:scale-105 group-hover:border-violet-400/40">
+                <img src="/sant-nirankari-enterprise-logo.png" alt="Sant Nirankari Enterprise" className="h-full w-full object-cover" />
               </div>
 
               <div>

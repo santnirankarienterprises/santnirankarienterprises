@@ -12,6 +12,7 @@ const createCandidateSchema = z.object({
   preferredJobField: z.string().min(1, "Preferred job is required"),
   experience: z.string().min(1, "Experience is required"),
   city: z.string().min(1, "City is required"),
+  resumeUrl: z.string().optional(),
 });
 
 export async function POST(request: Request) {
@@ -30,7 +31,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const { fullName, phone, email, selectedJobField, preferredJobField, experience, city } = result.data;
+    const { fullName, phone, email, selectedJobField, preferredJobField, experience, city, resumeUrl } = result.data;
     
     const existingUser = await prisma.user.findUnique({
       where: { email },
@@ -65,6 +66,7 @@ export async function POST(request: Request) {
           preferredJobField,
           experience,
           city,
+          resumeUrl,
           status: "Applied",
         },
       });

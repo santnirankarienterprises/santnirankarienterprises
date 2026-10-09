@@ -315,7 +315,7 @@ export default function CandidateDashboardPage() {
                     Welcome back, {fullName} 👋
                   </h1>
                   <p className="mt-4 text-lg text-white/80 font-medium">
-                    Track your recruitment progress and upcoming interviews.
+                    Track Your all Interviews Updates.
                   </p>
                 </div>
                 <div className="rounded-2xl border border-white/20 bg-white/10 p-5 backdrop-blur-md shadow-inner">

@@ -47,6 +47,11 @@ function MobileSidebarContent({
       icon: Building2,
     },
     {
+      name: "Employer Demands",
+      href: "/admin/employer-requirements",
+      icon: Users,
+    },
+    {
       name: "Settings",
       href: "/admin/settings",
       icon: Settings,

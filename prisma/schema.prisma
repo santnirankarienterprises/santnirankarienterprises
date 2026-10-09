@@ -137,6 +137,29 @@ model EmployerProfile {
   selectedJobField   String?
   preferredJobField  String?
   
+  requirements       EmployerRequirement[]
+
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
+}
+
+model EmployerRequirement {
+  id                   String          @id @default(cuid())
+  employerProfileId    String
+  employerProfile      EmployerProfile @relation(fields: [employerProfileId], references: [id], onDelete: Cascade)
+  
+  jobCategory          String
+  preferredJobCategory String?
+  numberOfCandidates   Int
+  field                String?
+  status               String          @default("PENDING") // PENDING, IN_PROGRESS, FULFILLED
+  
+  createdAt            DateTime        @default(now())
+  updatedAt            DateTime        @updatedAt
+}
+
+model GlobalSettings {
+  id    String @id @default(cuid())
+  key   String @unique
+  value String
 }

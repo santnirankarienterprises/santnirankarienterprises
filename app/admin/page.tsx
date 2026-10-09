@@ -61,6 +61,29 @@ export default function AdminDashboardPage() {
   const unpaidUsers = candidates.length - paidUsers;
   const totalUsers = candidates.length + employers.length;
 
+  // Calculate Today's Stats
+  const isToday = (dateString: string) => {
+    const date = new Date(dateString);
+    const today = new Date();
+    return date.getDate() === today.getDate() &&
+      date.getMonth() === today.getMonth() &&
+      date.getFullYear() === today.getFullYear();
+  };
+
+  const todayPaidUsers = candidates.filter(
+    (c) => isToday(c.createdAt) && c.user?.payments?.some((p: any) => p.status === "SUCCESS")
+  ).length;
+
+  const todayUnpaidUsers = candidates.filter(
+    (c) => isToday(c.createdAt) && !c.user?.payments?.some((p: any) => p.status === "SUCCESS")
+  ).length;
+
+  const todayEmployers = employers.filter(
+    (e) => isToday(e.createdAt)
+  ).length;
+
+  const todayTotalUsers = todayPaidUsers + todayUnpaidUsers + todayEmployers;
+
   if (loading) {
     return (
       <div className="flex h-[calc(100vh-100px)] flex-col items-center justify-center">
@@ -79,25 +102,29 @@ export default function AdminDashboardPage() {
           <Card
             title="Total Users"
             value={loading ? "..." : totalUsers.toString()}
-            icon={<Users className="h-7 w-7" />}
+            todayValue={loading ? undefined : todayTotalUsers.toString()}
+            icon={<Users className="h-7 w-7 text-blue-600 dark:text-blue-400" />}
           />
 
           <Card
             title="Paid Users"
             value={loading ? "..." : paidUsers.toString()}
-            icon={<UserCheck className="h-7 w-7" />}
+            todayValue={loading ? undefined : todayPaidUsers.toString()}
+            icon={<UserCheck className="h-7 w-7 text-emerald-600 dark:text-emerald-400" />}
           />
 
           <Card
             title="Unpaid Users"
             value={loading ? "..." : unpaidUsers.toString()}
-            icon={<Users className="h-7 w-7" />}
+            todayValue={loading ? undefined : todayUnpaidUsers.toString()}
+            icon={<Users className="h-7 w-7 text-orange-600 dark:text-orange-400" />}
           />
 
           <Card
             title="Employers"
             value={loading ? "..." : employers.length.toString()}
-            icon={<Building2 className="h-7 w-7" />}
+            todayValue={loading ? undefined : todayEmployers.toString()}
+            icon={<Building2 className="h-7 w-7 text-purple-600 dark:text-purple-400" />}
           />
 
           <Card
@@ -215,34 +242,40 @@ export default function AdminDashboardPage() {
 function Card({
   title,
   value,
+  todayValue,
   icon,
 }: {
   title: string;
   value: string;
+  todayValue?: string;
   icon: React.ReactNode;
 }) {
   return (
-    <div className="rounded-2xl border bg-white p-4 sm:p-5 shadow-sm transition hover:shadow-md">
-      <div className="flex items-center justify-between">
-
-        <div>
-
-          <p className="text-sm text-zinc-500">
-            {title}
-          </p>
-
-          <h2 className="mt-2 text-2xl sm:text-3xl font-bold">
-            {value}
-          </h2>
-
-        </div>
-
-        <div className="rounded-xl bg-zinc-100 p-3">
+    <div className="rounded-2xl border border-zinc-200 bg-white p-4 sm:p-5 shadow-sm transition hover:shadow-md dark:border-white/10 dark:bg-zinc-900/50">
+      <div className="flex items-center justify-between mb-4">
+        <p className="text-sm font-semibold text-zinc-500 dark:text-zinc-400">
+          {title}
+        </p>
+        <div className="rounded-xl bg-zinc-100 p-2.5 dark:bg-white/5">
           {icon}
         </div>
-
       </div>
 
+      <div className="flex items-end justify-between">
+        <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-zinc-900 dark:text-white">
+          {value}
+        </h2>
+        {todayValue !== undefined && (
+          <div className="flex flex-col items-end">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+              Today
+            </span>
+            <span className="inline-flex items-center rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-bold text-emerald-700 ring-1 ring-inset ring-emerald-600/20 dark:bg-emerald-500/10 dark:text-emerald-400 dark:ring-emerald-500/20">
+              +{todayValue}
+            </span>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

@@ -8,7 +8,7 @@ import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { jobCategories} from "@/lib/job-categories";
-import { CalendarDays } from "lucide-react";
+import { CalendarDays, FileText } from "lucide-react";
 
 import {
   AlertDialog,
@@ -51,6 +51,7 @@ function CandidatesContent() {
     experience: "",
     city: "",
   });
+  const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [isAdding, setIsAdding] = useState(false);
 
   // Online Pay State
@@ -285,7 +286,7 @@ function CandidatesContent() {
   };
 
   const markAsPaidCash = async (id: string) => {
-    const amountStr = window.prompt("Enter payment amount (e.g., 499 or 799):", "499");
+    const amountStr = window.prompt("Enter payment amount ");
     if (!amountStr) return;
 
     const amount = Number(amountStr);
@@ -296,12 +297,12 @@ function CandidatesContent() {
 
     setProcessingCashId(id);
     try {
-      const response = await fetch(`/api/admin/candidates/${id}/mark-paid`, {
+      const response = await fetch(`/api/admin/candidates/mark-paid`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ amount }),
+        body: JSON.stringify({ candidateId: id, amount }),
       });
 
       let result;
@@ -407,7 +408,7 @@ Please Provide Rating : https://g.page/r/CZZBLKQak0G_EBE/review
 
 Warm Regards,
 Sant Nirankari Enterprise
-Recruitment • Placement • Multi Services`;
+Recruitment • Placement • Manpower Services`;
 
         // Open WhatsApp automatically with pre-filled message
         window.open(`https://wa.me/91${schedulingFor.phone}?text=${encodeURIComponent(waText)}`, "_blank");
@@ -434,10 +435,28 @@ Recruitment • Placement • Multi Services`;
 
     setIsAdding(true);
     try {
+      let resumeUrl = "";
+      if (resumeFile) {
+        const formData = new FormData();
+        formData.append("file", resumeFile);
+        const uploadRes = await fetch("/api/upload", {
+          method: "POST",
+          body: formData,
+        });
+        const uploadData = await uploadRes.json();
+        if (uploadData.success) {
+          resumeUrl = uploadData.fileUrl;
+        } else {
+          toast.error("Failed to upload resume.");
+          setIsAdding(false);
+          return;
+        }
+      }
+
       const response = await fetch("/api/admin/candidates/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(addForm),
+        body: JSON.stringify({ ...addForm, resumeUrl }),
       });
       const result = await response.json();
 
@@ -445,6 +464,7 @@ Recruitment • Placement • Multi Services`;
         toast.success("Candidate added successfully!");
         setIsAddModalOpen(false);
         setAddForm({ fullName: "", phone: "", email: "", selectedJobField: "", preferredJobField: "", experience: "", city: "" });
+        setResumeFile(null);
         await loadCandidates();
       } else {
         toast.error(result.message || "Unable to add candidate.");
@@ -501,12 +521,12 @@ _Recruitment & Placement Services_
   const confirmOnlinePayment = async (id: string, amountToConfirm: number) => {
     setConfirmingPayment(id);
     try {
-      const response = await fetch(`/api/admin/candidates/${id}/mark-paid-online`, {
+      const response = await fetch(`/api/admin/candidates/mark-paid-online`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ amount: amountToConfirm }),
+        body: JSON.stringify({ candidateId: id, amount: amountToConfirm }),
       });
 
       let result;
@@ -547,7 +567,7 @@ Thank you for choosing us! \u{1F91D}
 
 *Warm Regards,*
 *Sant Nirankari Enterprise*
-_Recruitment & Placement Services_
+_Manpower & Placement Services_
 ━━━━━━━━━━━━━━━━━━━━━`;
 
           window.open(`https://wa.me/91${rd.phone}?text=${encodeURIComponent(waText)}`, "_blank");
@@ -798,6 +818,9 @@ _Recruitment & Placement Services_
                         Status
                       </th>
                       <th className="p-4 text-left">
+                        Resume
+                      </th>
+                      <th className="p-4 text-left">
                         Job Category
                       </th>
                       <th className="p-4 text-left">
@@ -824,7 +847,12 @@ _Recruitment & Placement Services_
                             className="border-b transition hover:bg-zinc-50"
                           >
                             <td className="p-4 font-medium">
-                              {candidate.user?.fullName || "-"}
+                              <div className="flex items-center gap-3">
+                                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 text-sm font-bold text-white shadow-inner">
+                                  {candidate.user?.fullName?.charAt(0).toUpperCase() || "?"}
+                                </div>
+                                <span className="font-semibold text-zinc-900">{candidate.user?.fullName || "-"}</span>
+                              </div>
                             </td>
 
                             <td className="p-4">
@@ -848,7 +876,13 @@ _Recruitment & Placement Services_
                                     e.target.value
                                   )
                                 }
-                                className="rounded-lg border px-3 py-2 text-sm"
+                                className={`rounded-full border px-3 py-1.5 text-xs font-semibold uppercase tracking-wider outline-none focus:ring-2 focus:ring-offset-1 cursor-pointer transition-colors ${
+                                  candidate.status === "Selected" ? "bg-emerald-100 text-emerald-800 border-emerald-200 focus:ring-emerald-500" :
+                                  candidate.status === "Interview" ? "bg-violet-100 text-violet-800 border-violet-200 focus:ring-violet-500" :
+                                  candidate.status === "Rejected" ? "bg-red-100 text-red-800 border-red-200 focus:ring-red-500" :
+                                  candidate.status === "Shortlisted" ? "bg-blue-100 text-blue-800 border-blue-200 focus:ring-blue-500" :
+                                  "bg-zinc-100 text-zinc-800 border-zinc-200 focus:ring-zinc-500"
+                                }`}
                               >
                                 <option value="Applied">
                                   Applied
@@ -866,6 +900,21 @@ _Recruitment & Placement Services_
                                   Rejected
                                 </option>
                               </select>
+                            </td>
+
+                            <td className="p-4">
+                              {candidate.resumeUrl ? (
+                                <a
+                                  href={candidate.resumeUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="inline-flex items-center gap-1.5 rounded-lg bg-blue-50 px-3 py-1.5 text-xs font-semibold text-blue-600 transition-colors hover:bg-blue-100 border border-blue-200"
+                                >
+                                  <FileText size={14} /> View
+                                </a>
+                              ) : (
+                                <span className="text-xs text-zinc-400">N/A</span>
+                              )}
                             </td>
 
                             <td className="p-4">
@@ -895,8 +944,7 @@ _Recruitment & Placement Services_
                                   <a
                                     href={`https://wa.me/91${candidate.phone}`}
                                     target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="inline-flex w-fit items-center justify-center rounded-md bg-green-600 px-3 py-2 text-xs font-medium text-white transition hover:bg-green-700"
+                                    className="inline-flex w-fit items-center gap-1.5 rounded-md border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-700 transition-colors hover:bg-emerald-100 cursor-pointer dark:border-emerald-500/20 dark:bg-emerald-500/10 dark:text-emerald-400 dark:hover:bg-emerald-500/20"
                                   >
                                     WhatsApp
                                   </a>
@@ -907,39 +955,40 @@ _Recruitment & Placement Services_
                             </td>
 
                             <td className="p-4">
-                              <div className="flex gap-2">
+                              <div className="inline-flex items-center rounded-lg border border-zinc-200 bg-white p-1 shadow-sm dark:border-white/10 dark:bg-zinc-900">
                                 {!candidate.user?.payments?.some((p: any) => p.status === "SUCCESS") && (
                                   <>
                                     <button
                                       onClick={() => markAsPaidCash(candidate.id)}
                                       disabled={processingCashId === candidate.id}
-                                      className="rounded bg-green-600 px-3 py-2 text-xs font-medium text-white transition hover:bg-green-700 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
+                                      className="flex items-center gap-1 rounded-md px-2.5 py-1.5 text-xs font-medium text-emerald-600 transition-colors hover:bg-emerald-50 cursor-pointer disabled:opacity-50 dark:text-emerald-400 dark:hover:bg-emerald-500/10"
                                     >
-                                      {processingCashId === candidate.id ? "Processing..." : "Mark Paid (Cash)"}
+                                      {processingCashId === candidate.id ? "Processing..." : "Cash Pay"}
                                     </button>
                                     
                                     {linkSentData[candidate.id] ? (
                                       <button
                                         onClick={() => confirmOnlinePayment(candidate.id, linkSentData[candidate.id])}
                                         disabled={confirmingPayment === candidate.id}
-                                        className="rounded bg-indigo-600 px-3 py-2 text-xs font-medium text-white transition hover:bg-indigo-700 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
+                                        className="flex items-center gap-1 rounded-md px-2.5 py-1.5 text-xs font-medium text-indigo-600 transition-colors hover:bg-indigo-50 cursor-pointer disabled:opacity-50 dark:text-indigo-400 dark:hover:bg-indigo-500/10"
                                       >
-                                        {confirmingPayment === candidate.id ? "Confirming..." : "Confirm Payment"}
+                                        {confirmingPayment === candidate.id ? "Confirming..." : "Confirm Pay"}
                                       </button>
                                     ) : (
                                       <button
                                         onClick={() => setOnlinePayFor(candidate)}
-                                        className="rounded bg-indigo-600 px-3 py-2 text-xs font-medium text-white transition hover:bg-indigo-700 cursor-pointer"
+                                        className="flex items-center gap-1 rounded-md px-2.5 py-1.5 text-xs font-medium text-indigo-600 transition-colors hover:bg-indigo-50 cursor-pointer dark:text-indigo-400 dark:hover:bg-indigo-500/10"
                                       >
-                                        Fees (Online Pay)
+                                        Online Pay
                                       </button>
                                     )}
+                                    <div className="mx-1 h-4 w-px bg-zinc-200 dark:bg-white/10" />
                                   </>
                                 )}
 
                                 <button
                                   onClick={() => setSchedulingFor(candidate)}
-                                  className="flex items-center gap-1 rounded bg-orange-500 px-3 py-2 text-xs text-white transition hover:bg-orange-600 cursor-pointer"
+                                  className="flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-xs font-medium text-orange-600 transition-colors hover:bg-orange-50 cursor-pointer dark:text-orange-400 dark:hover:bg-orange-500/10"
                                 >
                                   <CalendarDays size={14} />
                                   Schedule
@@ -947,14 +996,14 @@ _Recruitment & Placement Services_
 
                                 <Link
                                   href={`/admin/candidates/${candidate.id}`}
-                                  className="rounded bg-blue-600 px-3 py-2 text-xs text-white transition hover:bg-blue-700 cursor-pointer"
+                                  className="flex items-center gap-1 rounded-md px-2.5 py-1.5 text-xs font-medium text-blue-600 transition-colors hover:bg-blue-50 cursor-pointer dark:text-blue-400 dark:hover:bg-blue-500/10"
                                 >
                                   View
                                 </Link>
 
                                 <AlertDialog>
                                   <AlertDialogTrigger asChild>
-                                    <button className="rounded bg-red-600 px-3 py-2 text-xs text-white transition hover:bg-red-700 cursor-pointer">
+                                    <button className="flex items-center gap-1 rounded-md px-2.5 py-1.5 text-xs font-medium text-red-600 transition-colors hover:bg-red-50 cursor-pointer dark:text-red-400 dark:hover:bg-red-500/10">
                                       Delete
                                     </button>
                                   </AlertDialogTrigger>
@@ -1017,9 +1066,14 @@ _Recruitment & Placement Services_
                       key={candidate.id}
                       className="rounded-2xl border bg-white p-4 shadow-sm"
                     >
-                      <h3 className="text-lg font-semibold">
-                        {candidate.user?.fullName || "-"}
-                      </h3>
+                      <div className="flex items-center gap-3">
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 text-sm font-bold text-white shadow-inner">
+                          {candidate.user?.fullName?.charAt(0).toUpperCase() || "?"}
+                        </div>
+                        <h3 className="text-lg font-semibold">
+                          {candidate.user?.fullName || "-"}
+                        </h3>
+                      </div>
 
                       <p className="mt-1 break-all text-sm text-zinc-500">
                         {candidate.user?.email || "-"}
@@ -1073,21 +1127,47 @@ _Recruitment & Placement Services_
                           </p>
                         </div>
 
+                        <div>
+                          <span className="font-medium text-zinc-700">
+                            Resume
+                          </span>
+                          <div className="mt-1">
+                            {candidate.resumeUrl ? (
+                              <a
+                                href={candidate.resumeUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1.5 rounded-lg bg-blue-50 px-3 py-1.5 text-xs font-semibold text-blue-600 transition-colors hover:bg-blue-100 border border-blue-200"
+                              >
+                                <FileText size={14} /> View
+                              </a>
+                            ) : (
+                              <span className="text-xs text-zinc-400">N/A</span>
+                            )}
+                          </div>
+                        </div>
+
                         <div className="col-span-2">
                           <span className="font-medium text-zinc-700">
                             Status
                           </span>
 
-                          <select
-                            value={candidate.status}
-                            onChange={(e) =>
-                              updateStatus(
-                                candidate.id,
-                                e.target.value
-                              )
-                            }
-                            className="mt-2 w-full rounded-xl border px-3 py-2.5 text-sm outline-none"
-                          >
+                            <select
+                              value={candidate.status}
+                              onChange={(e) =>
+                                updateStatus(
+                                  candidate.id,
+                                  e.target.value
+                                )
+                              }
+                              className={`mt-2 w-full rounded-xl border px-3 py-2.5 text-sm font-semibold uppercase tracking-wider outline-none transition-colors ${
+                                candidate.status === "Selected" ? "bg-emerald-100 text-emerald-800 border-emerald-200" :
+                                candidate.status === "Interview" ? "bg-violet-100 text-violet-800 border-violet-200" :
+                                candidate.status === "Rejected" ? "bg-red-100 text-red-800 border-red-200" :
+                                candidate.status === "Shortlisted" ? "bg-blue-100 text-blue-800 border-blue-200" :
+                                "bg-zinc-100 text-zinc-800 border-zinc-200"
+                              }`}
+                            >
                             <option value="Applied">
                               Applied
                             </option>
@@ -1125,7 +1205,7 @@ _Recruitment & Placement Services_
                               href={`https://wa.me/91${candidate.phone}`}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="inline-flex w-fit items-center justify-center rounded-lg bg-green-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-green-700"
+                              className="inline-flex w-fit items-center gap-1.5 rounded-md border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-700 transition-colors hover:bg-emerald-100 cursor-pointer dark:border-emerald-500/20 dark:bg-emerald-500/10 dark:text-emerald-400 dark:hover:bg-emerald-500/20"
                             >
                               WhatsApp
                             </a>
@@ -1133,31 +1213,31 @@ _Recruitment & Placement Services_
                         </div>
                       )}
 
-                      <div className="mt-5 grid grid-cols-2 gap-2">
+                      <div className="mt-5 flex flex-wrap gap-2">
                         {!candidate.user?.payments?.some((p: any) => p.status === "SUCCESS") && (
                           <>
                             <button
                               onClick={() => markAsPaidCash(candidate.id)}
                               disabled={processingCashId === candidate.id}
-                              className="col-span-1 rounded-xl bg-green-600 py-2.5 text-center text-sm font-medium text-white transition hover:bg-green-700 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
+                              className="flex items-center justify-center gap-1.5 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm font-medium text-emerald-700 transition-colors hover:bg-emerald-100 cursor-pointer disabled:opacity-50 dark:border-emerald-500/20 dark:bg-emerald-500/10 dark:text-emerald-400 dark:hover:bg-emerald-500/20"
                             >
-                              {processingCashId === candidate.id ? "Processing..." : "Mark Paid (Cash)"}
+                              {processingCashId === candidate.id ? "Processing..." : "Cash Pay"}
                             </button>
                             
                             {linkSentData[candidate.id] ? (
                               <button
                                 onClick={() => confirmOnlinePayment(candidate.id, linkSentData[candidate.id])}
                                 disabled={confirmingPayment === candidate.id}
-                                className="col-span-1 rounded-xl bg-indigo-600 py-2.5 text-center text-sm font-medium text-white transition hover:bg-indigo-700 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
+                                className="flex items-center justify-center gap-1.5 rounded-lg border border-indigo-200 bg-indigo-50 px-3 py-2 text-sm font-medium text-indigo-700 transition-colors hover:bg-indigo-100 cursor-pointer disabled:opacity-50 dark:border-indigo-500/20 dark:bg-indigo-500/10 dark:text-indigo-400 dark:hover:bg-indigo-500/20"
                               >
-                                {confirmingPayment === candidate.id ? "Confirming..." : "Confirm Payment"}
+                                {confirmingPayment === candidate.id ? "Confirming..." : "Confirm Pay"}
                               </button>
                             ) : (
                               <button
                                 onClick={() => setOnlinePayFor(candidate)}
-                                className="col-span-1 rounded-xl bg-indigo-600 py-2.5 text-center text-sm font-medium text-white transition hover:bg-indigo-700 cursor-pointer"
+                                className="flex items-center justify-center gap-1.5 rounded-lg border border-indigo-200 bg-indigo-50 px-3 py-2 text-sm font-medium text-indigo-700 transition-colors hover:bg-indigo-100 cursor-pointer dark:border-indigo-500/20 dark:bg-indigo-500/10 dark:text-indigo-400 dark:hover:bg-indigo-500/20"
                               >
-                                Fees (Online Pay)
+                                Online Pay
                               </button>
                             )}
                           </>
@@ -1165,7 +1245,7 @@ _Recruitment & Placement Services_
                         
                         <button
                           onClick={() => setSchedulingFor(candidate)}
-                          className="col-span-2 flex items-center justify-center gap-1 rounded-xl bg-orange-500 py-2.5 text-sm font-medium text-white transition hover:bg-orange-600 cursor-pointer"
+                          className="flex w-full items-center justify-center gap-1.5 rounded-lg border border-orange-200 bg-orange-50 px-3 py-2 text-sm font-medium text-orange-700 transition-colors hover:bg-orange-100 cursor-pointer sm:w-auto dark:border-orange-500/20 dark:bg-orange-500/10 dark:text-orange-400 dark:hover:bg-orange-500/20"
                         >
                           <CalendarDays size={16} />
                           Schedule Interview
@@ -1173,14 +1253,14 @@ _Recruitment & Placement Services_
 
                         <Link
                           href={`/admin/candidates/${candidate.id}`}
-                          className="rounded-xl bg-blue-600 py-2.5 text-center text-sm font-medium text-white transition hover:bg-blue-700 cursor-pointer"
+                          className="flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-blue-200 bg-blue-50 px-3 py-2 text-sm font-medium text-blue-700 transition-colors hover:bg-blue-100 cursor-pointer dark:border-blue-500/20 dark:bg-blue-500/10 dark:text-blue-400 dark:hover:bg-blue-500/20"
                         >
                           View
                         </Link>
 
                         <AlertDialog>
                           <AlertDialogTrigger asChild>
-                            <button className="rounded-xl bg-red-600 py-2.5 text-sm font-medium text-white transition hover:bg-red-700 cursor-pointer">
+                            <button className="flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm font-medium text-red-700 transition-colors hover:bg-red-100 cursor-pointer dark:border-red-500/20 dark:bg-red-500/10 dark:text-red-400 dark:hover:bg-red-500/20">
                               Delete
                             </button>
                           </AlertDialogTrigger>
@@ -1385,96 +1465,111 @@ _Recruitment & Placement Services_
             </div>
             
             <form onSubmit={handleAddCandidate} className="space-y-4">
-              <div>
-                <label className="mb-1 block text-sm font-semibold">Full Name *</label>
-                <input
-                  type="text"
-                  required
-                  value={addForm.fullName}
-                  onChange={(e) => setAddForm({ ...addForm, fullName: e.target.value })}
-                  className="w-full rounded-xl border px-3 py-2 outline-none focus:border-black"
-                />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="mb-1 block text-sm font-semibold text-zinc-700">Full Name *</label>
+                  <input
+                    type="text"
+                    required
+                    value={addForm.fullName}
+                    onChange={(e) => setAddForm({ ...addForm, fullName: e.target.value })}
+                    className="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm outline-none transition focus:border-blue-500 focus:bg-white focus:ring-1 focus:ring-blue-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="mb-1 block text-sm font-semibold text-zinc-700">Phone Number *</label>
+                  <input
+                    type="text"
+                    required
+                    value={addForm.phone}
+                    onChange={(e) => setAddForm({ ...addForm, phone: e.target.value })}
+                    className="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm outline-none transition focus:border-blue-500 focus:bg-white focus:ring-1 focus:ring-blue-500"
+                  />
+                </div>
+
+                <div className="md:col-span-2">
+                  <label className="mb-1 block text-sm font-semibold text-zinc-700">Email *</label>
+                  <input
+                    type="email"
+                    required
+                    value={addForm.email}
+                    onChange={(e) => setAddForm({ ...addForm, email: e.target.value })}
+                    placeholder="you@example.com"
+                    className="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm outline-none transition focus:border-blue-500 focus:bg-white focus:ring-1 focus:ring-blue-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="mb-1 block text-sm font-semibold text-zinc-700">Experience *</label>
+                  <select
+                    required
+                    value={addForm.experience}
+                    onChange={(e) => setAddForm({ ...addForm, experience: e.target.value })}
+                    className="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm outline-none transition focus:border-blue-500 focus:bg-white focus:ring-1 focus:ring-blue-500"
+                  >
+                    <option value="">Select Experience</option>
+                    <option value="Fresher">Fresher</option>
+                    <option value="Experienced">Experienced</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="mb-1 block text-sm font-semibold text-zinc-700">City *</label>
+                  <input
+                    type="text"
+                    required
+                    value={addForm.city}
+                    onChange={(e) => setAddForm({ ...addForm, city: e.target.value })}
+                    placeholder="e.g. Haridwar"
+                    className="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm outline-none transition focus:border-blue-500 focus:bg-white focus:ring-1 focus:ring-blue-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="mb-1 block text-sm font-semibold text-zinc-700">Job Category *</label>
+                  <select
+                    required
+                    value={addForm.selectedJobField}
+                    onChange={(e) => setAddForm({ ...addForm, selectedJobField: e.target.value, preferredJobField: "" })}
+                    className="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm outline-none transition focus:border-blue-500 focus:bg-white focus:ring-1 focus:ring-blue-500"
+                  >
+                    <option value="">Select Category</option>
+                    {Object.keys(jobCategories).map((cat) => (
+                      <option key={cat} value={cat}>{cat}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="mb-1 block text-sm font-semibold text-zinc-700">Preferred Job *</label>
+                  <select
+                    required
+                    disabled={!addForm.selectedJobField}
+                    value={addForm.preferredJobField}
+                    onChange={(e) => setAddForm({ ...addForm, preferredJobField: e.target.value })}
+                    className="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm outline-none transition focus:border-blue-500 focus:bg-white focus:ring-1 focus:ring-blue-500 disabled:opacity-50"
+                  >
+                    <option value="">Select Job</option>
+                    {addForm.selectedJobField && jobCategories[addForm.selectedJobField as keyof typeof jobCategories]?.map((job) => (
+                      <option key={job} value={job}>{job}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="md:col-span-2">
+                  <label className="mb-1 block text-sm font-semibold text-zinc-700">Resume Upload (Optional)</label>
+                  <div className="flex items-center gap-4 rounded-xl border border-dashed border-zinc-300 bg-zinc-50 p-4 transition-colors hover:border-blue-400 hover:bg-blue-50/50">
+                    <input
+                      type="file"
+                      accept=".pdf,.doc,.docx"
+                      onChange={(e) => setResumeFile(e.target.files?.[0] || null)}
+                      className="text-sm text-zinc-600 file:mr-4 file:rounded-full file:border-0 file:bg-blue-100 file:px-4 file:py-2 file:text-xs file:font-semibold file:text-blue-700 hover:file:bg-blue-200"
+                    />
+                  </div>
+                </div>
               </div>
 
-              <div>
-                <label className="mb-1 block text-sm font-semibold">Phone Number *</label>
-                <input
-                  type="text"
-                  required
-                  value={addForm.phone}
-                  onChange={(e) => setAddForm({ ...addForm, phone: e.target.value })}
-                  className="w-full rounded-xl border px-3 py-2 outline-none focus:border-black"
-                />
-              </div>
-
-              <div>
-                <label className="mb-1 block text-sm font-semibold">Email *</label>
-                <input
-                  type="email"
-                  required
-                  value={addForm.email}
-                  onChange={(e) => setAddForm({ ...addForm, email: e.target.value })}
-                  placeholder="you@example.com"
-                  className="w-full rounded-xl border px-3 py-2 outline-none focus:border-black"
-                />
-              </div>
-
-              <div>
-                <label className="mb-1 block text-sm font-semibold">Experience *</label>
-                <select
-                  required
-                  value={addForm.experience}
-                  onChange={(e) => setAddForm({ ...addForm, experience: e.target.value })}
-                  className="w-full rounded-xl border px-3 py-2 outline-none focus:border-black"
-                >
-                  <option value="">Select Experience</option>
-                  <option value="Fresher">Fresher</option>
-                  <option value="Experienced">Experienced</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="mb-1 block text-sm font-semibold">City *</label>
-                <input
-                  type="text"
-                  required
-                  value={addForm.city}
-                  onChange={(e) => setAddForm({ ...addForm, city: e.target.value })}
-                  placeholder="e.g. Haridwar"
-                  className="w-full rounded-xl border px-3 py-2 outline-none focus:border-black"
-                />
-              </div>
-
-              <div>
-                <label className="mb-1 block text-sm font-semibold">Job Category *</label>
-                <select
-                  required
-                  value={addForm.selectedJobField}
-                  onChange={(e) => setAddForm({ ...addForm, selectedJobField: e.target.value, preferredJobField: "" })}
-                  className="w-full rounded-xl border px-3 py-2 outline-none focus:border-black"
-                >
-                  <option value="">Select Category</option>
-                  {Object.keys(jobCategories).map((cat) => (
-                    <option key={cat} value={cat}>{cat}</option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="mb-1 block text-sm font-semibold">Preferred Job *</label>
-                <select
-                  required
-                  disabled={!addForm.selectedJobField}
-                  value={addForm.preferredJobField}
-                  onChange={(e) => setAddForm({ ...addForm, preferredJobField: e.target.value })}
-                  className="w-full rounded-xl border px-3 py-2 outline-none focus:border-black"
-                >
-                  <option value="">Select Job</option>
-                  {addForm.selectedJobField && jobCategories[addForm.selectedJobField as keyof typeof jobCategories]?.map((job) => (
-                    <option key={job} value={job}>{job}</option>
-                  ))}
-                </select>
-              </div>
 
               <p className="text-xs text-zinc-500">
                 Default password will be set to: <strong>00000000</strong>

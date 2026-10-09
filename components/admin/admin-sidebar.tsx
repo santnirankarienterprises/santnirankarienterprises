@@ -54,6 +54,11 @@ function AdminSidebarContent() {
       icon: Building2,
     },
     {
+      name: "Employer Demands",
+      href: "/admin/employer-requirements",
+      icon: Users,
+    },
+    {
       name: "Settings",
       href: "/admin/settings",
       icon: Settings,
@@ -64,15 +69,24 @@ function AdminSidebarContent() {
     <aside className="fixed left-0 top-0 z-40 hidden h-screen w-64 border-r bg-white shadow-sm lg:flex lg:flex-col">
 
       {/* Logo */}
-
-      <div className="border-b px-6 py-5">
-        <h1 className="text-xl font-bold text-orange-500">
-          Sant Nirankari
-        </h1>
-
-        <p className="text-sm text-zinc-500">
-          Multi Service
-        </p>
+      <div className="border-b border-zinc-200/50 bg-white/50 px-6 py-5 backdrop-blur-xl dark:border-white/10 dark:bg-[#030303]/50">
+        <Link href="/admin" className="flex items-center gap-3">
+          <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full border border-zinc-200 shadow-sm dark:border-zinc-800">
+            <img
+              src="/sant-nirankari-enterprise-logo.png"
+              alt="Sant Nirankari Enterprise Official Logo"
+              className="h-full w-full object-cover"
+            />
+          </div>
+          <div className="min-w-0">
+            <h1 className="truncate bg-gradient-to-r from-blue-600 via-violet-600 to-emerald-500 bg-clip-text font-serif text-[18px] font-extrabold leading-none tracking-[-0.035em] text-transparent">
+              Sant Nirankari
+            </h1>
+            <p className="mt-1 bg-gradient-to-r from-blue-500 via-violet-500 to-emerald-500 bg-clip-text text-[8px] font-bold uppercase leading-none tracking-[0.42em] text-transparent">
+              Enterprise
+            </p>
+          </div>
+        </Link>
       </div>
 
       {/* Menu */}
@@ -92,13 +106,13 @@ function AdminSidebarContent() {
             <Link
               key={menu.href}
               href={menu.href}
-              className={`flex items-center gap-3 rounded-xl px-4 py-3 text-[15px] font-medium transition-all ${
+              className={`flex items-center gap-3 rounded-xl px-4 py-3 text-[14px] font-semibold transition-all duration-200 ${
                 active
-                  ? "bg-black text-white shadow"
-                  : "text-zinc-700 hover:bg-zinc-100"
+                  ? "bg-gradient-to-r from-blue-500/10 via-violet-500/10 to-emerald-500/10 text-blue-700 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] ring-1 ring-inset ring-blue-500/20"
+                  : "text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900"
               }`}
             >
-              <Icon size={20} />
+              <Icon size={18} className={active ? "text-blue-600" : "text-zinc-400"} />
               <span>{menu.name}</span>
             </Link>
           );

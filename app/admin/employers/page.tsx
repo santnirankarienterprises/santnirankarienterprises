@@ -248,9 +248,6 @@ export default function EmployersPage() {
                       <th className="p-4 text-left">Employer Name</th>
                       <th className="p-4 text-left">Email</th>
                       <th className="p-4 text-left">Phone</th>
-                      <th className="p-4 text-left">Job Category</th>
-                      <th className="p-4 text-left">Preferred Job</th>
-                      <th className="p-4 text-left">Req. Candidates</th>
                       <th className="p-4 text-left">Status</th>
                       <th className="p-4 text-center">Actions</th>
                     </tr>
@@ -280,9 +277,6 @@ export default function EmployersPage() {
                               "-"
                             )}
                           </td>
-                          <td className="p-4">{employer.selectedJobField || "-"}</td>
-                          <td className="p-4">{employer.preferredJobField || "-"}</td>
-                          <td className="p-4">{employer.candidatesRequired || "0"}</td>
                           <td className="p-4">
                             <select
                               value={employer.status}
@@ -355,13 +349,7 @@ export default function EmployersPage() {
                       </p>
 
                       <div className="mt-4 grid grid-cols-2 gap-4 text-sm">
-                        <div>
-                          <span className="font-medium text-zinc-700">Req. Candidates</span>
-                          <p className="mt-1 text-zinc-600">
-                            {employer.candidatesRequired || "0"}
-                          </p>
-                        </div>
-                        <div>
+                        <div className="col-span-2">
                           <span className="font-medium text-zinc-700">Phone</span>
                           {employer.phone ? (
                             <p className="mt-1 text-zinc-600">
@@ -379,15 +367,15 @@ export default function EmployersPage() {
 
                         <div className="col-span-2 grid grid-cols-2 gap-4">
                           <div>
-                            <span className="font-medium text-zinc-700">Job Category</span>
+                            <span className="font-medium text-zinc-700">Company Name</span>
                             <p className="mt-1 text-zinc-600">
-                              {employer.selectedJobField || "-"}
+                              {employer.companyName || "-"}
                             </p>
                           </div>
                           <div>
-                            <span className="font-medium text-zinc-700">Preferred Job</span>
+                            <span className="font-medium text-zinc-700">Account Type</span>
                             <p className="mt-1 text-zinc-600">
-                              {employer.preferredJobField || "-"}
+                              Employer
                             </p>
                           </div>
                         </div>
