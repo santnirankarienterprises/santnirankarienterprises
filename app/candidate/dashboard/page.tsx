@@ -218,79 +218,97 @@ export default function CandidateDashboardPage() {
             UNPAID VIEW (PAYMENT WALL)
         ======================================== */}
         {!isPaid && (
-          <div className="mx-auto mt-12 grid max-w-6xl grid-cols-1 overflow-hidden rounded-3xl border border-white/60 bg-white/40 shadow-[0_8px_30px_rgb(255,150,0,0.06)] backdrop-blur-2xl lg:grid-cols-2 dark:border-slate-800/50 dark:bg-slate-900/40">
-            
-            {/* Left Side: Content */}
-            <div className="flex flex-col justify-center p-10 lg:p-14 relative overflow-hidden">
-              <div className="absolute -left-10 top-0 h-40 w-40 rounded-full bg-orange-400/20 blur-3xl"></div>
-              
-              <div className="relative z-10">
-                <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50 px-4 py-1.5 text-sm font-semibold text-orange-600 dark:border-orange-900/50 dark:bg-orange-900/20 dark:text-orange-400">
-                  <Sparkles size={16} /> Premium Access
-                </div>
-                
-                <h1 className="text-4xl font-extrabold tracking-tight text-zinc-900 sm:text-5xl dark:text-white">
-                  Complete Your <span className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text text-transparent">Registration</span>
-                </h1>
-                
-                <p className="mt-6 text-lg leading-relaxed text-zinc-600 dark:text-zinc-300">
-                  Your profile for <strong className="text-zinc-900 dark:text-white">{jobField}</strong> is ready! To unlock guaranteed interview opportunities and exclusive direct HR referrals, please complete your registration.
+          <div className="mx-auto mt-6 max-w-6xl">
+            {/* Top Attention Banner */}
+            <div className="mb-8 overflow-hidden rounded-2xl bg-gradient-to-r from-orange-500/10 via-orange-400/10 to-orange-500/10 p-1 border border-orange-500/20 relative shadow-sm">
+              <div className="absolute inset-0 bg-white/40 dark:bg-slate-950/40 backdrop-blur-sm -z-10"></div>
+              <div className="flex items-center justify-center gap-3 py-3 px-4 text-center">
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-orange-100 text-orange-600 dark:bg-orange-900/50 dark:text-orange-400 shrink-0 shadow-sm animate-bounce">
+                  🚀
+                </span>
+                <p className="text-orange-800 dark:text-orange-200 text-sm sm:text-base font-medium">
+                  <span className="font-bold">To get the Job Opportunities,</span> please complete your premium registration below.
                 </p>
-
-                <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-                  <button
-                    onClick={handlePayment}
-                    disabled={paymentProcessing}
-                    className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-orange-500 to-orange-600 px-8 py-4 font-bold text-white shadow-lg shadow-orange-500/25 transition-all hover:-translate-y-1 hover:shadow-orange-500/40 active:translate-y-0 sm:w-auto disabled:opacity-70 disabled:hover:-translate-y-0"
-                  >
-                    {paymentProcessing ? "Processing..." : "Click Here to Pay Fees"}
-                    <ArrowRight size={20} />
-                  </button>
-
-                  <Link
-                    href="/#contact"
-                    className="flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-zinc-200 bg-transparent px-8 py-4 font-bold text-zinc-700 transition-all hover:bg-zinc-100 sm:w-auto dark:border-zinc-700 dark:text-zinc-200 dark:hover:bg-zinc-800"
-                  >
-                    Need Help?
-                  </Link>
-                </div>
               </div>
             </div>
 
-            {/* Right Side: Features/Illustration */}
-            <div className="relative hidden bg-gradient-to-br from-orange-50 to-white p-10 lg:flex lg:flex-col lg:justify-center dark:from-slate-800/50 dark:to-slate-900/50">
-              <div className="absolute -right-20 bottom-0 h-64 w-64 rounded-full bg-blue-500/10 blur-3xl"></div>
+            <div className="grid grid-cols-1 overflow-hidden rounded-3xl border border-white/60 bg-white/40 shadow-[0_20px_60px_-15px_rgba(255,150,0,0.1)] backdrop-blur-2xl lg:grid-cols-2 dark:border-slate-800/50 dark:bg-slate-900/40 transition-all hover:shadow-[0_20px_60px_-15px_rgba(255,150,0,0.2)]">
               
-              <div className="relative z-10 space-y-6 rounded-2xl border border-white/50 bg-white/60 p-8 backdrop-blur-md shadow-sm dark:border-slate-700/50 dark:bg-slate-800/60">
-                <h3 className="text-xl font-bold text-zinc-900 dark:text-white">Why Registration?</h3>
+              {/* Left Side: Content */}
+              <div className="flex flex-col justify-center p-10 lg:p-14 relative overflow-hidden group">
+                <div className="absolute -left-20 -top-20 h-64 w-64 rounded-full bg-orange-400/20 blur-3xl transition-transform duration-700 group-hover:translate-x-10 group-hover:translate-y-10 group-hover:bg-orange-400/30"></div>
                 
-                <div className="flex items-start gap-4">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-orange-100 text-orange-600 dark:bg-orange-900/30 dark:text-orange-400">
-                    <BriefcaseBusiness size={20} />
+                <div className="relative z-10">
+                  <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50 px-4 py-1.5 text-sm font-semibold text-orange-600 shadow-sm dark:border-orange-900/50 dark:bg-orange-900/20 dark:text-orange-400">
+                    <Sparkles size={16} className="animate-pulse" /> Premium Access
                   </div>
-                  <div>
-                    <h4 className="font-semibold text-zinc-900 dark:text-white">Direct HR Referrals</h4>
-                    <p className="text-sm text-zinc-600 dark:text-zinc-400">Skip the line and get your resume directly in front of hiring managers.</p>
+                  
+                  <h1 className="text-4xl font-black tracking-tight text-zinc-900 sm:text-5xl dark:text-white leading-[1.1]">
+                    Complete Your <br/>
+                    <span className="bg-gradient-to-r from-orange-600 to-amber-500 bg-clip-text text-transparent drop-shadow-sm">Registration</span>
+                  </h1>
+                  
+                  <p className="mt-6 text-lg leading-relaxed text-zinc-600 dark:text-zinc-300">
+                    Your profile for <strong className="rounded-md bg-zinc-100 px-2 py-0.5 text-zinc-900 dark:bg-zinc-800 dark:text-white border border-zinc-200 dark:border-zinc-700">{jobField}</strong> is ready! To unlock guaranteed interview opportunities and exclusive direct HR referrals, please complete your registration.
+                  </p>
+
+                  <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+                    <button
+                      onClick={handlePayment}
+                      disabled={paymentProcessing}
+                      className="group flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-orange-500 to-orange-600 px-8 py-4 font-bold text-white shadow-xl shadow-orange-500/20 transition-all hover:-translate-y-1 hover:shadow-orange-500/40 active:translate-y-0 sm:w-auto cursor-pointer disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:-translate-y-0 relative overflow-hidden"
+                    >
+                      <div className="absolute inset-0 bg-white/20 translate-y-full transition-transform group-hover:translate-y-0 duration-300 ease-out"></div>
+                      <span className="relative z-10">{paymentProcessing ? "Processing..." : "Click Here to Pay Fees"}</span>
+                      <ArrowRight size={20} className="relative z-10 transition-transform group-hover:translate-x-1" />
+                    </button>
+
+                    <Link
+                      href="/#contact"
+                      className="flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-zinc-200/80 bg-white/50 px-8 py-4 font-bold text-zinc-700 backdrop-blur-sm transition-all hover:bg-zinc-100 hover:border-zinc-300 sm:w-auto dark:border-zinc-700 dark:bg-zinc-800/50 dark:text-zinc-200 dark:hover:bg-zinc-800"
+                    >
+                      Need Help?
+                    </Link>
                   </div>
                 </div>
+              </div>
 
-                <div className="flex items-start gap-4">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">
-                    <Calendar size={20} />
+              {/* Right Side: Features/Illustration */}
+              <div className="relative hidden bg-gradient-to-br from-zinc-50 to-orange-50/50 p-10 lg:flex lg:flex-col lg:justify-center dark:from-slate-800/80 dark:to-slate-900/80">
+                <div className="absolute -right-20 -bottom-20 h-72 w-72 rounded-full bg-blue-500/10 blur-3xl"></div>
+                <div className="absolute top-20 right-20 h-32 w-32 rounded-full bg-orange-500/10 blur-2xl"></div>
+                
+                <div className="relative z-10 space-y-6 rounded-3xl border border-white/60 bg-white/70 p-10 backdrop-blur-xl shadow-lg dark:border-slate-700/50 dark:bg-slate-800/70 transition-transform hover:scale-[1.02] duration-500">
+                  <h3 className="text-2xl font-bold text-zinc-900 dark:text-white mb-2">Why Registration?</h3>
+                  
+                  <div className="group flex items-start gap-5 rounded-2xl p-3 transition-colors hover:bg-white/60 dark:hover:bg-slate-700/50">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-orange-100 text-orange-600 shadow-sm transition-transform group-hover:scale-110 group-hover:rotate-3 dark:bg-orange-900/30 dark:text-orange-400">
+                      <BriefcaseBusiness size={24} />
+                    </div>
+                    <div>
+                      <h4 className="text-lg font-bold text-zinc-900 dark:text-white">Direct HR Referrals</h4>
+                      <p className="mt-1 text-sm text-zinc-600 leading-relaxed dark:text-zinc-400">Skip the line and get your resume directly in front of hiring managers.</p>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="font-semibold text-zinc-900 dark:text-white">Guaranteed Interviews</h4>
-                    <p className="text-sm text-zinc-600 dark:text-zinc-400">We ensure you get interviews for roles matching your profile.</p>
-                  </div>
-                </div>
 
-                <div className="flex items-start gap-4">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400">
-                    <ShieldCheck size={20} />
+                  <div className="group flex items-start gap-5 rounded-2xl p-3 transition-colors hover:bg-white/60 dark:hover:bg-slate-700/50">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-blue-100 text-blue-600 shadow-sm transition-transform group-hover:scale-110 group-hover:-rotate-3 dark:bg-blue-900/30 dark:text-blue-400">
+                      <Calendar size={24} />
+                    </div>
+                    <div>
+                      <h4 className="text-lg font-bold text-zinc-900 dark:text-white">Guaranteed Interviews</h4>
+                      <p className="mt-1 text-sm text-zinc-600 leading-relaxed dark:text-zinc-400">We ensure you get interviews for roles matching your profile.</p>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="font-semibold text-zinc-900 dark:text-white">Dedicated Support</h4>
-                    <p className="text-sm text-zinc-600 dark:text-zinc-400">Get assistance from our recruitment team every step of the way.</p>
+
+                  <div className="group flex items-start gap-5 rounded-2xl p-3 transition-colors hover:bg-white/60 dark:hover:bg-slate-700/50">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-600 shadow-sm transition-transform group-hover:scale-110 group-hover:rotate-3 dark:bg-emerald-900/30 dark:text-emerald-400">
+                      <ShieldCheck size={24} />
+                    </div>
+                    <div>
+                      <h4 className="text-lg font-bold text-zinc-900 dark:text-white">Dedicated Support</h4>
+                      <p className="mt-1 text-sm text-zinc-600 leading-relaxed dark:text-zinc-400">Get assistance from our recruitment team every step of the way.</p>
+                    </div>
                   </div>
                 </div>
               </div>
