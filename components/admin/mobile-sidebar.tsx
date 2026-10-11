@@ -10,6 +10,7 @@ import {
   LogOut,
   X,
   Building2,
+  Zap,
 } from "lucide-react";
 
 type Props = {
@@ -40,6 +41,11 @@ function MobileSidebarContent({
       name: "Unpaid Candidates",
       href: "/admin/candidates?type=unpaid",
       icon: Users,
+    },
+    {
+      name: "Fast Applicants",
+      href: "/admin/fast-applicants",
+      icon: Zap,
     },
     {
       name: "Employers",

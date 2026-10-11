@@ -163,3 +163,13 @@ model GlobalSettings {
   key   String @unique
   value String
 }
+
+model FastApplicant {
+  id        String   @id @default(cuid())
+  fullName  String
+  phone     String
+  resumeUrl String
+  status    String   @default("PENDING")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

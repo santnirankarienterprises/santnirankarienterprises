@@ -1,6 +1,7 @@
 import { FeaturedJobs } from "@/components/home/FeaturedJobs";
 import HowItWorks from "@/components/home/HowItWorks";
 import { HeroSection } from "@/components/hero-section";
+import FastApplySection from "@/components/home/FastApplySection";
 import RegistrationCTA from "@/components/home/RegistrationCTA";
 import WhyCandidatesChooseUs from "@/components/home/WhyCandidatesChooseUs";
 import CompaniesSection from "@/components/home/CompaniesSection";
@@ -61,6 +62,12 @@ export default function Home() {
         ==================================================== */}
 
         <HeroSection />
+
+        {/* ===================================================
+            FAST APPLY (INSTANT RESUME CHECK)
+        ==================================================== */}
+
+        <FastApplySection />
 
         {/* ===================================================
             FEATURED OPPORTUNITIES

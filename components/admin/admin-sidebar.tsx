@@ -9,6 +9,7 @@ import {
   Settings,
   LogOut,
   Building2,
+  Zap,
 } from "lucide-react";
 
 function AdminSidebarContent() {
@@ -47,6 +48,11 @@ function AdminSidebarContent() {
       name: "Unpaid Candidates",
       href: "/admin/candidates?type=unpaid",
       icon: Users,
+    },
+    {
+      name: "Fast Applicants",
+      href: "/admin/fast-applicants",
+      icon: Zap,
     },
     {
       name: "Employers",

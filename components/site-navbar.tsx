@@ -8,6 +8,7 @@ import { ArrowRight, Building2, LogIn, LogOut, Menu, Moon, Sun, UserRound, X } f
 
 const navLinks = [
   { label: "Home", href: "/#home", section: "home" },
+  { label: "Fast Apply", href: "/#fast-apply", section: "fast-apply" },
   { label: "About", href: "/#how-it-works", section: "how-it-works" },
   { label: "Companies", href: "/#companies", section: "companies" },
   { label: "Fees", href: "/#register", section: "register" },
@@ -71,7 +72,7 @@ export function SiteNavbar() {
   useEffect(() => {
     if (pathname !== "/") return;
 
-    const sectionIds = ["home", "how-it-works", "companies", "register", "stories", "contact"];
+    const sectionIds = ["home", "fast-apply", "how-it-works", "companies", "register", "stories", "contact"];
 
     const sections = sectionIds.map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
 
@@ -211,7 +212,7 @@ export function SiteNavbar() {
                 const active = pathname === "/" && activeSection === link.section;
 
                 return (
-                  <Link key={link.href} href={link.href} onClick={(event) => handleNavClick(event, link.href)} className={`relative rounded-xl px-3 py-2 text-[13px] font-semibold transition-all duration-300 xl:px-3.5 xl:text-sm ${active ? "bg-gradient-to-r from-blue-600 via-violet-600 to-emerald-500 text-white shadow-[0_6px_18px_-8px_rgba(79,70,229,0.7)]" : "text-zinc-500 hover:bg-white hover:text-zinc-950 dark:text-zinc-400 dark:hover:bg-white/5 dark:hover:text-white"}`}>
+                  <Link key={link.href} href={link.href} onClick={(event) => handleNavClick(event, link.href)} className={`relative rounded-xl px-2.5 py-1.5 text-xs xl:px-3.5 xl:py-2 xl:text-sm font-semibold transition-all duration-300 ${active ? "bg-gradient-to-r from-blue-600 via-violet-600 to-emerald-500 text-white shadow-[0_6px_18px_-8px_rgba(79,70,229,0.7)]" : "text-zinc-500 hover:bg-white hover:text-zinc-950 dark:text-zinc-400 dark:hover:bg-white/5 dark:hover:text-white"}`}>
                     {link.label}
                   </Link>
                 );

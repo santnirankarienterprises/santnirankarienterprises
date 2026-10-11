@@ -8,7 +8,7 @@ import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { jobCategories} from "@/lib/job-categories";
-import { CalendarDays, FileText } from "lucide-react";
+import { CalendarDays, FileText, Zap } from "lucide-react";
 
 import {
   AlertDialog,
@@ -617,14 +617,45 @@ _Manpower & Placement Services_
   return (
     <div className="min-h-screen bg-zinc-50">
       <header className="border-b bg-white">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-5 sm:px-6">
-          <h1 className="text-2xl font-bold sm:text-3xl">
-            {typeParam === "paid" ? "Paid Candidates" : typeParam === "unpaid" ? "Unpaid Candidates" : "All Candidates"}
-          </h1>
+        <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+          <div>
+            <h1 className="text-2xl font-bold sm:text-3xl">
+              {typeParam === "paid" ? "Paid Candidates" : typeParam === "unpaid" ? "Unpaid Candidates" : "All Candidates"}
+            </h1>
+            <div className="mt-2.5 flex flex-wrap items-center gap-2">
+              <Link
+                href="/admin/candidates?type=paid"
+                className={`rounded-lg px-3 py-1.5 text-xs font-bold transition ${
+                  typeParam === "paid"
+                    ? "bg-black text-white"
+                    : "border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-50"
+                }`}
+              >
+                Paid Candidates
+              </Link>
+              <Link
+                href="/admin/candidates?type=unpaid"
+                className={`rounded-lg px-3 py-1.5 text-xs font-bold transition ${
+                  typeParam === "unpaid"
+                    ? "bg-black text-white"
+                    : "border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-50"
+                }`}
+              >
+                Unpaid Candidates
+              </Link>
+              <Link
+                href="/admin/fast-applicants"
+                className="inline-flex items-center gap-1.5 rounded-lg border border-amber-300 bg-amber-50 px-3 py-1.5 text-xs font-bold text-amber-800 transition hover:bg-amber-100"
+              >
+                <Zap size={13} className="text-amber-600" />
+                <span>Fast Applicants</span>
+              </Link>
+            </div>
+          </div>
           {typeParam !== "paid" && (
             <button
               onClick={() => setIsAddModalOpen(true)}
-              className="rounded-xl bg-black px-4 py-2 font-bold text-white transition hover:bg-zinc-800"
+              className="self-start rounded-xl bg-black px-4 py-2 text-sm font-bold text-white transition hover:bg-zinc-800 sm:self-auto"
             >
               + Add Candidate
             </button>
