@@ -450,7 +450,7 @@ Recruitment • Placement • Manpower Services`;
         if (uploadData.success) {
           resumeUrl = uploadData.fileUrl;
         } else {
-          toast.error("Failed to upload resume.");
+          toast.error(uploadData.message || "Failed to upload resume.");
           setIsAdding(false);
           return;
         }
@@ -1564,12 +1564,34 @@ _Manpower & Placement Services_
                 </div>
 
                 <div className="md:col-span-2">
-                  <label className="mb-1 block text-sm font-semibold text-zinc-700">Resume Upload (Optional)</label>
+                  <label className="block text-sm font-semibold text-zinc-700">Resume Upload (Optional)</label>
+                  <p className="mb-2 text-xs text-zinc-500">
+                    Please upload a PDF file (PDF is preferred; .docx and .doc are also supported). Max 3MB.
+                  </p>
                   <div className="flex items-center gap-4 rounded-xl border border-dashed border-zinc-300 bg-zinc-50 p-4 transition-colors hover:border-blue-400 hover:bg-blue-50/50">
                     <input
                       type="file"
                       accept=".pdf,.doc,.docx"
-                      onChange={(e) => setResumeFile(e.target.files?.[0] || null)}
+                      onChange={(e) => {
+                        const file = e.target.files?.[0] || null;
+                        if (file) {
+                          if (file.size > 3 * 1024 * 1024) {
+                            const sizeMB = (file.size / (1024 * 1024)).toFixed(1);
+                            toast.error(`File size is ${sizeMB}MB. Only documents under 3MB are allowed.`);
+                            e.target.value = "";
+                            setResumeFile(null);
+                            return;
+                          }
+                          const ext = file.name.split(".").pop()?.toLowerCase();
+                          if (!["pdf", "doc", "docx"].includes(ext || "")) {
+                            toast.error("Please upload a PDF file (PDF is preferred; .docx and .doc are also supported).");
+                            e.target.value = "";
+                            setResumeFile(null);
+                            return;
+                          }
+                        }
+                        setResumeFile(file);
+                      }}
                       className="text-sm text-zinc-600 file:mr-4 file:rounded-full file:border-0 file:bg-blue-100 file:px-4 file:py-2 file:text-xs file:font-semibold file:text-blue-700 hover:file:bg-blue-200"
                     />
                   </div>

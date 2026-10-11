@@ -493,7 +493,9 @@ export default function CandidateProfilePage() {
         if (uploadData.success) {
           resumeUrl = uploadData.fileUrl;
         } else {
-          alert("Failed to upload resume.");
+          const errMsg = uploadData.message || "Failed to upload resume.";
+          alert(errMsg);
+          setErrors((prev) => ({ ...prev, resumeFile: errMsg }));
           setIsSubmitting(false);
           return;
         }
@@ -654,8 +656,31 @@ export default function CandidateProfilePage() {
 
                 // File handler
                 onFileChange={(file) => {
-                  setResumeFile(file);
-                  if (file) setErrors((prev) => ({ ...prev, resumeFile: "" }));
+                  if (file) {
+                    const MAX_SIZE = 3 * 1024 * 1024; // 3MB
+                    if (file.size > MAX_SIZE) {
+                      const sizeMB = (file.size / (1024 * 1024)).toFixed(1);
+                      setResumeFile(null);
+                      setErrors((prev) => ({
+                        ...prev,
+                        resumeFile: `File size is ${sizeMB}MB. Only documents under 3MB are allowed.`,
+                      }));
+                      return;
+                    }
+                    const ext = file.name.split(".").pop()?.toLowerCase();
+                    if (!["pdf", "doc", "docx"].includes(ext || "")) {
+                      setResumeFile(null);
+                      setErrors((prev) => ({
+                        ...prev,
+                        resumeFile: "Please upload a PDF file (PDF is preferred; .docx and .doc are also supported).",
+                      }));
+                      return;
+                    }
+                    setResumeFile(file);
+                    setErrors((prev) => ({ ...prev, resumeFile: "" }));
+                  } else {
+                    setResumeFile(null);
+                  }
                 }}
 
                 // Excel based data

@@ -2,10 +2,10 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/require-admin";
 
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(req: Request, context: { params: Promise<{ id: string }> }) {
   try {
     await requireAdmin();
-    const { id } = params;
+    const { id } = await context.params;
 
     // Prevent self-deletion if necessary (you can grab the user from the auth token in requireAdmin in a real scenario, but for now we'll just delete)
     

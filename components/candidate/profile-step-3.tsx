@@ -307,9 +307,14 @@ export default function ProfileStep3({
 
         {/* Resume Upload */}
         <div className="md:col-span-2 mt-4">
-          <label className="mb-2 block text-sm font-semibold">
-            Upload Resume (PDF, DOCX)
-          </label>
+          <div className="mb-2">
+            <label className="block text-sm font-semibold">
+              Upload Resume
+            </label>
+            <p className="mt-0.5 text-xs text-zinc-500 dark:text-zinc-400">
+              Please upload a PDF file (PDF is preferred; .docx and .doc are also supported). Max file size: <span className="font-semibold text-orange-600 dark:text-orange-400">3 MB</span>.
+            </p>
+          </div>
           <div className={`relative flex items-center justify-center w-full h-32 border-2 border-dashed rounded-xl transition-all duration-200 ${resumeFile ? 'border-orange-500 bg-orange-500/10' : 'border-zinc-300 dark:border-zinc-700 bg-white/50 dark:bg-zinc-900/50 hover:bg-orange-50 dark:hover:bg-orange-950/20 hover:border-orange-300 dark:hover:border-orange-700'}`}>
             <input
               type="file"
