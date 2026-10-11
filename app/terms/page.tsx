@@ -9,7 +9,7 @@ const termsData = {
     title: "Terms & Conditions",
     subtitle: "Candidate Terms",
     description: "Please read these terms carefully before registering with Sant Nirankari Enterprise. They explain the candidate registration process, interview opportunities, communication and candidate responsibilities.",
-    tags: ["Starts at ₹499 (Non-Refundable)", "Candidate Process", "Updated September 2026"],
+    tags: ["Starts at ₹399 (Non-Refundable)", "Candidate Process", "Updated September 2026"],
     questions: "Questions about these terms?",
     contactDesc: "If you need clarification about the candidate registration or interview process, contact Sant Nirankari Enterprise before proceeding.",
     terms: [
@@ -61,7 +61,7 @@ const termsData = {
       {
         number: "10",
         title: "Registration Fee (Non-Refundable)",
-        text: "Registration fees start at ₹499 (non-refundable). The exact fee depends upon the role or job you apply for or get. This fee relates to the candidate registration, assessment, and profile process and does not constitute payment for guaranteed employment.",
+        text: "Registration fees start at ₹399 (non-refundable). The exact fee depends upon the role or job you apply for or get. This fee relates to the candidate registration, assessment, and profile process and does not constitute payment for guaranteed employment.",
       },
       {
         number: "11",
@@ -84,7 +84,7 @@ const termsData = {
     title: "नियम और शर्तें",
     subtitle: "उम्मीदवार शर्तें",
     description: "शिव शक्ति मल्टी सर्विस के साथ पंजीकरण करने से पहले कृपया इन शर्तों को ध्यान से पढ़ें। इनमें पंजीकरण प्रक्रिया, साक्षात्कार के अवसर, संचार और उम्मीदवार की जिम्मेदारियां समझाई गई हैं।",
-    tags: ["₹499 से शुरू (नॉन-रिफंडेबल)", "पंजीकरण प्रक्रिया", "सितंबर 2026 में अपडेट किया गया"],
+    tags: ["₹399 से शुरू (नॉन-रिफंडेबल)", "पंजीकरण प्रक्रिया", "सितंबर 2026 में अपडेट किया गया"],
     questions: "इन शर्तों के बारे में कोई सवाल है?",
     contactDesc: "यदि आपको उम्मीदवार पंजीकरण या साक्षात्कार प्रक्रिया के बारे में स्पष्टीकरण चाहिए, तो आगे बढ़ने से पहले शिव शक्ति मल्टी सर्विस से संपर्क करें।",
     terms: [
@@ -136,7 +136,7 @@ const termsData = {
       {
         number: "10",
         title: "पंजीकरण शुल्क (नॉन-रिफंडेबल)",
-        text: "पंजीकरण शुल्क ₹499 (नॉन-रिफंडेबल) से शुरू होता है। वास्तविक शुल्क उस भूमिका या नौकरी पर निर्भर करता है जिसके लिए आप आवेदन कर रहे हैं या जो आपको मिलती है। यह शुल्क केवल प्रोफाइल प्रक्रिया के लिए है और नौकरी की गारंटी का भुगतान नहीं है।",
+        text: "पंजीकरण शुल्क ₹399 (नॉन-रिफंडेबल) से शुरू होता है। वास्तविक शुल्क उस भूमिका या नौकरी पर निर्भर करता है जिसके लिए आप आवेदन कर रहे हैं या जो आपको मिलती है। यह शुल्क केवल प्रोफाइल प्रक्रिया के लिए है और नौकरी की गारंटी का भुगतान नहीं है।",
       },
       {
         number: "11",

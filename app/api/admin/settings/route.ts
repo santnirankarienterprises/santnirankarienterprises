@@ -9,7 +9,7 @@ export async function GET() {
     const settings: any = await prisma.$queryRaw`SELECT * FROM "GlobalSettings"`;
     
     // Default values if not in DB yet
-    let premiumFee = "499";
+    let premiumFee = "399";
     
     for (const s of settings) {
       if (s.key === "PREMIUM_FEE") premiumFee = s.value;

@@ -21,8 +21,8 @@ export function AuthButton({
 
   const styles =
     variant === "primary"
-      ? "bg-zinc-950 text-white hover:bg-zinc-800 hover:shadow-lg"
-      : "border border-zinc-300 bg-white text-zinc-700 hover:border-zinc-950 hover:text-zinc-950";
+      ? "bg-emerald-600 text-white hover:bg-emerald-500 hover:shadow-lg hover:shadow-emerald-600/20"
+      : "border border-zinc-300 bg-white text-zinc-700 hover:border-emerald-600 hover:text-emerald-600";
 
   return (
     <button

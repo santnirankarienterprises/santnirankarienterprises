@@ -68,7 +68,7 @@ export default function PremiumPage() {
             </p>
 
             <h3 className="mt-2 text-2xl sm:text-4xl font-bold">
-              Starts at ₹499 (non-refundable)
+              Starts at ₹399 (non-refundable)
             </h3>
 
             <p className="mt-2 text-zinc-600">

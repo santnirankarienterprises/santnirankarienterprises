@@ -36,110 +36,15 @@ const testimonials = [
 ];
 
 function CandidateSlider() {
-  const sliderRef = useRef<HTMLDivElement>(null);
-  const animationFrameRef = useRef<number | null>(null);
-  const positionRef = useRef(0);
-  const lastTimeRef = useRef<number | null>(null);
-  const draggingRef = useRef(false);
-  const pointerIdRef = useRef<number | null>(null);
-  const dragStartXRef = useRef(0);
-  const dragStartPositionRef = useRef(0);
-  const [isDragging, setIsDragging] = useState(false);
-
   const candidateTicker = [...testimonials, ...testimonials];
-
-  const getHalfWidth = () => sliderRef.current?.scrollWidth ? sliderRef.current.scrollWidth / 2 : 0;
-
-  const applyPosition = (position: number) => {
-    const slider = sliderRef.current;
-    const halfWidth = getHalfWidth();
-    if (!slider || !halfWidth) return;
-
-    while (position <= -halfWidth) position += halfWidth;
-    while (position > 0) position -= halfWidth;
-
-    positionRef.current = position;
-    slider.style.transform = `translate3d(${position}px, 0, 0)`;
-  };
-
-  useEffect(() => {
-    const speed = 35; // slightly slower for a more elegant feel
-
-    const animate = (time: number) => {
-      if (lastTimeRef.current === null) lastTimeRef.current = time;
-
-      const delta = Math.min(time - lastTimeRef.current, 50);
-      lastTimeRef.current = time;
-
-      if (!draggingRef.current) {
-        applyPosition(positionRef.current - (speed * delta) / 1000);
-      }
-
-      animationFrameRef.current = requestAnimationFrame(animate);
-    };
-
-    animationFrameRef.current = requestAnimationFrame(animate);
-
-    return () => {
-      if (animationFrameRef.current !== null) cancelAnimationFrame(animationFrameRef.current);
-    };
-  }, []);
-
-  const handlePointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
-    const slider = sliderRef.current;
-    if (!slider) return;
-
-    draggingRef.current = true;
-    setIsDragging(true);
-    pointerIdRef.current = event.pointerId;
-    dragStartXRef.current = event.clientX;
-    dragStartPositionRef.current = positionRef.current;
-    slider.setPointerCapture(event.pointerId);
-    event.preventDefault();
-  };
-
-  const handlePointerMove = (event: ReactPointerEvent<HTMLDivElement>) => {
-    if (!draggingRef.current || pointerIdRef.current !== event.pointerId) return;
-
-    applyPosition(dragStartPositionRef.current + event.clientX - dragStartXRef.current);
-  };
-
-  const handlePointerUp = (event: ReactPointerEvent<HTMLDivElement>) => {
-    if (pointerIdRef.current !== event.pointerId) return;
-
-    draggingRef.current = false;
-    setIsDragging(false);
-    pointerIdRef.current = null;
-
-    const slider = sliderRef.current;
-    if (slider?.hasPointerCapture(event.pointerId)) slider.releasePointerCapture(event.pointerId);
-
-    lastTimeRef.current = null;
-  };
-
-  const handlePointerCancel = (event: ReactPointerEvent<HTMLDivElement>) => {
-    if (pointerIdRef.current !== event.pointerId) return;
-
-    draggingRef.current = false;
-    setIsDragging(false);
-    pointerIdRef.current = null;
-    lastTimeRef.current = null;
-  };
 
   return (
     <div className="relative mt-12 py-10">
       <div className="pointer-events-none absolute left-0 top-0 z-20 h-full w-12 bg-gradient-to-r from-zinc-50 to-transparent dark:from-[#030303] sm:w-32" />
       <div className="pointer-events-none absolute right-0 top-0 z-20 h-full w-12 bg-gradient-to-l from-zinc-50 to-transparent dark:from-[#030303] sm:w-32" />
 
-      <div className={`overflow-hidden ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}>
-        <div
-          ref={sliderRef}
-          className="flex w-max select-none touch-pan-y items-center gap-6 will-change-transform sm:gap-8"
-          onPointerDown={handlePointerDown}
-          onPointerMove={handlePointerMove}
-          onPointerUp={handlePointerUp}
-          onPointerCancel={handlePointerCancel}
-        >
+      <div className="overflow-hidden">
+        <div className="flex w-max animate-marquee items-center gap-6 sm:gap-8 hover:[animation-play-state:paused]">
           {candidateTicker.map((candidate, index) => {
             // Stagger the vertical alignment slightly for a masonry/wave effect
             const isOffset = index % 2 !== 0;

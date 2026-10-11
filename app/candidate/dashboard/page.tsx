@@ -103,6 +103,10 @@ export default function CandidateDashboardPage() {
       // Create Razorpay Order
       const orderResponse = await fetch("/api/payment/create-order", {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId }),
       });
       const orderResult = await orderResponse.json();
 
@@ -327,7 +331,7 @@ export default function CandidateDashboardPage() {
                 <div>
                   <div className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-3 py-1.5 text-xs font-bold uppercase tracking-wider backdrop-blur-md">
                     <Sparkles size={14} />
-                    Premium Candidate
+                    Your  Dashboard
                   </div>
                   <h1 className="mt-5 text-3xl font-extrabold sm:text-4xl lg:text-5xl tracking-tight">
                     Welcome back, {fullName} 👋

@@ -14,7 +14,7 @@ type Admin = {
 export default function SettingsPage() {
   const [loading, setLoading] = useState(true);
   const [savingFee, setSavingFee] = useState(false);
-  const [premiumFee, setPremiumFee] = useState("499");
+  const [premiumFee, setPremiumFee] = useState("399");
   
   const [admins, setAdmins] = useState<Admin[]>([]);
   const [isAddingAdmin, setIsAddingAdmin] = useState(false);

@@ -236,9 +236,9 @@ export function SiteNavbar() {
                 </>
               ) : (
                 <>
-                  <Link href="/employer/login" className="ml-1 inline-flex h-9 items-center gap-1.5 rounded-xl px-3 text-xs font-semibold text-zinc-700 transition-all hover:bg-zinc-100 hover:text-zinc-950 dark:text-zinc-300 dark:hover:bg-white/5 dark:hover:text-white">
+                  <Link href="/employer" className="ml-1 inline-flex h-9 items-center gap-1.5 rounded-xl px-3 text-xs font-semibold text-zinc-700 transition-all hover:bg-zinc-100 hover:text-zinc-950 dark:text-zinc-300 dark:hover:bg-white/5 dark:hover:text-white">
                     <Building2 size={14} />
-                    Employer
+                    Employers
                   </Link>
 
                   <Link href="/login" className="inline-flex h-9 items-center gap-1.5 rounded-xl px-3 text-xs font-semibold text-zinc-700 transition-all hover:bg-zinc-100 hover:text-zinc-950 dark:text-zinc-300 dark:hover:bg-white/5 dark:hover:text-white">
@@ -315,9 +315,9 @@ export function SiteNavbar() {
                 </div>
               ) : (
                 <div className="grid grid-cols-1 gap-2">
-                  <Link href="/employer/login" onClick={() => setIsMobileMenuOpen(false)} className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-zinc-200 px-3 text-xs font-semibold text-zinc-800 dark:border-white/10 dark:text-white">
+                  <Link href="/employer" onClick={() => setIsMobileMenuOpen(false)} className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-zinc-200 px-3 text-xs font-semibold text-zinc-800 dark:border-white/10 dark:text-white">
                     <Building2 size={15} />
-                    Employer Portal
+                    For Employers
                   </Link>
 
                   <div className="grid grid-cols-2 gap-2">

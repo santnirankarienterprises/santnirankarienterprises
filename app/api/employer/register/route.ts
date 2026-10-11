@@ -12,9 +12,6 @@ const registerSchema = z.object({
   email: z.email("Invalid email address"),
   password: z.string().min(6, "Password must be at least 6 characters"),
   companyAddress: z.string().min(5, "Company address is required"),
-  candidatesRequired: z.number().min(1, "Must require at least 1 candidate"),
-  selectedJobField: z.string().min(1, "Job category is required"),
-  preferredJobField: z.string().min(1, "Preferred job is required"),
 });
 
 export async function POST(request: Request) {
@@ -39,9 +36,6 @@ export async function POST(request: Request) {
       email,
       password,
       companyAddress,
-      candidatesRequired,
-      selectedJobField,
-      preferredJobField,
     } = result.data;
 
     const existingUser = await prisma.user.findUnique({
@@ -76,9 +70,7 @@ export async function POST(request: Request) {
           phone,
           email,
           companyAddress,
-          candidatesRequired,
-          selectedJobField,
-          preferredJobField,
+          candidatesRequired: 0,
           status: "PENDING", // By default as per schema, explicitly setting it for clarity
         },
       });

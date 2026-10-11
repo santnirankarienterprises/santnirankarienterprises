@@ -82,7 +82,7 @@ export default function Home() {
 
         {/* ===================================================
             REGISTRATION CTA
-            + STARTS AT ₹499 (NON-REFUNDABLE)
+            + STARTS AT ₹399 (NON-REFUNDABLE)
         ==================================================== */}
 
         <RegistrationCTA />

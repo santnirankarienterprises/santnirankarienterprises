@@ -57,7 +57,7 @@ function CandidatesContent() {
   // Online Pay State
   const [onlinePayFor, setOnlinePayFor] = useState<any>(null);
   const [onlinePayForm, setOnlinePayForm] = useState({
-    amount: "499",
+    amount: "399",
     link: "",
   });
   const [linkSentData, setLinkSentData] = useState<Record<string, number>>({});
@@ -518,7 +518,7 @@ _Recruitment & Placement Services_
     
     setLinkSentData(prev => ({ ...prev, [onlinePayFor.id]: Number(onlinePayForm.amount) }));
     setOnlinePayFor(null);
-    setOnlinePayForm({ amount: "499", link: "" });
+    setOnlinePayForm({ amount: "399", link: "" });
   };
 
   const confirmOnlinePayment = async (id: string, amountToConfirm: number) => {
@@ -1616,7 +1616,7 @@ _Manpower & Placement Services_
                   required
                   value={onlinePayForm.amount}
                   onChange={(e) => setOnlinePayForm({ ...onlinePayForm, amount: e.target.value })}
-                  placeholder="e.g. 499"
+                  placeholder="e.g. 399"
                   className="w-full rounded-xl border px-3 py-2 outline-none focus:border-indigo-600"
                 />
               </div>

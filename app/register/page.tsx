@@ -217,7 +217,7 @@ export default function RegisterPage() {
 
               <div className="border-l border-white/10 px-3 py-3">
                 <Building2 size={14} className="mb-1.5 text-violet-400" />
-                <p className="text-lg font-extrabold text-white">250+</p>
+                <p className="text-lg font-extrabold text-white">50+</p>
                 <p className="text-[9px] uppercase tracking-wider text-zinc-500">
                   Companies
                 </p>

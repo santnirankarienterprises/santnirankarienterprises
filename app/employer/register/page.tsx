@@ -5,7 +5,6 @@ import { ArrowLeft, ArrowRight, BriefcaseBusiness, Building2, Sparkles, Users } 
 import { useState } from "react";
 import { AuthButton } from "@/components/auth/auth-button";
 import { AuthInput } from "@/components/auth/auth-input";
-import { jobCategories, jobCategoryNames } from "@/lib/job-categories";
 
 type FormErrors = Record<string, string>;
 
@@ -17,9 +16,6 @@ export default function EmployerRegisterPage() {
     email: "",
     password: "",
     companyAddress: "",
-    candidatesRequired: "",
-    selectedJobField: "",
-    preferredJobField: "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -66,23 +62,6 @@ export default function EmployerRegisterPage() {
       nextErrors.companyAddress = "Company address is required.";
     }
 
-    if (!formData.candidatesRequired.trim()) {
-      nextErrors.candidatesRequired = "Please enter the number of candidates.";
-    } else if (
-      isNaN(Number(formData.candidatesRequired)) ||
-      Number(formData.candidatesRequired) < 1
-    ) {
-      nextErrors.candidatesRequired = "Enter a valid number of 1 or more.";
-    }
-
-    if (!formData.selectedJobField) {
-      nextErrors.selectedJobField = "Please select a job category.";
-    }
-
-    if (!formData.preferredJobField) {
-      nextErrors.preferredJobField = "Please select a preferred job.";
-    }
-
     setErrors(nextErrors);
 
     if (Object.keys(nextErrors).length) return;
@@ -93,10 +72,7 @@ export default function EmployerRegisterPage() {
       const response = await fetch("/api/employer/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...formData,
-          candidatesRequired: Number(formData.candidatesRequired),
-        }),
+        body: JSON.stringify(formData),
       });
 
       const result = await response.json();
@@ -146,10 +122,10 @@ export default function EmployerRegisterPage() {
             }}
           />
 
-          <div className="relative z-10 mx-auto w-full max-w-xl px-8 pt-14 xl:px-12 xl:pt-18">
+          <div className="relative z-10 mx-auto w-full max-w-xl px-8 pt-10 pb-8 xl:px-12 xl:pt-14">
 
             {/* Brand */}
-            <Link href="/" className="group mb-8 inline-flex items-center gap-2.5">
+            <Link href="/" className="group mb-5 inline-flex items-center gap-2.5">
               <div className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-white/10 bg-white/5 transition duration-300 group-hover:scale-105 group-hover:border-violet-400/40">
                 <img
                   src="/sant-nirankari-enterprise-logo.png"
@@ -170,56 +146,71 @@ export default function EmployerRegisterPage() {
             </Link>
 
             {/* Badge */}
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[9px] font-semibold uppercase tracking-[0.18em] text-zinc-400">
-              <Building2 size={11} className="text-violet-400" />
-              Employer Registration
+            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[9px] font-semibold uppercase tracking-[0.18em] text-zinc-400">
+              <Sparkles size={11} className="text-violet-400" />
+              Simple Hiring Process
             </div>
 
             {/* Heading */}
-            <h1 className="max-w-lg text-[42px] font-extrabold leading-[0.98] tracking-[-0.055em] text-white xl:text-5xl">
-              Find the right
+            <h1 className="max-w-lg text-[32px] font-extrabold leading-[1.05] tracking-[-0.05em] text-white xl:text-[38px]">
+              How it works for
               <br />
               <span className="bg-gradient-to-r from-blue-400 via-violet-400 to-emerald-400 bg-clip-text text-transparent">
-                people for your team.
+                employers.
               </span>
             </h1>
 
-            <p className="mt-5 max-w-md text-[13px] leading-6 text-zinc-400 xl:text-sm xl:leading-6">
-              Set up your employer profile, tell us what you are looking for,
-              and start building your recruitment pipeline with qualified candidates.
+            <p className="mt-2.5 max-w-md text-[13px] leading-relaxed text-zinc-400">
+              Follow these simple steps to build your recruitment pipeline with qualified candidates.
             </p>
 
-            {/* Benefits */}
-            <div className="mt-7 flex max-w-lg flex-col gap-3">
+            {/* Process Steps */}
+            <div className="mt-6 flex max-w-lg flex-col gap-3">
 
-              <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.035] px-4 py-3.5 backdrop-blur-sm">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-blue-500/20 text-blue-400">
-                  <Users size={17} />
+              <div className="flex items-start gap-3.5 rounded-2xl border border-white/10 bg-white/[0.035] px-4 py-3 backdrop-blur-sm transition-all hover:border-white/20 hover:bg-white/[0.05]">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-blue-500/30 bg-blue-500/20 text-xs font-extrabold text-blue-400">
+                  1
                 </div>
 
                 <div>
                   <h3 className="text-xs font-bold text-white">
-                    Reach Relevant Candidates
+                    Create Your Profile
                   </h3>
 
                   <p className="mt-0.5 text-[11px] leading-5 text-zinc-400">
-                    Share your hiring requirements and discover profiles suited to your needs.
+                    Register with your company and contact details to set up your verified employer workspace.
                   </p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.035] px-4 py-3.5 backdrop-blur-sm">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-violet-500/20 text-violet-400">
-                  <BriefcaseBusiness size={17} />
+              <div className="flex items-start gap-3.5 rounded-2xl border border-white/10 bg-white/[0.035] px-4 py-3 backdrop-blur-sm transition-all hover:border-white/20 hover:bg-white/[0.05]">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-violet-500/30 bg-violet-500/20 text-xs font-extrabold text-violet-400">
+                  2
                 </div>
 
                 <div>
                   <h3 className="text-xs font-bold text-white">
-                    Simplify Your Hiring
+                    Post any Number of Requirements you have
                   </h3>
 
                   <p className="mt-0.5 text-[11px] leading-5 text-zinc-400">
-                    Organize your recruitment requirements from one dedicated employer workspace.
+                    Post as many job requirements and hiring positions as you need with full flexibility.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3.5 rounded-2xl border border-white/10 bg-white/[0.035] px-4 py-3 backdrop-blur-sm transition-all hover:border-white/20 hover:bg-white/[0.05]">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-emerald-500/30 bg-emerald-500/20 text-xs font-extrabold text-emerald-400">
+                  3
+                </div>
+
+                <div>
+                  <h3 className="text-xs font-bold text-white">
+                    Dedicated Support & Dashboard Updates
+                  </h3>
+
+                  <p className="mt-0.5 text-[11px] leading-5 text-zinc-400">
+                    Our team will call u and u can see all the details in your dashboard whenever you login.
                   </p>
                 </div>
               </div>
@@ -231,7 +222,7 @@ export default function EmployerRegisterPage() {
 
               <div className="px-3 py-3">
                 <Building2 size={14} className="mb-1.5 text-blue-400" />
-                <p className="text-lg font-extrabold text-white">250+</p>
+                <p className="text-lg font-extrabold text-white">50+</p>
                 <p className="text-[9px] uppercase tracking-wider text-zinc-500">
                   Companies
                 </p>
@@ -373,93 +364,6 @@ export default function EmployerRegisterPage() {
                     error={errors.companyAddress}
                     autoComplete="street-address"
                   />
-
-                  {/* Candidates */}
-                  <AuthInput
-                    id="candidatesRequired"
-                    label="Hiring requirement"
-                    type="number"
-                    placeholder="Number of candidates"
-                    min="1"
-                    value={formData.candidatesRequired}
-                    onChange={(value) => handleChange("candidatesRequired", value)}
-                    error={errors.candidatesRequired}
-                  />
-
-                  {/* Job Category */}
-                  <div className="space-y-1.5">
-
-                    <label
-                      htmlFor="selectedJobField"
-                      className="block text-xs font-semibold text-zinc-800 dark:text-zinc-200"
-                    >
-                      Job category
-                    </label>
-
-                    <select
-                      id="selectedJobField"
-                      required
-                      value={formData.selectedJobField}
-                      onChange={(event) => {
-                        handleChange("selectedJobField", event.target.value);
-                        handleChange("preferredJobField", "");
-                      }}
-                      className="h-11 w-full rounded-xl border border-zinc-200 bg-white px-4 text-sm text-zinc-900 outline-none transition-all focus:border-violet-500 focus:ring-4 focus:ring-violet-500/10 dark:border-white/10 dark:bg-white/[0.03] dark:text-white dark:focus:border-violet-500"
-                    >
-                      <option value="">Select job category</option>
-
-                      {jobCategoryNames.map((category) => (
-                        <option key={category} value={category}>
-                          {category}
-                        </option>
-                      ))}
-                    </select>
-
-                    {errors.selectedJobField && (
-                      <p className="text-[11px] font-medium text-red-500">
-                        {errors.selectedJobField}
-                      </p>
-                    )}
-
-                  </div>
-
-                  {/* Preferred Job */}
-                  <div className="space-y-1.5">
-
-                    <label
-                      htmlFor="preferredJobField"
-                      className="block text-xs font-semibold text-zinc-800 dark:text-zinc-200"
-                    >
-                      Preferred role
-                    </label>
-
-                    <select
-                      id="preferredJobField"
-                      required
-                      value={formData.preferredJobField}
-                      onChange={(event) =>
-                        handleChange("preferredJobField", event.target.value)
-                      }
-                      disabled={!formData.selectedJobField}
-                      className="h-11 w-full rounded-xl border border-zinc-200 bg-white px-4 text-sm text-zinc-900 outline-none transition-all focus:border-violet-500 focus:ring-4 focus:ring-violet-500/10 disabled:cursor-not-allowed disabled:opacity-50 dark:border-white/10 dark:bg-white/[0.03] dark:text-white dark:focus:border-violet-500"
-                    >
-                      <option value="">Select preferred role</option>
-
-                      {formData.selectedJobField &&
-                        jobCategories[formData.selectedJobField]?.map((job) => (
-                          <option key={job} value={job}>
-                            {job}
-                          </option>
-                        ))}
-                    </select>
-
-                    {errors.preferredJobField && (
-                      <p className="text-[11px] font-medium text-red-500">
-                        {errors.preferredJobField}
-                      </p>
-                    )}
-
-                  </div>
 
                   {/* Password */}
                   <AuthInput

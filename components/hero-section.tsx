@@ -156,7 +156,7 @@ export function HeroSection() {
             {/* Strong Employer Button */}
 
             <Link
-              href="/employer/login"
+              href="/employer"
               className="
                 group
                 relative
@@ -323,7 +323,7 @@ export function HeroSection() {
             </div>
 
             <h3 className="text-3xl font-bold tracking-tight text-zinc-950 dark:text-white">
-              10k+
+              500+
             </h3>
 
             <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">
@@ -347,7 +347,7 @@ export function HeroSection() {
             </div>
 
             <h3 className="text-3xl font-bold tracking-tight text-zinc-950 dark:text-white">
-              500+
+              50+
             </h3>
 
             <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">

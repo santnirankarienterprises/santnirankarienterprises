@@ -6,14 +6,21 @@ const razorpay = new Razorpay({
   key_secret: process.env.RAZORPAY_KEY_SECRET!,
 });
 
-export async function POST() {
+export async function POST(req: Request) {
   try {
+    const { userId } = await req.json();
+
+    if (!userId) {
+      return NextResponse.json({ success: false, message: "User ID is required." }, { status: 400 });
+    }
+
     const order = await razorpay.orders.create({
-      amount: 49900, 
+      amount: 39900, 
       currency: "INR",
       receipt: `registration_${Date.now()}`,
       notes: {
         purpose: "Candidate Registration",
+        userId: userId,
       },
     });
 
