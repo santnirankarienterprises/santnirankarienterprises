@@ -47,10 +47,10 @@ export function HeroSection() {
         <div className="group flex cursor-pointer items-center gap-2 rounded-full border border-black/5 bg-black/5 py-1.5 pl-2 pr-4 text-xs font-medium text-black backdrop-blur-md transition-all hover:bg-black/10 dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:bg-white/10 sm:text-sm">
 
           <span className="flex items-center justify-center rounded-full bg-blue-600 px-2 py-0.5 text-[10px] font-bold text-white">
-            NEW
+            TOP RATED
           </span>
 
-          <span>Enterprise Recruitment Platform</span>
+          <span>#1 Placement Agency in Haridwar & SIDCUL</span>
 
           <ChevronRight
             size={14}
@@ -64,14 +64,14 @@ export function HeroSection() {
             MAIN HEADING
         ========================================= */}
 
-        <h1 className="mt-8 max-w-5xl font-serif text-[3.5rem] font-bold leading-[1.05] tracking-tight text-black sm:text-6xl md:text-7xl lg:text-[5.5rem] dark:text-white">
+        <h1 className="mt-8 max-w-5xl font-serif text-[3.2rem] font-bold leading-[1.08] tracking-tight text-black sm:text-6xl md:text-7xl lg:text-[5.2rem] dark:text-white">
 
-          Elevate Your Career with
+          Placement Agency in Haridwar
 
           <br className="hidden md:block" />
 
           <span className="inline-block bg-gradient-to-r from-blue-600 via-violet-600 to-emerald-500 bg-clip-text pb-2 text-transparent">
-            Sant Nirankari
+            Sant Nirankari Enterprise
           </span>
 
         </h1>
@@ -82,8 +82,7 @@ export function HeroSection() {
         ========================================= */}
 
         <p className="mt-8 max-w-2xl text-lg font-medium leading-relaxed text-zinc-600 sm:text-xl dark:text-zinc-400">
-          The premier platform connecting top-tier talent with world-class
-          enterprises. Discover opportunities that align with your ambition.
+          Your most trusted job placement consultancy and staffing partner in Haridwar & SIDCUL. Connecting talent with leading industrial, manufacturing, pharma, and corporate companies across Uttarakhand.
         </p>
 
 

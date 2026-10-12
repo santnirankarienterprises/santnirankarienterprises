@@ -1,0 +1,108 @@
+"use client";
+
+import { useState } from "react";
+import { ChevronDown, HelpCircle, MapPin, Sparkles } from "lucide-react";
+
+const faqs = [
+  {
+    question: "Which is the best placement agency in Haridwar?",
+    answer:
+      "Sant Nirankari Enterprise is recognized as a leading placement agency and job consultancy in Haridwar & SIDCUL. With direct tie-ups across prominent industrial plants, manufacturing units, pharma corporations, and corporate offices, we provide genuine, on-role and permanent job placements for candidates across Haridwar and Uttarakhand.",
+  },
+  {
+    question: "How can I get jobs in SIDCUL Haridwar through Sant Nirankari Enterprise?",
+    answer:
+      "Candidates can easily apply through our Fast Apply portal or register online. Once submitted, our HR team matches your profile, skills, and qualifications with active vacancies in top SIDCUL industrial sectors and schedules direct interview rounds with hiring companies.",
+  },
+  {
+    question: "What types of jobs are available in Haridwar & SIDCUL?",
+    answer:
+      "We provide placements across diverse sectors in Haridwar, including Pharmaceutical (QA/QC, Production), Automobile & Engineering, Electrical, FMCG, Packaging, Store & Warehouse Management, Quality Inspection, Accounts, and Office Administration.",
+  },
+  {
+    question: "Do you provide manpower and recruitment solutions for employers in Haridwar?",
+    answer:
+      "Yes. Sant Nirankari Enterprise partners with leading manufacturing plants and corporate companies across SIDCUL, Bhagwanpur, Roorkee, and Haridwar to provide verified, skilled, semi-skilled, and executive-level manpower solutions with rapid turnaround times.",
+  },
+  {
+    question: "Where is Sant Nirankari Enterprise located in Haridwar?",
+    answer:
+      "Our main consultancy office is conveniently located at Nehru Colony, Near Mantra Apartments, SIDCUL, Haridwar, Uttarakhand (PIN: 249403). You can also contact us directly at +91 7088642658 or via email at jobshiring.hrteam@gmail.com.",
+  },
+];
+
+export default function HaridwarFAQSection() {
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
+
+  const toggle = (idx: number) => {
+    setOpenIndex(openIndex === idx ? null : idx);
+  };
+
+  return (
+    <section className="relative overflow-hidden bg-zinc-50/80 py-24 dark:bg-zinc-950/40">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <div className="text-center">
+          <div className="inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-500/10 px-4 py-1.5 text-xs font-semibold text-blue-600 dark:text-blue-400">
+            <Sparkles className="h-3.5 w-3.5" />
+            <span>Local Job Consultancy Guidance</span>
+          </div>
+
+          <h2 className="mt-4 font-serif text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl dark:text-white">
+            Frequently Asked Questions — Placement in Haridwar
+          </h2>
+
+          <p className="mx-auto mt-3 max-w-2xl text-base text-zinc-600 dark:text-zinc-400">
+            Everything you need to know about job placements, hiring in SIDCUL, and recruitment services in Haridwar with Sant Nirankari Enterprise.
+          </p>
+        </div>
+
+        {/* FAQs */}
+        <div className="mt-12 space-y-4">
+          {faqs.map((faq, index) => {
+            const isOpen = openIndex === index;
+            return (
+              <div
+                key={faq.question}
+                className="overflow-hidden rounded-2xl border border-zinc-200/80 bg-white shadow-sm transition-all dark:border-zinc-800 dark:bg-zinc-900/60"
+              >
+                <button
+                  type="button"
+                  onClick={() => toggle(index)}
+                  className="flex w-full items-center justify-between gap-4 p-5 text-left text-base font-semibold text-zinc-900 transition-colors hover:text-blue-600 sm:p-6 dark:text-zinc-100 dark:hover:text-blue-400"
+                  aria-expanded={isOpen}
+                >
+                  <span className="flex items-center gap-3">
+                    <HelpCircle className="h-5 w-5 shrink-0 text-blue-600 dark:text-blue-400" />
+                    <span>{faq.question}</span>
+                  </span>
+                  <ChevronDown
+                    className={`h-5 w-5 shrink-0 text-zinc-400 transition-transform duration-200 ${
+                      isOpen ? "rotate-180 text-blue-600 dark:text-blue-400" : ""
+                    }`}
+                  />
+                </button>
+
+                {isOpen && (
+                  <div className="border-t border-zinc-100 px-5 pb-5 pt-3 text-sm leading-relaxed text-zinc-600 sm:px-6 sm:pb-6 dark:border-zinc-800/80 dark:text-zinc-300">
+                    <p>{faq.answer}</p>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Bottom Local Anchor Card */}
+        <div className="mt-12 rounded-2xl border border-blue-100 bg-gradient-to-r from-blue-50/60 via-indigo-50/40 to-emerald-50/50 p-6 text-center dark:border-blue-900/30 dark:from-blue-950/20 dark:via-zinc-900 dark:to-emerald-950/20">
+          <div className="flex flex-col items-center justify-center gap-2 sm:flex-row">
+            <MapPin className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+            <p className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
+              <strong className="text-zinc-950 dark:text-white">Sant Nirankari Enterprise:</strong> Nehru Colony, Near Mantra Apartments, SIDCUL, Haridwar, Uttarakhand 249403
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
