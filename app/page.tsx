@@ -70,7 +70,7 @@ export default function Home() {
         <FastApplySection />
 
         {/* ===================================================
-            FEATURED OPPORTUNITIES
+            NEED A MANPOWER (EMPLOYER SOLUTIONS)
         ==================================================== */}
 
         <FeaturedJobs />
