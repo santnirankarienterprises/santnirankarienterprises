@@ -17,7 +17,7 @@ const faqs = [
   {
     question: "How can candidates get jobs in SIDCUL Haridwar through your agency?",
     answer:
-      "Candidates can apply instantly through our Fast Apply portal or register online. Once submitted, our HR team matches your profile, skills, and qualifications with active vacancies in top SIDCUL industrial sectors and schedules direct interview rounds with hiring companies.",
+      "Candidates can apply instantly through our Fast Apply portal or Complete their Registration. Once submitted, our HR team matches your profile, skills, and qualifications with active vacancies in top SIDCUL industrial sectors and schedules direct interview rounds with hiring companies.",
   },
   {
     question: "What types of jobs and manpower profiles are available?",

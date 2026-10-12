@@ -64,13 +64,13 @@ export function HeroSection() {
             MAIN HEADING
         ========================================= */}
 
-        <h1 className="mt-8 max-w-5xl font-serif text-[3.2rem] font-bold leading-[1.08] tracking-tight text-black sm:text-6xl md:text-7xl lg:text-[5.2rem] dark:text-white">
+        <h1 className="mt-6 max-w-4xl font-serif text-[2.4rem] font-bold leading-[1.14] tracking-tight text-black sm:text-4xl md:text-5xl lg:text-[3.6rem] dark:text-white">
 
           Placement & Manpower Agency in Haridwar
 
           <br className="hidden md:block" />
 
-          <span className="inline-block bg-gradient-to-r from-blue-600 via-violet-600 to-emerald-500 bg-clip-text pb-2 text-transparent">
+          <span className="inline-block bg-gradient-to-r from-blue-600 via-violet-600 to-emerald-500 bg-clip-text pb-1 text-transparent">
             Sant Nirankari Enterprise
           </span>
 
@@ -81,7 +81,7 @@ export function HeroSection() {
             SUBTITLE
         ========================================= */}
 
-        <p className="mt-8 max-w-2xl text-lg font-medium leading-relaxed text-zinc-600 sm:text-xl dark:text-zinc-400">
+        <p className="mt-5 max-w-2xl text-base font-medium leading-relaxed text-zinc-600 sm:text-lg dark:text-zinc-400">
           Your premier job placement consultancy and industrial manpower supplier in Haridwar & SIDCUL. Providing skilled, semi-skilled, and executive manpower solutions for manufacturing, pharma, and corporate companies across Uttarakhand.
         </p>
 
