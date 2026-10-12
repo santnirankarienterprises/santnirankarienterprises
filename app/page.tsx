@@ -17,16 +17,18 @@ export default function Home() {
       {
         '@type': 'EmploymentAgency',
         '@id': 'https://www.santnirankarienterprise.co.in/#agency',
-        name: 'Sant Nirankari Enterprise - Placement Agency in Haridwar',
+        name: 'Sant Nirankari Enterprise - Placement & Manpower Agency in Haridwar',
         alternateName: [
           'Sant Nirankari Enterprise',
+          'Placement and Manpower Agency Haridwar',
           'Job Consultancy in Haridwar',
+          'Manpower Supplier in SIDCUL Haridwar',
           'Placement Agency in SIDCUL Haridwar'
         ],
         url: 'https://www.santnirankarienterprise.co.in/',
         logo: 'https://www.santnirankarienterprise.co.in/sant-nirankari-enterprise-logo.png',
         image: 'https://www.santnirankarienterprise.co.in/sant-nirankari-enterprise-logo.png',
-        description: 'Leading placement agency and recruitment consultancy in Haridwar & SIDCUL. Specializing in manufacturing, pharma, engineering, and permanent job placements across Uttarakhand.',
+        description: 'Leading placement and manpower agency in Haridwar & SIDCUL. Specializing in industrial manpower supply, skilled and unskilled staffing, manufacturing, pharma, engineering, and permanent job placements across Uttarakhand.',
         address: {
           '@type': 'PostalAddress',
           streetAddress: 'Nehru Colony, Near Mantra Apartments, SIDCUL',
@@ -52,7 +54,9 @@ export default function Home() {
           'Uttarakhand'
         ],
         knowsAbout: [
+          'Placement and Manpower Agency in Haridwar',
           'Placement Agency in Haridwar',
+          'Manpower Supply in Haridwar',
           'SIDCUL Haridwar Jobs',
           'Industrial Manpower Supply',
           'Permanent Job Hiring',
@@ -65,10 +69,18 @@ export default function Home() {
         mainEntity: [
           {
             '@type': 'Question',
-            name: 'Which is the best placement agency in Haridwar?',
+            name: 'Which is the best placement and manpower agency in Haridwar?',
             acceptedAnswer: {
               '@type': 'Answer',
-              text: 'Sant Nirankari Enterprise is one of the most trusted placement agencies in Haridwar and SIDCUL, offering direct job opportunities in leading industrial and corporate companies across Uttarakhand.'
+              text: 'Sant Nirankari Enterprise is recognized as the leading placement and manpower agency in Haridwar and SIDCUL, offering direct job placements and industrial manpower supply to top companies across Uttarakhand.'
+            }
+          },
+          {
+            '@type': 'Question',
+            name: 'Do you provide industrial manpower supply in SIDCUL Haridwar?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'Yes, Sant Nirankari Enterprise provides end-to-end industrial manpower supply including skilled operators, technicians, warehouse staff, and permanent workforce to manufacturing and pharma plants in SIDCUL Haridwar.'
             }
           },
           {

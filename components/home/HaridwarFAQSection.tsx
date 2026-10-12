@@ -5,24 +5,24 @@ import { ChevronDown, HelpCircle, MapPin, Sparkles } from "lucide-react";
 
 const faqs = [
   {
-    question: "Which is the best placement agency in Haridwar?",
+    question: "Which is the best placement and manpower agency in Haridwar?",
     answer:
-      "Sant Nirankari Enterprise is recognized as a leading placement agency and job consultancy in Haridwar & SIDCUL. With direct tie-ups across prominent industrial plants, manufacturing units, pharma corporations, and corporate offices, we provide genuine, on-role and permanent job placements for candidates across Haridwar and Uttarakhand.",
+      "Sant Nirankari Enterprise is recognized as the leading placement and manpower agency in Haridwar & SIDCUL. With direct partnerships across major industrial plants, manufacturing units, pharma corporations, and corporate offices, we provide on-role permanent jobs for candidates as well as reliable industrial manpower supply for companies across Uttarakhand.",
   },
   {
-    question: "How can I get jobs in SIDCUL Haridwar through Sant Nirankari Enterprise?",
+    question: "Do you provide industrial manpower supply in SIDCUL Haridwar?",
     answer:
-      "Candidates can easily apply through our Fast Apply portal or register online. Once submitted, our HR team matches your profile, skills, and qualifications with active vacancies in top SIDCUL industrial sectors and schedules direct interview rounds with hiring companies.",
+      "Yes. Sant Nirankari Enterprise is a premier manpower supplier in Haridwar and SIDCUL industrial areas. We provide verified, skilled, semi-skilled, technical, warehouse, and packaging workforce with rapid deployment to meet your production demands.",
   },
   {
-    question: "What types of jobs are available in Haridwar & SIDCUL?",
+    question: "How can candidates get jobs in SIDCUL Haridwar through your agency?",
     answer:
-      "We provide placements across diverse sectors in Haridwar, including Pharmaceutical (QA/QC, Production), Automobile & Engineering, Electrical, FMCG, Packaging, Store & Warehouse Management, Quality Inspection, Accounts, and Office Administration.",
+      "Candidates can apply instantly through our Fast Apply portal or register online. Once submitted, our HR team matches your profile, skills, and qualifications with active vacancies in top SIDCUL industrial sectors and schedules direct interview rounds with hiring companies.",
   },
   {
-    question: "Do you provide manpower and recruitment solutions for employers in Haridwar?",
+    question: "What types of jobs and manpower profiles are available?",
     answer:
-      "Yes. Sant Nirankari Enterprise partners with leading manufacturing plants and corporate companies across SIDCUL, Bhagwanpur, Roorkee, and Haridwar to provide verified, skilled, semi-skilled, and executive-level manpower solutions with rapid turnaround times.",
+      "We provide placements and manpower supply across diverse sectors in Haridwar, including Pharmaceutical (QA/QC, Production), Automobile & Mechanical Engineering, Electrical, FMCG, Packaging, Store & Warehouse Management, Quality Inspection, Accounts, and Office Administration.",
   },
   {
     question: "Where is Sant Nirankari Enterprise located in Haridwar?",
@@ -45,15 +45,15 @@ export default function HaridwarFAQSection() {
         <div className="text-center">
           <div className="inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-500/10 px-4 py-1.5 text-xs font-semibold text-blue-600 dark:text-blue-400">
             <Sparkles className="h-3.5 w-3.5" />
-            <span>Local Job Consultancy Guidance</span>
+            <span>Placement & Manpower Consultancy Guidance</span>
           </div>
 
           <h2 className="mt-4 font-serif text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl dark:text-white">
-            Frequently Asked Questions — Placement in Haridwar
+            Frequently Asked Questions — Placement & Manpower in Haridwar
           </h2>
 
           <p className="mx-auto mt-3 max-w-2xl text-base text-zinc-600 dark:text-zinc-400">
-            Everything you need to know about job placements, hiring in SIDCUL, and recruitment services in Haridwar with Sant Nirankari Enterprise.
+            Everything you need to know about job placements, industrial manpower supply in SIDCUL, and staffing solutions in Haridwar with Sant Nirankari Enterprise.
           </p>
         </div>
 

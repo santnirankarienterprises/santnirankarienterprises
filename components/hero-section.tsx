@@ -50,7 +50,7 @@ export function HeroSection() {
             TOP RATED
           </span>
 
-          <span>#1 Placement Agency in Haridwar & SIDCUL</span>
+          <span>#1 Placement & Manpower Agency in Haridwar & SIDCUL</span>
 
           <ChevronRight
             size={14}
@@ -66,7 +66,7 @@ export function HeroSection() {
 
         <h1 className="mt-8 max-w-5xl font-serif text-[3.2rem] font-bold leading-[1.08] tracking-tight text-black sm:text-6xl md:text-7xl lg:text-[5.2rem] dark:text-white">
 
-          Placement Agency in Haridwar
+          Placement & Manpower Agency in Haridwar
 
           <br className="hidden md:block" />
 
@@ -82,7 +82,7 @@ export function HeroSection() {
         ========================================= */}
 
         <p className="mt-8 max-w-2xl text-lg font-medium leading-relaxed text-zinc-600 sm:text-xl dark:text-zinc-400">
-          Your most trusted job placement consultancy and staffing partner in Haridwar & SIDCUL. Connecting talent with leading industrial, manufacturing, pharma, and corporate companies across Uttarakhand.
+          Your premier job placement consultancy and industrial manpower supplier in Haridwar & SIDCUL. Providing skilled, semi-skilled, and executive manpower solutions for manufacturing, pharma, and corporate companies across Uttarakhand.
         </p>
 
 

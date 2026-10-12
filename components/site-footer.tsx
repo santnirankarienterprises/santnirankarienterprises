@@ -60,7 +60,7 @@ export function SiteFooter() {
             </Link>
 
             <p className="mt-3 max-w-sm text-xs leading-5 text-zinc-300 dark:text-zinc-700">
-              Connecting ambitious candidates with meaningful career opportunities through a professional and streamlined recruitment experience.
+              Leading Placement & Manpower Agency in Haridwar & SIDCUL. Connecting talent with top jobs and delivering dependable industrial manpower solutions across Uttarakhand.
             </p>
 
             <Link href="/register" className="group mt-4 inline-flex items-center gap-1.5 rounded-lg bg-white px-3 py-2 text-xs font-bold text-black transition-all hover:-translate-y-0.5 hover:bg-zinc-200 dark:bg-black dark:text-white dark:hover:bg-zinc-800">
