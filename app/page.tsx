@@ -7,6 +7,7 @@ import WhyCandidatesChooseUs from "@/components/home/WhyCandidatesChooseUs";
 import CompaniesSection from "@/components/home/CompaniesSection";
 import ContactSection from "@/components/home/ContactSection";
 import HaridwarFAQSection from "@/components/home/HaridwarFAQSection";
+import VisitOfficeSection from "@/components/home/VisitOfficeSection";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteNavbar } from "@/components/site-navbar";
 
@@ -197,6 +198,12 @@ export default function Home() {
         ==================================================== */}
 
         <ContactSection />
+
+        {/* ===================================================
+            VISIT OUR OFFICE
+        ==================================================== */}
+
+        <VisitOfficeSection />
       </main>
 
       {/* =====================================================

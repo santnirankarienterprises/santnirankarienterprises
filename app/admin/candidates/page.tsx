@@ -34,6 +34,7 @@ function CandidatesContent() {
   const [interviewForm, setInterviewForm] = useState({
     companyName: "",
     designation: "",
+    hrName: "",
     date: "",
     time: "",
     location: "",
@@ -398,7 +399,7 @@ We are pleased to inform you that your interview has been officially scheduled w
 ━━━━━━━━━━━━━━━━━━
 🏢 Company: ${interviewForm.companyName}
 💼 Designation: ${interviewForm.designation}
-📅 Date: ${interviewForm.date}
+${interviewForm.hrName ? `👤 HR / Head Name: ${interviewForm.hrName}\n` : ""}📅 Date: ${interviewForm.date}
 ⏰ Time: ${interviewForm.time}
 📍 Location: ${interviewForm.location}
 ━━━━━━━━━━━━━━━━━━
@@ -417,7 +418,7 @@ Recruitment • Placement • Manpower Services`;
         window.open(`https://wa.me/91${schedulingFor.phone}?text=${encodeURIComponent(waText)}`, "_blank");
         
         setSchedulingFor(null);
-        setInterviewForm({ companyName: "", designation: "", date: "", time: "", location: "" });
+        setInterviewForm({ companyName: "", designation: "", hrName: "", date: "", time: "", location: "" });
       } else {
         toast.error(result.message || "Unable to schedule interview.");
       }
@@ -1440,6 +1441,16 @@ _Manpower & Placement Services_
                   type="text"
                   value={interviewForm.designation}
                   onChange={(e) => setInterviewForm({...interviewForm, designation: e.target.value})}
+                  className="w-full rounded-xl border px-3 py-2 outline-none focus:border-zinc-900"
+                />
+              </div>
+
+              <div>
+                <label className="mb-1 block text-sm font-medium text-zinc-700">HR / Head Name</label>
+                <input
+                  type="text"
+                  value={interviewForm.hrName}
+                  onChange={(e) => setInterviewForm({...interviewForm, hrName: e.target.value})}
                   className="w-full rounded-xl border px-3 py-2 outline-none focus:border-zinc-900"
                 />
               </div>

@@ -381,6 +381,7 @@ export default function CandidateDashboardPage() {
                             <div key={interview.id} className="rounded-xl border border-green-200 bg-green-50 p-4">
                               <p className="font-bold text-zinc-900">{interview.companyName}</p>
                               {interview.designation && <p className="text-sm font-semibold text-green-700">{interview.designation}</p>}
+                              {interview.hrName && <p className="text-xs font-medium text-green-800">HR / Head: {interview.hrName}</p>}
                               <div className="mt-2 grid grid-cols-2 gap-2 text-sm text-zinc-600">
                                 <div className="flex items-center gap-1"><Calendar size={14} /> {new Date(interview.date).toLocaleDateString('en-IN')}</div>
                                 <div className="flex items-center gap-1"><Clock size={14} /> {interview.time}</div>
@@ -401,6 +402,7 @@ export default function CandidateDashboardPage() {
                             <div key={interview.id} className="rounded-xl border bg-zinc-50 p-4 opacity-75">
                               <p className="font-bold text-zinc-900">{interview.companyName}</p>
                               {interview.designation && <p className="text-sm font-semibold text-zinc-600">{interview.designation}</p>}
+                              {interview.hrName && <p className="text-xs font-medium text-zinc-600">HR / Head: {interview.hrName}</p>}
                               <div className="mt-2 grid grid-cols-2 gap-2 text-sm text-zinc-600">
                                 <div className="flex items-center gap-1"><Calendar size={14} /> {new Date(interview.date).toLocaleDateString('en-IN')}</div>
                                 <div className="flex items-center gap-1"><Clock size={14} /> {interview.time}</div>

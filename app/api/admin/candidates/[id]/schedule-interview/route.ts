@@ -13,7 +13,7 @@ export async function POST(
 
     const { id: candidateId } = await params;
     const body = await req.json();
-    const { companyName, designation, date, time, location } = body;
+    const { companyName, designation, hrName, date, time, location } = body;
 
     if (!companyName || !designation || !date || !time || !location) {
       return NextResponse.json(
@@ -41,6 +41,7 @@ export async function POST(
         candidateId: candidate.id,
         companyName,
         designation,
+        hrName: hrName?.trim() || null,
         date: new Date(date),
         time,
         location,
@@ -82,7 +83,7 @@ export async function POST(
             <p>━━━━━━━━━━━━━━━━━━<br/>
             🏢 <strong>Company:</strong> ${companyName}<br/>
             💼 <strong>Designation:</strong> ${designation}<br/>
-            📅 <strong>Date:</strong> ${new Date(date).toLocaleDateString('en-IN')}<br/>
+            ${hrName ? `👤 <strong>HR / Head Name:</strong> ${hrName}<br/>` : ""}📅 <strong>Date:</strong> ${new Date(date).toLocaleDateString('en-IN')}<br/>
             ⏰ <strong>Time:</strong> ${time}<br/>
             📍 <strong>Location:</strong> ${location}<br/>
             ━━━━━━━━━━━━━━━━━━</p>

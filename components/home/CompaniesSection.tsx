@@ -1,9 +1,9 @@
 const companies = [
-  "Mahindra & Mahindra",
-  "Hero MotoCorp",
-  "Denso India",
-  "Rockman Industries",
-  "Sharda Motor Industries",
+  "Akums",
+  "Cynokem",
+  "C&S Electric",
+  "Shriyam",
+  "Mahindra ",
   "Satyam Auto Components",
   "FCC",
   "Haridwar Precision Auto",
@@ -14,22 +14,27 @@ const companies = [
 ];
 
 const moreCompanies = [
-  "Shivam Autotech",
-  "Spark Minda",
-  "Bajajsons",
-  "Speedcrafts",
-  "Neel Metal Products",
-  "Steelwell Engineering",
-  "Uno Minda",
-  "Bosch India",
-  "Munjal Showa",
-  "Kay Automotive",
-  "Takshi Auto Components",
-  "Alf Engineering",
-  "Minda",
-  "Jai Shri Polymers",
-  "Kalpa Industries",
-  "Kirat International",
+  // Pharmaceutical & Healthcare
+  "Akums Drugs & Pharmaceuticals",
+  "Agrawal Drugs",
+  "D.R. John's Lab",
+  "PIL Pharmaceuticals",
+  "Om Biomedic",
+  "Mascot Health Series",
+  "JPEE Drugs",
+  "Arogya Formulations",
+
+  // FMCG & Consumer Products
+  "Hindustan Unilever",
+  "RSPL Group",
+  "Cholayil Private Limited",
+  "CavinKare",
+
+  // Engineering, Electronics & Manufacturing
+  "Genus Power Infrastructures",
+  "Rockman Industries",
+  "Lumax Industries",
+  "A.G. Industries",
 ];
 
 const locations = [
@@ -37,12 +42,10 @@ const locations = [
   "SIDCUL",
   "Noida",
   "Bahadrabad",
-  "Pantnagar",
+  "Roorkee",
   "Gurugram",
-  "Manesar",
+  "Bhagwanpur",
   "Greater Noida",
-  "Pune",
-  "Chennai",
   "Bengaluru",
   "Nashik",
   "Pithampur",

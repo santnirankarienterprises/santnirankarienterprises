@@ -98,7 +98,7 @@ export default function HaridwarFAQSection() {
           <div className="flex flex-col items-center justify-center gap-2 sm:flex-row">
             <MapPin className="h-5 w-5 text-blue-600 dark:text-blue-400" />
             <p className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
-              <strong className="text-zinc-950 dark:text-white">Sant Nirankari Enterprise:</strong> Nehru Colony, Near Mantra Apartments, SIDCUL, Haridwar, Uttarakhand 249403
+              <strong className="text-zinc-950 dark:text-white">Sant Nirankari Enterprise:</strong> Near Raja Biscuit Chowk and Jasmine hotel, SIDCUL, Haridwar,249402
             </p>
           </div>
         </div>

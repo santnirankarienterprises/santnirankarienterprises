@@ -248,6 +248,9 @@ export default function CandidateDetailsPage() {
                     </div>
                     <div className="space-y-2.5 text-sm">
                       <p className="flex items-center justify-between border-b border-zinc-100 pb-2 dark:border-white/5"><span className="font-semibold text-zinc-500">Role</span> <span className="font-medium text-zinc-900 dark:text-zinc-200">{interview.designation || "Not Specified"}</span></p>
+                      {interview.hrName && (
+                        <p className="flex items-center justify-between border-b border-zinc-100 pb-2 dark:border-white/5"><span className="font-semibold text-zinc-500">HR / Head</span> <span className="font-medium text-zinc-900 dark:text-zinc-200">{interview.hrName}</span></p>
+                      )}
                       <p className="flex items-center justify-between border-b border-zinc-100 pb-2 dark:border-white/5"><span className="font-semibold text-zinc-500">Date</span> <span className="font-medium text-zinc-900 dark:text-zinc-200">{new Date(interview.date).toLocaleDateString()}</span></p>
                       <p className="flex items-center justify-between border-b border-zinc-100 pb-2 dark:border-white/5"><span className="font-semibold text-zinc-500">Time</span> <span className="font-medium text-zinc-900 dark:text-zinc-200">{interview.time}</span></p>
                       <p className="flex items-center justify-between pt-1"><span className="font-semibold text-zinc-500">Location</span> <span className="font-medium text-zinc-900 dark:text-zinc-200">{interview.location}</span></p>

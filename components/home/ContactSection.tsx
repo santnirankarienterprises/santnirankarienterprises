@@ -96,10 +96,9 @@ export default function ContactSection() {
                                 <div className="relative z-10">
                                     <h3 className="text-base font-bold text-zinc-900 dark:text-white">Head Office</h3>
                                     <p className="mt-1.5 text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">
-                                        Plot No. 1407 Salempur Mehdood<br />
-                                        Near Mantra Appartment<br />
-                                        Nehru Colony, Haridwar<br />
-                                        Uttarakhand - 249403
+                                        Near Raja Biscuit Chowk and Jasmine Hotel,<br />
+                                        SIDCUL, Haridwar<br />
+                                        Uttarakhand - 249402
                                     </p>
                                 </div>
                             </div>
@@ -151,7 +150,7 @@ export default function ContactSection() {
                                     <h3 className="text-base font-bold text-zinc-900 dark:text-white">Working Hours</h3>
                                     <p className="mt-1.5 text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">
                                         Monday - Saturday<br />
-                                        9:30 AM - 6:30 PM
+                                        9:30 AM - 5:00 PM
                                     </p>
                                 </div>
                             </div>

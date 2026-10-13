@@ -90,6 +90,7 @@ model Interview {
   
   companyName      String
   designation      String?
+  hrName           String?
   date             DateTime
   time             String
   location         String
