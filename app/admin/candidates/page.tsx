@@ -8,7 +8,7 @@ import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { jobCategories} from "@/lib/job-categories";
-import { CalendarDays, FileText, Zap } from "lucide-react";
+import { CalendarDays, FileText, Zap, Receipt } from "lucide-react";
 
 import {
   AlertDialog,
@@ -286,6 +286,74 @@ function CandidatesContent() {
     }
   };
 
+  const formatWhatsAppUrl = (phone: string | null | undefined, text: string) => {
+    let cleanPhone = (phone || "").replace(/\D/g, "");
+    if (cleanPhone.startsWith("0")) cleanPhone = cleanPhone.slice(1);
+    if (cleanPhone.length === 10) cleanPhone = `91${cleanPhone}`;
+    return cleanPhone
+      ? `https://wa.me/${cleanPhone}?text=${encodeURIComponent(text)}`
+      : `https://wa.me/?text=${encodeURIComponent(text)}`;
+  };
+
+  const openWhatsAppUrl = (phone: string | null | undefined, text: string) => {
+    const waUrl = formatWhatsAppUrl(phone, text);
+    const win = window.open(waUrl, "_blank");
+    if (!win || win.closed || typeof win.closed === "undefined") {
+      window.location.href = waUrl;
+    }
+    return waUrl;
+  };
+
+  const resendReceiptWhatsApp = (candidate: any) => {
+    const successPayment = candidate.user?.payments?.find((p: any) => p.status === "SUCCESS");
+    if (!successPayment) return;
+
+    const amount = successPayment.amount / 100;
+    const dateStr = new Date(successPayment.createdAt).toLocaleString('en-IN', {
+      timeZone: 'Asia/Kolkata',
+      dateStyle: 'long',
+      timeStyle: 'short',
+    });
+
+    const waText = `\u{1F9FE} *OFFICIAL PAYMENT RECEIPT* \u{1F9FE}
+━━━━━━━━━━━━━━━━━━━━━
+Dear *${candidate.user?.fullName || "Candidate"}*,
+
+We are pleased to confirm that your payment has been successfully received. Welcome to our Premium Candidate service! \u{1F389}
+
+*Payment Details:*
+\u{25AA}\u{FE0F} *Amount Paid:* ₹${amount}
+\u{25AA}\u{FE0F} *Payment Mode:* ${successPayment.mode || "Cash"} \u{1F4B5}
+\u{25AA}\u{FE0F} *Receipt ID:* ${successPayment.receiptNumber || successPayment.id.slice(-8).toUpperCase()}
+\u{25AA}\u{FE0F} *Date:* ${dateStr}
+\u{25AA}\u{FE0F} *Service:* Premium Candidate
+
+\u{2705} Your Premium Candidate service is now *Active*.
+
+🔗 *Download PDF Receipt:*
+${window.location.origin}/receipt/${successPayment.id}
+
+\u{2B50} *We Value Your Feedback*
+We would love to hear about your experience with Sant Nirankari Enterprise.
+\u{1F449} [Leave a Review: https://g.page/r/CVTvcCxa7uX-EAE/review]
+
+Thank you for choosing us! \u{1F91D}
+
+*Warm Regards,*
+*Sant Nirankari Enterprise*
+_Manpower & Placement Services_
+━━━━━━━━━━━━━━━━━━━━━`;
+
+    const waUrl = openWhatsAppUrl(candidate.phone, waText);
+    toast.success("Opening WhatsApp receipt...", {
+      action: {
+        label: "Open WhatsApp",
+        onClick: () => window.open(waUrl, "_blank"),
+      },
+      duration: 7000,
+    });
+  };
+
   const markAsPaidCash = async (id: string) => {
     const amountStr = window.prompt("Enter payment amount ");
     if (!amountStr) return;
@@ -317,7 +385,6 @@ function CandidatesContent() {
 
       if (response.ok && result.success) {
         await loadCandidates();
-        toast.success("Candidate marked as paid via Cash.");
 
         if (result.receiptDetails) {
           const rd = result.receiptDetails;
@@ -341,7 +408,7 @@ ${window.location.origin}/receipt/${rd.paymentId}
 
 \u{2B50} *We Value Your Feedback*
 We would love to hear about your experience with Sant Nirankari Enterprise.
-\u{1F449} [Leave a Review: https://g.page/r/CZZBLKQak0G_EBE/review]
+\u{1F449} [Leave a Review: https://g.page/r/CVTvcCxa7uX-EAE/review]
 
 Thank you for choosing us! \u{1F91D}
 
@@ -350,7 +417,16 @@ Thank you for choosing us! \u{1F91D}
 _Recruitment & Placement Services_
 ━━━━━━━━━━━━━━━━━━━━━`;
 
-          window.open(`https://wa.me/91${rd.phone}?text=${encodeURIComponent(waText)}`, "_blank");
+          const waUrl = openWhatsAppUrl(rd.phone, waText);
+          toast.success("Candidate marked as paid via Cash.", {
+            action: {
+              label: "Open WhatsApp",
+              onClick: () => window.open(waUrl, "_blank"),
+            },
+            duration: 8000,
+          });
+        } else {
+          toast.success("Candidate marked as paid via Cash.");
         }
       } else {
         toast.error(result.message || "Unable to update payment.");
@@ -408,14 +484,21 @@ Important:
 Please arrive 10–15 minutes before the scheduled time and come prepared with the necessary documents and a copy of your updated resume.
 
 We wish you success in your interview and look forward to your presence.
-Please Provide Rating : https://g.page/r/CZZBLKQak0G_EBE/review 
+Please Provide Rating : https://g.page/r/CVTvcCxa7uX-EAE/review 
 
 Warm Regards,
 Sant Nirankari Enterprise
 Recruitment • Placement • Manpower Services`;
 
         // Open WhatsApp automatically with pre-filled message
-        window.open(`https://wa.me/91${schedulingFor.phone}?text=${encodeURIComponent(waText)}`, "_blank");
+        const waUrl = openWhatsAppUrl(schedulingFor.phone, waText);
+        toast.info("Opening WhatsApp...", {
+          action: {
+            label: "Open WhatsApp",
+            onClick: () => window.open(waUrl, "_blank"),
+          },
+          duration: 7000,
+        });
         
         setSchedulingFor(null);
         setInterviewForm({ companyName: "", designation: "", hrName: "", date: "", time: "", location: "" });
@@ -506,7 +589,7 @@ We are pleased to inform you that your profile has been processed successfully. 
 \u{26A0}\u{FE0F} *Important Note:* Once the payment is completed, kindly reply to this message with a *screenshot of the payment* for confirmation.
 
 \u{2B50} *We Value Your Feedback*
-\u{1F449} [Leave a Review: https://g.page/r/CZZBLKQak0G_EBE/review]
+\u{1F449} [Leave a Review: https://g.page/r/CVTvcCxa7uX-EAE/review]
 
 Thank you! \u{1F91D}
 
@@ -515,7 +598,14 @@ Thank you! \u{1F91D}
 _Recruitment & Placement Services_
 ━━━━━━━━━━━━━━━━━━━━━`;
 
-    window.open(`https://wa.me/91${onlinePayFor.phone}?text=${encodeURIComponent(waText)}`, "_blank");
+    const waUrl = openWhatsAppUrl(onlinePayFor.phone, waText);
+    toast.info("Opening WhatsApp payment link...", {
+      action: {
+        label: "Open WhatsApp",
+        onClick: () => window.open(waUrl, "_blank"),
+      },
+      duration: 7000,
+    });
     
     setLinkSentData(prev => ({ ...prev, [onlinePayFor.id]: Number(onlinePayForm.amount) }));
     setOnlinePayFor(null);
@@ -568,7 +658,7 @@ ${window.location.origin}/receipt/${rd.paymentId}
 
 \u{2B50} *We Value Your Feedback*
 We would love to hear about your experience with Sant Nirankari Enterprise.
-\u{1F449} [Leave a Review: https://g.page/r/CZZBLKQak0G_EBE/review]
+\u{1F449} [Leave a Review: https://g.page/r/CVTvcCxa7uX-EAE/review]
 
 Thank you for choosing us! \u{1F91D}
 
@@ -577,7 +667,16 @@ Thank you for choosing us! \u{1F91D}
 _Manpower & Placement Services_
 ━━━━━━━━━━━━━━━━━━━━━`;
 
-          window.open(`https://wa.me/91${rd.phone}?text=${encodeURIComponent(waText)}`, "_blank");
+          const waUrl = openWhatsAppUrl(rd.phone, waText);
+          toast.success("Candidate marked as paid via Online.", {
+            action: {
+              label: "Open WhatsApp",
+              onClick: () => window.open(waUrl, "_blank"),
+            },
+            duration: 8000,
+          });
+        } else {
+          toast.success("Candidate marked as paid via Online.");
         }
       } else {
         toast.error(result.message || "Unable to confirm online payment.");
@@ -980,8 +1079,9 @@ _Manpower & Placement Services_
                                   </a>
 
                                   <a
-                                    href={`https://wa.me/91${candidate.phone}`}
+                                    href={formatWhatsAppUrl(candidate.phone, "")}
                                     target="_blank"
+                                    rel="noopener noreferrer"
                                     className="inline-flex w-fit items-center gap-1.5 rounded-md border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-700 transition-colors hover:bg-emerald-100 cursor-pointer dark:border-emerald-500/20 dark:bg-emerald-500/10 dark:text-emerald-400 dark:hover:bg-emerald-500/20"
                                   >
                                     WhatsApp
@@ -994,7 +1094,7 @@ _Manpower & Placement Services_
 
                             <td className="p-4">
                               <div className="inline-flex items-center rounded-lg border border-zinc-200 bg-white p-1 shadow-sm dark:border-white/10 dark:bg-zinc-900">
-                                {!candidate.user?.payments?.some((p: any) => p.status === "SUCCESS") && (
+                                {!candidate.user?.payments?.some((p: any) => p.status === "SUCCESS") ? (
                                   <>
                                     <button
                                       onClick={() => markAsPaidCash(candidate.id)}
@@ -1021,6 +1121,30 @@ _Manpower & Placement Services_
                                       </button>
                                     )}
                                     <div className="mx-1 h-4 w-px bg-zinc-200 dark:bg-white/10" />
+                                  </>
+                                ) : (
+                                  <>
+                                    {candidate.user?.payments?.find((p: any) => p.status === "SUCCESS") && (
+                                      <>
+                                        <Link
+                                          href={`/receipt/${candidate.user.payments.find((p: any) => p.status === "SUCCESS")?.id}`}
+                                          target="_blank"
+                                          className="flex items-center gap-1 rounded-md px-2.5 py-1.5 text-xs font-medium text-emerald-700 bg-emerald-50 hover:bg-emerald-100 transition-colors cursor-pointer dark:bg-emerald-500/10 dark:text-emerald-400 dark:hover:bg-emerald-500/20"
+                                          title="View Official Receipt"
+                                        >
+                                          <Receipt size={13} />
+                                          Receipt
+                                        </Link>
+                                        <button
+                                          onClick={() => resendReceiptWhatsApp(candidate)}
+                                          className="flex items-center gap-1 rounded-md px-2.5 py-1.5 text-xs font-medium text-teal-600 hover:bg-teal-50 transition-colors cursor-pointer dark:text-teal-400 dark:hover:bg-teal-500/10"
+                                          title="Resend Receipt to WhatsApp"
+                                        >
+                                          WA Receipt
+                                        </button>
+                                        <div className="mx-1 h-4 w-px bg-zinc-200 dark:bg-white/10" />
+                                      </>
+                                    )}
                                   </>
                                 )}
 
@@ -1240,7 +1364,7 @@ _Manpower & Placement Services_
                             </a>
 
                             <a
-                              href={`https://wa.me/91${candidate.phone}`}
+                              href={formatWhatsAppUrl(candidate.phone, "")}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="inline-flex w-fit items-center gap-1.5 rounded-md border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-700 transition-colors hover:bg-emerald-100 cursor-pointer dark:border-emerald-500/20 dark:bg-emerald-500/10 dark:text-emerald-400 dark:hover:bg-emerald-500/20"
@@ -1252,7 +1376,7 @@ _Manpower & Placement Services_
                       )}
 
                       <div className="mt-5 flex flex-wrap gap-2">
-                        {!candidate.user?.payments?.some((p: any) => p.status === "SUCCESS") && (
+                        {!candidate.user?.payments?.some((p: any) => p.status === "SUCCESS") ? (
                           <>
                             <button
                               onClick={() => markAsPaidCash(candidate.id)}
@@ -1277,6 +1401,27 @@ _Manpower & Placement Services_
                               >
                                 Online Pay
                               </button>
+                            )}
+                          </>
+                        ) : (
+                          <>
+                            {candidate.user?.payments?.find((p: any) => p.status === "SUCCESS") && (
+                              <>
+                                <Link
+                                  href={`/receipt/${candidate.user.payments.find((p: any) => p.status === "SUCCESS")?.id}`}
+                                  target="_blank"
+                                  className="flex items-center justify-center gap-1.5 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm font-medium text-emerald-700 transition-colors hover:bg-emerald-100 cursor-pointer dark:border-emerald-500/20 dark:bg-emerald-500/10 dark:text-emerald-400 dark:hover:bg-emerald-500/20"
+                                >
+                                  <Receipt size={16} />
+                                  View Receipt
+                                </Link>
+                                <button
+                                  onClick={() => resendReceiptWhatsApp(candidate)}
+                                  className="flex items-center justify-center gap-1.5 rounded-lg border border-teal-200 bg-teal-50 px-3 py-2 text-sm font-medium text-teal-700 transition-colors hover:bg-teal-100 cursor-pointer dark:border-teal-500/20 dark:bg-teal-500/10 dark:text-teal-400 dark:hover:bg-teal-500/20"
+                                >
+                                  WA Receipt
+                                </button>
+                              </>
                             )}
                           </>
                         )}

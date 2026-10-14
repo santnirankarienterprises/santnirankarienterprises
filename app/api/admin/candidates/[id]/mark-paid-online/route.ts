@@ -87,6 +87,7 @@ export async function POST(
         dateStr,
         candidateName: candidate.user.fullName,
         phone: candidate.phone,
+        paymentId: newPayment.id,
       }
     });
 

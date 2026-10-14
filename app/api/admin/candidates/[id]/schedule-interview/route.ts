@@ -74,7 +74,7 @@ export async function POST(
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; line-height: 1.6; color: #333;">
             <p>✨ <strong>INTERVIEW INVITATION</strong></p>
 
-            <p>Dear Sir/Mam ${candidate.user.fullName},</p>
+            <p>Dear ${candidate.user.fullName},</p>
 
             <p>Greetings from Sant Nirankari Enterprise.</p>
 
@@ -92,11 +92,11 @@ export async function POST(
             Please arrive 10–15 minutes before the scheduled time and come prepared with the necessary documents and a copy of your updated resume.</p>
 
             <p>We wish you success in your interview and look forward to your presence.<br/>
-            Please Provide Rating: <a href="https://g.page/r/CZZBLKQak0G_EBE/review" style="color: #0066cc;">https://g.page/r/CZZBLKQak0G_EBE/review</a></p>
+            Please Provide Rating: <a href="https://g.page/r/CVTvcCxa7uX-EAE/review" style="color: #0066cc;">https://g.page/r/CVTvcCxa7uX-EAE/review</a></p>
 
             <p>Warm Regards,<br/>
             <strong>Sant Nirankari Enterprise</strong><br/>
-            <span style="color: #666; font-size: 0.9em;">Recruitment • Placement • Multi Services</span></p>
+            <span style="color: #666; font-size: 0.9em;">Manpower & Placement Services</span></p>
           </div>
         `,
       });
