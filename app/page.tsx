@@ -62,6 +62,10 @@ export default function Home() {
           'Industrial Manpower Supply',
           'Permanent Job Hiring',
           'Pharmaceutical Recruitment'
+        ],
+        sameAs: [
+          'https://www.instagram.com/santnirankarienterprises/',
+          'https://www.facebook.com/profile.php?id=61594156294820'
         ]
       },
       {

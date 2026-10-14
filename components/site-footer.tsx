@@ -96,11 +96,11 @@ export function SiteFooter() {
             </p>
 
             <div className="mt-4 flex gap-3">
-              <a href="https://www.instagram.com/santnirankarienterprise?stkn=MTh2aXo3Z2R2aWhlbw%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer" aria-label="Sant Nirankari Enterprise Instagram" className="flex h-9 w-9 items-center justify-center rounded-xl border border-white/15 text-[#E4405F] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#E4405F]/50 hover:bg-[#E4405F]/10 dark:border-black/15">
+              <a href="https://www.instagram.com/santnirankarienterprises/" target="_blank" rel="noopener noreferrer" aria-label="Sant Nirankari Enterprise Instagram" className="flex h-9 w-9 items-center justify-center rounded-xl border border-white/15 text-[#E4405F] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#E4405F]/50 hover:bg-[#E4405F]/10 dark:border-black/15">
                 <InstagramIcon size={16} />
               </a>
 
-              <a href="https://www.facebook.com/share/1Dbw2Y7CJj/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="Sant Nirankari Enterprise Facebook" className="flex h-9 w-9 items-center justify-center rounded-xl border border-white/15 text-[#1877F2] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#1877F2]/50 hover:bg-[#1877F2]/10 dark:border-black/15">
+              <a href="https://www.facebook.com/profile.php?id=61594156294820" target="_blank" rel="noopener noreferrer" aria-label="Sant Nirankari Enterprise Facebook" className="flex h-9 w-9 items-center justify-center rounded-xl border border-white/15 text-[#1877F2] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#1877F2]/50 hover:bg-[#1877F2]/10 dark:border-black/15">
                 <FacebookIcon size={16} />
               </a>
             </div>

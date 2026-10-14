@@ -98,6 +98,10 @@ export default function RootLayout({
               "url": "https://santnirankarienterprises.in",
               "logo": "https://santnirankarienterprises.in/sant-nirankari-enterprise-logo.png",
               "description": "Premium Recruitment Consultancy providing placement services and manpower in Uttarakhand and India.",
+              "sameAs": [
+                "https://www.instagram.com/santnirankarienterprises/",
+                "https://www.facebook.com/profile.php?id=61594156294820"
+              ]
             })
           }}
         />
