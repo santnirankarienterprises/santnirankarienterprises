@@ -17,7 +17,7 @@ export default function Home() {
     '@graph': [
       {
         '@type': 'EmploymentAgency',
-        '@id': 'https://www.santnirankarienterprise.co.in/#agency',
+        '@id': 'https://www.santnirankarienterprises.in/#agency',
         name: 'Sant Nirankari Enterprise - Placement & Manpower Agency in Haridwar',
         alternateName: [
           'Sant Nirankari Enterprise',
@@ -26,16 +26,16 @@ export default function Home() {
           'Manpower Supplier in SIDCUL Haridwar',
           'Placement Agency in SIDCUL Haridwar'
         ],
-        url: 'https://www.santnirankarienterprise.co.in/',
-        logo: 'https://www.santnirankarienterprise.co.in/sant-nirankari-enterprise-logo.png',
-        image: 'https://www.santnirankarienterprise.co.in/sant-nirankari-enterprise-logo.png',
+        url: 'https://www.santnirankarienterprises.in/',
+        logo: 'https://www.santnirankarienterprises.in/sant-nirankari-enterprise-logo.png',
+        image: 'https://www.santnirankarienterprises.in/sant-nirankari-enterprise-logo.png',
         description: 'Leading placement and manpower agency in Haridwar & SIDCUL. Specializing in industrial manpower supply, skilled and unskilled staffing, manufacturing, pharma, engineering, and permanent job placements across Uttarakhand.',
         address: {
           '@type': 'PostalAddress',
-          streetAddress: 'Nehru Colony, Near Mantra Apartments, SIDCUL',
+          streetAddress: 'Near Raja Biscuit Chowk and Jasmine Hotel , SIDCUL',
           addressLocality: 'Haridwar',
           addressRegion: 'Uttarakhand',
-          postalCode: '249403',
+          postalCode: '249402',
           addressCountry: 'IN'
         },
         geo: {
@@ -44,13 +44,13 @@ export default function Home() {
           longitude: '78.0772'
         },
         telephone: '+917088642658',
-        email: 'jobshiring.hrteam@gmail.com',
+        email: 'jobs.santnirankarienterprises@gmail.com',
         priceRange: '₹₹',
         areaServed: [
           'Haridwar',
           'SIDCUL Haridwar',
           'Roorkee',
-          'Bhagwanpur',
+          'Kashipur',
           'Dehradun',
           'Uttarakhand'
         ],
@@ -105,7 +105,7 @@ export default function Home() {
             name: 'Where is Sant Nirankari Enterprise located in Haridwar?',
             acceptedAnswer: {
               '@type': 'Answer',
-              text: 'Sant Nirankari Enterprise is located at Nehru Colony, Near Mantra Apartments, SIDCUL, Haridwar, Uttarakhand 249403.'
+              text: 'Sant Nirankari Enterprise is located Near Raja Biscuit Chowk and Jasmine Hotel, SIDCUL, Haridwar, Uttarakhand 249402.'
             }
           }
         ]

@@ -7,13 +7,19 @@ import { Resend } from "resend";
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: Request) {
   try {
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature, userId } = await req.json();
 
+    if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
+      return NextResponse.json({ success: false, message: "Payment service is currently not configured." }, { status: 503 });
+    }
+
     const razorpay = new Razorpay({
-      key_id: process.env.RAZORPAY_KEY_ID!,
-      key_secret: process.env.RAZORPAY_KEY_SECRET!,
+      key_id: process.env.RAZORPAY_KEY_ID,
+      key_secret: process.env.RAZORPAY_KEY_SECRET,
     });
 
     const resend = new Resend(process.env.RESEND_API_KEY);
@@ -109,8 +115,8 @@ export async function POST(req: Request) {
         };
 
         // HEADER
-        drawCenteredText("SANT NIRANKARI ENTERPRISE", height - 55, 20, boldFont, black);
-        drawCenteredText("Sidcul, Uttarakhand, India   |   +91 7088642658   |   santnirankarienterprise.co.in", height - 78, 7.5, regularFont, darkGray);
+        drawCenteredText("SANT NIRANKARI ENTERPRISES", height - 55, 20, boldFont, black);
+        drawCenteredText("Sidcul, Uttarakhand, India   |   +91 7088642658   |   santnirankarienterprises.in", height - 78, 7.5, regularFont, darkGray);
         drawLine(height - 95, 1.2, darkGray);
 
         // TITLE
@@ -224,7 +230,7 @@ export async function POST(req: Request) {
 
         // FOOTER
         page.drawLine({ start: { x: 35, y: 55 }, end: { x: 560, y: 55 }, thickness: 1, color: darkGray });
-        drawCenteredText("www.santnirankarienterprise.co.in", 35, 8, regularFont, darkGray);
+        drawCenteredText("santnirankarienterprises.in", 35, 8, regularFont, darkGray);
 
         // SAVE PDF
         const pdfBytes = await pdfDoc.save();
@@ -232,9 +238,9 @@ export async function POST(req: Request) {
 
         // EMAIL
         const emailResult = await resend.emails.send({
-          from: "Sant Nirankari Enterprise <info@santnirankarienterprise.co.in>",
+          from: "Sant Nirankari Enterprises <info@santnirankarienterprises.in>",
           to: user.email,
-          replyTo: "jobshiring.hrteam@gmail.com",
+          replyTo: "jobs.santnirankarienterprises@gmail.com",
           subject: "Payment Receipt - Sant Nirankari Enterprise",
           html: `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; color: #18181b;">

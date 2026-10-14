@@ -66,9 +66,9 @@ if (!success) {
 
     const resend = new Resend(process.env.RESEND_API_KEY);
     await resend.emails.send({
-      from: "Sant Nirankari Enterprise <info@santnirankarienterprise.co.in>",
+      from: "Sant Nirankari Enterprises <info@santnirankarienterprises.in>",
       to: cleanEmail,
-      replyTo: "jobshiring.hrteam@gmail.com",
+      replyTo: "jobs.santnirankarienterprises@gmail.com",
       subject: "Password Reset OTP",
 
       html: `

@@ -4,6 +4,8 @@ import { prisma } from "@/lib/prisma";
 import { Resend } from "resend";
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: Request) {
   try {
     const bodyText = await req.text();
@@ -13,9 +15,14 @@ export async function POST(req: Request) {
       return NextResponse.json({ success: false, message: "No signature provided." }, { status: 400 });
     }
 
+    if (!process.env.RAZORPAY_WEBHOOK_SECRET) {
+      console.warn("RAZORPAY_WEBHOOK_SECRET is not configured.");
+      return NextResponse.json({ success: false, message: "Webhook secret is not configured on the server." }, { status: 500 });
+    }
+
     // Verify Webhook Signature
     const expectedSignature = crypto
-      .createHmac("sha256", process.env.RAZORPAY_WEBHOOK_SECRET!)
+      .createHmac("sha256", process.env.RAZORPAY_WEBHOOK_SECRET)
       .update(bodyText)
       .digest("hex");
 
@@ -140,9 +147,9 @@ async function sendReceiptEmail(user: any, paymentRecord: any, finalReceiptNumbe
     const pdfBuffer = Buffer.from(pdfBytes);
 
     await resend.emails.send({
-      from: "Sant Nirankari Enterprise <info@santnirankarienterprise.co.in>",
+      from: "Sant Nirankari Enterprises <info@santnirankarienterprises.in>",
       to: user.email,
-      replyTo: "jobshiring.hrteam@gmail.com",
+      replyTo: "jobs.santnirankarienterprises@gmail.com",
       subject: "Payment Receipt - Sant Nirankari Enterprise",
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; color: #18181b;">

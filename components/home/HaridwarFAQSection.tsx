@@ -27,7 +27,7 @@ const faqs = [
   {
     question: "Where is Sant Nirankari Enterprise located in Haridwar?",
     answer:
-      "Our main consultancy office is conveniently located at Nehru Colony, Near Mantra Apartments, SIDCUL, Haridwar, Uttarakhand (PIN: 249403). You can also contact us directly at +91 7088642658 or via email at jobshiring.hrteam@gmail.com.",
+      "Our main consultancy office is conveniently located Near Raja Biscuit Chowk and Jasmine Hotel, SIDCUL, Haridwar, Uttarakhand (PIN: 249402). You can also contact us directly at +91 7088642658 or via email at jobs.santnirankarienterprises@gmail.com.",
   },
 ];
 

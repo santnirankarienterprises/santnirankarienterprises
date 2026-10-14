@@ -30,9 +30,9 @@ export async function POST(request: Request) {
     // Send email using Resend
     const resend = new Resend(process.env.RESEND_API_KEY);
     await resend.emails.send({
-      from: "Sant Nirankari Enterprise <info@santnirankarienterprise.co.in>",
-      to: "jobshiring.hrteam@gmail.com",
-      replyTo: "jobshiring.hrteam@gmail.com",
+      from: "Sant Nirankari Enterprises <info@santnirankarienterprises.in>",
+      to: "jobs.santnirankarienterprises@gmail.com",
+      replyTo: email,
       subject: `New Contact Request from ${name}`,
       html: `
         <h2>New Contact Request</h2>

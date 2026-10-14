@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.santnirankarienterprise.co.in"),
+  metadataBase: new URL("https://santnirankarienterprises.in"),
   title: "Placement & Manpower Agency in Haridwar | SIDCUL Job Consultancy - Sant Nirankari Enterprise",
   description: "Top rated Placement & Manpower Agency in Haridwar & SIDCUL. Sant Nirankari Enterprise provides industrial manpower supply, skilled/unskilled staffing solutions, pharma, manufacturing, and permanent job placements across Uttarakhand.",
   keywords: [
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Placement & Manpower Agency in Haridwar | Sant Nirankari Enterprise",
     description: "Top rated Placement & Manpower Agency in Haridwar & SIDCUL. Industrial manpower supply, staffing solutions, and job placements in Uttarakhand.",
-    url: "https://www.santnirankarienterprise.co.in/",
+    url: "https://santnirankarienterprises.in/",
     siteName: "Sant Nirankari Enterprise",
     locale: "en_IN",
     type: "website",
@@ -95,8 +95,8 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "Organization",
               "name": "Sant Nirankari Enterprise",
-              "url": "https://www.santnirankarienterprise.co.in",
-              "logo": "https://www.santnirankarienterprise.co.in/sant-nirankari-enterprise-logo.png",
+              "url": "https://santnirankarienterprises.in",
+              "logo": "https://santnirankarienterprises.in/sant-nirankari-enterprise-logo.png",
               "description": "Premium Recruitment Consultancy providing placement services and manpower in Uttarakhand and India.",
             })
           }}

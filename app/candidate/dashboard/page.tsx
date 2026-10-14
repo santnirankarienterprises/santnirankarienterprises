@@ -118,12 +118,25 @@ export default function CandidateDashboardPage() {
 
       const order = orderResult.order;
 
+      if (typeof window === "undefined" || !window.Razorpay) {
+        alert("Payment gateway is initializing. Please try again in a few seconds.");
+        setPaymentProcessing(false);
+        return;
+      }
+
+      const razorpayKey = orderResult.keyId || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
+      if (!razorpayKey) {
+        alert("Payment gateway key is not configured. Please contact support.");
+        setPaymentProcessing(false);
+        return;
+      }
+
       // Open Razorpay Checkout
       const options = {
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+        key: razorpayKey,
         amount: order.amount,
         currency: order.currency,
-        name: "Sant Nirankari Enterprise",
+        name: "Sant Nirankari Enterprises",
         description: "Candidate Registration Fee",
         order_id: order.id,
         handler: async function (response: any) {
@@ -161,9 +174,11 @@ export default function CandidateDashboardPage() {
         },
         prefill: {
           name: profile?.user?.fullName || "Candidate",
+          email: profile?.user?.email || "",
+          contact: profile?.phone || "",
         },
         theme: {
-          color: "#18181b",
+          color: "#ea580c",
         },
         modal: {
           ondismiss: function () {
@@ -172,8 +187,7 @@ export default function CandidateDashboardPage() {
         },
       };
 
-      const Razorpay = window.Razorpay;
-      const razorpay = new Razorpay(options);
+      const razorpay = new window.Razorpay(options);
       razorpay.open();
     } catch (error) {
       console.error("Payment error:", error);

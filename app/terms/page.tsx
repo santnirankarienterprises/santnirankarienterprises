@@ -242,7 +242,7 @@ export default function TermsPage() {
             </div>
 
             <div className="flex shrink-0 flex-col gap-2">
-              <a href="mailto:jobshiring.hrteam@gmail.com" className="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-4 py-2.5 text-xs font-bold text-black transition hover:bg-zinc-200 dark:bg-black dark:text-white dark:hover:bg-zinc-800">
+              <a href="mailto:jobs.santnirankarienterprises@gmail.com" className="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-4 py-2.5 text-xs font-bold text-black transition hover:bg-zinc-200 dark:bg-black dark:text-white dark:hover:bg-zinc-800">
                 <Mail size={14} />
                 {lang === "en" ? "Email Us" : "ईमेल करें"}
               </a>
