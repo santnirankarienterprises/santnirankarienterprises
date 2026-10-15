@@ -5,8 +5,8 @@ import { prisma } from "@/lib/prisma";
 export const dynamic = "force-dynamic";
 
 function getRazorpayClient() {
-  const key_id = process.env.RAZORPAY_KEY_ID;
-  const key_secret = process.env.RAZORPAY_KEY_SECRET;
+  const key_id = (process.env.RAZORPAY_KEY_ID || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID)?.trim();
+  const key_secret = process.env.RAZORPAY_KEY_SECRET?.trim();
 
   if (!key_id || !key_secret) {
     return null;
@@ -87,16 +87,19 @@ export async function POST(req: Request) {
         currency: order.currency,
       },
     });
-  } catch (error) {
-    console.error(
-      "Razorpay order creation error:",
-      error
-    );
+  } catch (error: any) {
+    console.error("Razorpay order creation error:", error);
+
+    const errorMessage =
+      error?.error?.description ||
+      error?.description ||
+      error?.message ||
+      "Unable to create payment order.";
 
     return NextResponse.json(
       {
         success: false,
-        message: "Unable to create payment order.",
+        message: errorMessage,
       },
       { status: 500 }
     );
