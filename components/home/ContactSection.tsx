@@ -41,7 +41,7 @@ export default function ContactSection() {
 
         const text = `Hi, I am ${formData.name}.\nEmail: ${formData.email}\nPhone: ${formData.phone}\nMessage: ${formData.message}`;
         const encodedText = encodeURIComponent(text);
-        const whatsappUrl = `https://wa.me/917088642658?text=${encodedText}`;
+        const whatsappUrl = `https://wa.me/918171933515?text=${encodedText}`;
         
         window.open(whatsappUrl, '_blank');
         toast.success("Redirecting to WhatsApp...");
@@ -105,7 +105,7 @@ export default function ContactSection() {
                         </div>
 
                         {/* Email */}
-                        <a href="mailto:jobs.santnirankarienterprises@gmail.com" className="group relative block rounded-3xl p-[2px] bg-gradient-to-r from-blue-700/50 via-violet-700/50 to-emerald-600/50 transition-all duration-500 hover:from-blue-600 hover:via-violet-600 hover:to-emerald-500 hover:-translate-y-1 hover:shadow-[0_20px_40px_-15px_rgba(37,99,235,0.3)]">
+                        <a href="mailto:santnirankarienterprises1133@gmail.com" className="group relative block rounded-3xl p-[2px] bg-gradient-to-r from-blue-700/50 via-violet-700/50 to-emerald-600/50 transition-all duration-500 hover:from-blue-600 hover:via-violet-600 hover:to-emerald-500 hover:-translate-y-1 hover:shadow-[0_20px_40px_-15px_rgba(37,99,235,0.3)]">
                             <div className="relative flex items-center gap-5 overflow-hidden rounded-[22px] bg-white p-6 dark:bg-[#080808]">
                                 <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 dark:from-blue-900/10" />
                                 
@@ -115,14 +115,14 @@ export default function ContactSection() {
                                 <div className="relative z-10 min-w-0">
                                     <h3 className="text-base font-bold text-zinc-900 dark:text-white">Email Us</h3>
                                     <p className="mt-1 truncate text-sm text-zinc-500 dark:text-zinc-400">
-                                        jobs.santnirankarienterprises@gmail.com
+                                        santnirankarienterprises1133@gmail.com
                                     </p>
                                 </div>
                             </div>
                         </a>
 
                         {/* Phone */}
-                        <a href="tel:+917088642658" className="group relative block rounded-3xl p-[2px] bg-gradient-to-r from-blue-700/50 via-violet-700/50 to-emerald-600/50 transition-all duration-500 hover:from-blue-600 hover:via-violet-600 hover:to-emerald-500 hover:-translate-y-1 hover:shadow-[0_20px_40px_-15px_rgba(37,99,235,0.3)]">
+                        <a href="tel:+918171933515" className="group relative block rounded-3xl p-[2px] bg-gradient-to-r from-blue-700/50 via-violet-700/50 to-emerald-600/50 transition-all duration-500 hover:from-blue-600 hover:via-violet-600 hover:to-emerald-500 hover:-translate-y-1 hover:shadow-[0_20px_40px_-15px_rgba(37,99,235,0.3)]">
                             <div className="relative flex items-center gap-5 overflow-hidden rounded-[22px] bg-white p-6 dark:bg-[#080808]">
                                 <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 dark:from-blue-900/10" />
                                 
@@ -132,7 +132,7 @@ export default function ContactSection() {
                                 <div className="relative z-10">
                                     <h3 className="text-base font-bold text-zinc-900 dark:text-white">Call Us</h3>
                                     <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
-                                        +91 7088642658
+                                        +91 8171933515
                                     </p>
                                 </div>
                             </div>

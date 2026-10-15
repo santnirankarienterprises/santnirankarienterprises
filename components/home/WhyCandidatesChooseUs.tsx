@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } f
 import { Sparkles, ArrowRight } from "lucide-react";
 
 const benefits = [
-  { step: "01", title: "Registration", description: "Pay a nominal fee starting at ₹499 to create your candidate profile.", hoverClass: "hover:shadow-[0_0_25px_rgba(239,68,68,0.5)]", dotColor: "bg-red-500" },
+  { step: "01", title: "Registration", description: "Pay a nominal fee starting at ₹399 to create your candidate profile.", hoverClass: "hover:shadow-[0_0_25px_rgba(239,68,68,0.5)]", dotColor: "bg-red-500" },
   { step: "02", title: "Preferences", description: "Tell us your preferred role, industry, skills and location.", hoverClass: "hover:shadow-[0_0_25px_rgba(59,130,246,0.5)]", dotColor: "bg-blue-500" },
   { step: "03", title: "Industries", description: "Explore opportunities across automotive, manufacturing, EV and more.", hoverClass: "hover:shadow-[0_0_25px_rgba(16,185,129,0.5)]", dotColor: "bg-emerald-500" },
   { step: "04", title: "Locations", description: "Discover opportunities across Haridwar, SIDCUL, Pantnagar.", hoverClass: "hover:shadow-[0_0_25px_rgba(139,92,246,0.5)]", dotColor: "bg-violet-500" },

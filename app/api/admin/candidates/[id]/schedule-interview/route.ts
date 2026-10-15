@@ -68,7 +68,7 @@ export async function POST(
       await resend.emails.send({
         from: "Sant Nirankari Enterprises <info@santnirankarienterprises.in>",
         to: candidate.user.email,
-        replyTo: "jobs.santnirankarienterprises@gmail.com",
+        replyTo: "santnirankarienterprises1133@gmail.com",
         subject: `✨ INTERVIEW INVITATION: ${companyName}`,
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; line-height: 1.6; color: #333;">

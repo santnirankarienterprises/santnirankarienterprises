@@ -68,7 +68,7 @@ if (!success) {
     await resend.emails.send({
       from: "Sant Nirankari Enterprises <info@santnirankarienterprises.in>",
       to: cleanEmail,
-      replyTo: "jobs.santnirankarienterprises@gmail.com",
+      replyTo: "santnirankarienterprises1133@gmail.com",
       subject: "Password Reset OTP",
 
       html: `

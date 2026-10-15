@@ -149,7 +149,7 @@ async function sendReceiptEmail(user: any, paymentRecord: any, finalReceiptNumbe
     await resend.emails.send({
       from: "Sant Nirankari Enterprises <info@santnirankarienterprises.in>",
       to: user.email,
-      replyTo: "jobs.santnirankarienterprises@gmail.com",
+      replyTo: "santnirankarienterprises1133@gmail.com",
       subject: "Payment Receipt - Sant Nirankari Enterprise",
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; color: #18181b;">

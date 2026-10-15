@@ -162,64 +162,64 @@ export default function TermsPage() {
   const t = termsData[lang];
 
   return (
-    <main className="min-h-screen bg-zinc-50 text-zinc-950 dark:bg-zinc-950 dark:text-white">
-      <div className="mx-auto max-w-5xl px-4 py-5 sm:px-6 lg:px-8">
+    <main className="relative min-h-screen overflow-hidden bg-slate-50 text-slate-950 dark:bg-[#080b16] dark:text-white">
+      <div className="pointer-events-none fixed inset-0 -z-0 overflow-hidden"><div className="absolute -left-32 top-20 h-80 w-80 rounded-full bg-violet-400/20 blur-3xl dark:bg-violet-600/20" /><div className="absolute -right-24 top-72 h-96 w-96 rounded-full bg-cyan-400/20 blur-3xl dark:bg-cyan-500/15" /><div className="absolute bottom-0 left-1/3 h-72 w-72 rounded-full bg-fuchsia-400/10 blur-3xl dark:bg-fuchsia-500/10" /></div><div className="relative z-10 mx-auto max-w-5xl px-4 py-5 sm:px-6 lg:px-8">
 
         <div className="flex items-center justify-between">
-          <Link href="/" className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white px-4 py-2 text-xs font-semibold text-zinc-700 transition hover:border-zinc-300 hover:text-black dark:border-white/10 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:text-white">
+          <Link href="/" className="inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/80 px-4 py-2 text-xs font-semibold text-slate-700 shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:border-violet-300 hover:text-violet-700 dark:border-white/10 dark:bg-white/5 dark:text-slate-200 dark:hover:text-white">
             <ArrowLeft size={14} />
             {lang === "en" ? "Back to Home" : "होम पर वापस जाएं"}
           </Link>
 
           <button 
             onClick={() => setLang(lang === "en" ? "hi" : "en")}
-            className="inline-flex items-center gap-2 rounded-full border border-zinc-900 bg-zinc-900 px-4 py-2 text-xs font-bold text-white transition hover:bg-zinc-800 dark:border-white/20 dark:bg-zinc-100 dark:text-black dark:hover:bg-white"
+            className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-violet-600 via-indigo-600 to-cyan-500 px-4 py-2 text-xs font-bold text-white shadow-lg shadow-indigo-500/20 transition hover:-translate-y-0.5 hover:shadow-indigo-500/30"
           >
             <Languages size={14} />
             {lang === "en" ? "हिंदी में पढ़ें" : "Read in English"}
           </button>
         </div>
 
-        <section className="mt-10 border-b border-zinc-200 pb-10 dark:border-white/10 sm:mt-14 sm:pb-12">
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-zinc-950 text-white dark:bg-white dark:text-black">
+        <section className="relative mt-8 overflow-hidden rounded-[2rem] border border-white/70 bg-white/70 px-6 py-8 shadow-xl shadow-indigo-950/5 backdrop-blur-xl dark:border-white/10 dark:bg-white/[0.04] sm:mt-12 sm:px-10 sm:py-12">
+          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-600 via-indigo-600 to-cyan-500 text-white shadow-lg shadow-indigo-500/25">
             <ShieldCheck size={21} />
           </div>
 
-          <p className="mt-6 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500 dark:text-zinc-400">
+          <p className="mt-6 text-[10px] font-bold uppercase tracking-[0.24em] text-indigo-600 dark:text-cyan-300">
             {t.subtitle}
           </p>
 
-          <h1 className="mt-3 max-w-3xl text-4xl font-bold tracking-[-0.04em] sm:text-5xl lg:text-6xl">
+          <h1 className="mt-3 max-w-3xl bg-gradient-to-r from-violet-700 via-indigo-600 to-cyan-600 bg-clip-text text-4xl font-extrabold tracking-[-0.045em] text-transparent sm:text-5xl lg:text-6xl dark:from-violet-300 dark:via-indigo-300 dark:to-cyan-300">
             {t.title}
           </h1>
 
-          <p className="mt-5 max-w-2xl text-sm leading-6 text-zinc-600 dark:text-zinc-400 sm:text-base sm:leading-7">
+          <p className="mt-5 max-w-2xl text-sm leading-7 text-slate-600 dark:text-slate-300 sm:text-base sm:leading-8">
             {t.description}
           </p>
 
           <div className="mt-6 flex flex-wrap gap-2">
             {t.tags.map((tag, i) => (
-              <span key={i} className="rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-[10px] font-semibold text-zinc-600 dark:border-white/10 dark:bg-zinc-900 dark:text-zinc-400">
+              <span key={i} className="rounded-full border border-indigo-100 bg-gradient-to-r from-white to-indigo-50/80 px-3 py-1.5 text-[10px] font-semibold text-indigo-700 shadow-sm dark:border-white/10 dark:from-white/10 dark:to-cyan-400/5 dark:text-indigo-200">
                 {tag}
               </span>
             ))}
           </div>
         </section>
 
-        <section className="py-10 sm:py-12">
+        <section className="py-8 sm:py-10">
           <div className="space-y-4 sm:space-y-5">
             {t.terms.map((term) => (
-              <article key={term.number} className="group rounded-2xl border border-zinc-200 bg-white p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-zinc-300 hover:shadow-sm dark:border-white/10 dark:bg-zinc-900 dark:hover:border-white/20 sm:p-6">
+              <article key={term.number} className="group relative overflow-hidden rounded-2xl border border-white/80 bg-white/80 p-5 shadow-lg shadow-slate-900/[0.03] backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:border-indigo-200 hover:shadow-xl hover:shadow-indigo-500/10 dark:border-white/10 dark:bg-white/[0.045] dark:hover:border-indigo-400/30 dark:hover:shadow-indigo-950/30 sm:p-6">
                 <div className="flex gap-4 sm:gap-5">
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-zinc-950 text-[10px] font-bold text-white dark:bg-white dark:text-black">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-violet-600 via-indigo-600 to-cyan-500 text-[10px] font-extrabold text-white shadow-md shadow-indigo-500/20">
                     {term.number}
                   </span>
 
                   <div className="min-w-0">
-                    <h2 className="text-base font-bold tracking-tight text-zinc-950 dark:text-white sm:text-lg">
+                    <h2 className="text-base font-bold tracking-tight text-slate-900 transition-colors group-hover:text-indigo-700 dark:text-white dark:group-hover:text-cyan-200 sm:text-lg">
                       {term.title}
                     </h2>
-                    <p className="mt-2.5 text-xs leading-6 text-zinc-600 dark:text-zinc-400 sm:text-sm sm:leading-7">
+                    <p className="mt-2.5 text-xs leading-6 text-slate-600 dark:text-slate-300 sm:text-sm sm:leading-7">
                       {term.text}
                     </p>
                   </div>
@@ -229,39 +229,39 @@ export default function TermsPage() {
           </div>
         </section>
 
-        <section className="rounded-2xl bg-zinc-950 p-6 text-white sm:p-8 dark:bg-white dark:text-black">
+        <section className="relative overflow-hidden rounded-[1.75rem] bg-gradient-to-br from-violet-700 via-indigo-700 to-cyan-600 p-6 text-white shadow-2xl shadow-indigo-900/20 sm:p-8">
           <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <div className="flex items-center gap-2">
                 <CheckCircle2 size={18} />
                 <p className="text-sm font-bold">{t.questions}</p>
               </div>
-              <p className="mt-2 max-w-xl text-xs leading-5 text-zinc-400 dark:text-zinc-600">
+              <p className="mt-2 max-w-xl text-xs leading-5 text-white/80 sm:text-sm">
                 {t.contactDesc}
               </p>
             </div>
 
             <div className="flex shrink-0 flex-col gap-2">
-              <a href="mailto:jobs.santnirankarienterprises@gmail.com" className="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-4 py-2.5 text-xs font-bold text-black transition hover:bg-zinc-200 dark:bg-black dark:text-white dark:hover:bg-zinc-800">
+              <a href="mailto:santnirankarienterprises1133@gmail.com" className="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-4 py-2.5 text-xs font-bold text-indigo-700 shadow-lg transition hover:-translate-y-0.5 hover:bg-indigo-50">
                 <Mail size={14} />
                 {lang === "en" ? "Email Us" : "ईमेल करें"}
               </a>
 
-              <a href="tel:+917088642658" className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/15 px-4 py-2.5 text-xs font-semibold text-zinc-300 transition hover:bg-white/10 dark:border-black/15 dark:text-zinc-700 dark:hover:bg-black/10">
+              <a href="tel:+918171933515" className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/30 bg-white/10 px-4 py-2.5 text-xs font-semibold text-white backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/20">
                 <MessageCircle size={14} />
-                +91 7088642658
+                +91 8171933515
               </a>
             </div>
           </div>
         </section>
 
-        <footer className="flex flex-col gap-2 border-t border-zinc-200 py-6 text-[10px] text-zinc-400 dark:border-white/10 dark:text-zinc-600 sm:flex-row sm:items-center sm:justify-between">
+        <footer className="mt-8 flex flex-col gap-2 border-t border-slate-200/80 py-6 text-[10px] text-slate-500 dark:border-white/10 dark:text-slate-400 sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} Sant Nirankari Enterprise.</p>
           <div className="flex gap-4">
-            <Link href="/" className="transition hover:text-zinc-950 dark:hover:text-white">
+            <Link href="/" className="transition hover:text-indigo-600 dark:hover:text-cyan-300">
               {lang === "en" ? "Home" : "होम"}
             </Link>
-            <Link href="/privacy" className="transition hover:text-zinc-950 dark:hover:text-white">
+            <Link href="/privacy" className="transition hover:text-indigo-600 dark:hover:text-cyan-300">
               {lang === "en" ? "Privacy Policy" : "गोपनीयता नीति"}
             </Link>
           </div>

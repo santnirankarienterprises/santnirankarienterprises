@@ -43,8 +43,8 @@ export default function Home() {
           latitude: '29.9457',
           longitude: '78.0772'
         },
-        telephone: '+917088642658',
-        email: 'jobs.santnirankarienterprises@gmail.com',
+        telephone: '+918171933515',
+        email: 'santnirankarienterprises1133@gmail.com',
         priceRange: '₹₹',
         areaServed: [
           'Haridwar',
@@ -70,7 +70,7 @@ export default function Home() {
       },
       {
         '@type': 'FAQPage',
-        '@id': 'https://www.santnirankarienterprise.co.in/#faq',
+        '@id': 'https://www.santnirankarienterprise.in/#faq',
         mainEntity: [
           {
             '@type': 'Question',
