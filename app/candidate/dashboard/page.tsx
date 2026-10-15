@@ -175,7 +175,7 @@ export default function CandidateDashboardPage() {
         prefill: {
           name: profile?.user?.fullName || "Candidate",
           email: profile?.user?.email || "",
-          contact: profile?.phone || "",
+          contact: (profile?.phone || "").replace(/\D/g, "").slice(-10),
         },
         theme: {
           color: "#ea580c",
@@ -188,6 +188,14 @@ export default function CandidateDashboardPage() {
       };
 
       const razorpay = new window.Razorpay(options);
+
+      razorpay.on("payment.failed", function (response: any) {
+        console.error("Razorpay Payment Failed:", response.error);
+        const reason = response.error?.description || response.error?.reason || "Payment failed or was cancelled.";
+        alert(`Payment Failed: ${reason}`);
+        setPaymentProcessing(false);
+      });
+
       razorpay.open();
     } catch (error) {
       console.error("Payment error:", error);
