@@ -537,11 +537,23 @@ Recruitment • Placement • Manpower Services`;
           });
           clearTimeout(timeoutId);
 
-          const uploadData = await uploadRes.json();
-          if (uploadData.success) {
-            resumeUrl = uploadData.fileUrl;
+          let uploadData: { success?: boolean; fileUrl?: string; message?: string } | null = null;
+          const resText = await uploadRes.text();
+          try {
+            uploadData = JSON.parse(resText);
+          } catch {
+            // Server returned non-JSON
+          }
+
+          if (uploadRes.ok && uploadData?.success) {
+            resumeUrl = uploadData.fileUrl || "";
           } else {
-            toast.error(uploadData.message || "Failed to upload resume.");
+            const errMsg =
+              uploadData?.message ||
+              (uploadRes.status === 413
+                ? "Resume file exceeds server limit. Please use a file under 3.5MB."
+                : "Failed to upload resume.");
+            toast.error(errMsg);
             setIsAdding(false);
             return;
           }
@@ -550,7 +562,7 @@ Recruitment • Placement • Manpower Services`;
           toast.error(
             uploadErr?.name === "AbortError"
               ? "Resume upload timed out. Please check network connection."
-              : "Failed to upload resume."
+              : `Failed to upload resume (${uploadErr?.message || "network error"}).`
           );
           setIsAdding(false);
           return;

@@ -95,10 +95,23 @@ export default function FastApplySection() {
 
       clearTimeout(timeoutId);
 
-      const uploadData = await uploadRes.json();
+      let uploadData: { success?: boolean; fileUrl?: string; message?: string } | null = null;
+      const resText = await uploadRes.text();
+      try {
+        uploadData = JSON.parse(resText);
+      } catch {
+        // Server returned non-JSON HTML/text
+      }
 
-      if (!uploadRes.ok || !uploadData.success) {
-        setError(uploadData.message || "Failed to upload resume. Please try again.");
+      if (!uploadRes.ok || !uploadData?.success) {
+        const errMsg =
+          uploadData?.message ||
+          (uploadRes.status === 413
+            ? "Your resume file is too large for the server. Please compress your PDF to under 3.5MB."
+            : uploadRes.status >= 500
+            ? "Upload server error. Please try again shortly or use a compressed PDF."
+            : "Failed to upload resume. Please try again.");
+        setError(errMsg);
         setLoading(false);
         return;
       }

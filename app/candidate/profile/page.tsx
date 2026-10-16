@@ -496,11 +496,24 @@ export default function CandidateProfilePage() {
           });
           clearTimeout(timeoutId);
 
-          const uploadData = await uploadRes.json();
-          if (uploadData.success) {
-            resumeUrl = uploadData.fileUrl;
+          let uploadData: { success?: boolean; fileUrl?: string; message?: string } | null = null;
+          const resText = await uploadRes.text();
+          try {
+            uploadData = JSON.parse(resText);
+          } catch {
+            // Server returned non-JSON (e.g. 413 Payload Too Large or 504 Gateway Timeout HTML)
+          }
+
+          if (uploadRes.ok && uploadData?.success) {
+            resumeUrl = uploadData.fileUrl || "";
           } else {
-            const errMsg = uploadData.message || "Failed to upload resume. Please try again.";
+            const errMsg =
+              uploadData?.message ||
+              (uploadRes.status === 413
+                ? `Resume file "${resumeFile.name}" exceeds the server upload limit. Please compress your PDF to under 3.5MB.`
+                : uploadRes.status >= 500
+                ? `Server encountered an error (${uploadRes.status}). Please try again shortly or use a compressed PDF.`
+                : "Failed to upload resume. Please try again.");
             alert(errMsg);
             setErrors((prev) => ({ ...prev, resumeFile: errMsg }));
             setIsSubmitting(false);
@@ -511,8 +524,8 @@ export default function CandidateProfilePage() {
           console.error("Profile resume upload error:", uploadErr);
           const errMsg =
             uploadErr?.name === "AbortError"
-              ? "Resume upload timed out due to slow connection. Please try a smaller PDF file or check your network."
-              : "Failed to upload resume. Please check your internet connection.";
+              ? "Resume upload timed out. Please try a smaller PDF file or check your network."
+              : `Resume upload failed (${uploadErr?.message || "network/security error"}). Please try a smaller PDF file or ensure you are visiting https://www.santnirankarienterprises.in`;
           alert(errMsg);
           setErrors((prev) => ({ ...prev, resumeFile: errMsg }));
           setIsSubmitting(false);
@@ -676,13 +689,13 @@ export default function CandidateProfilePage() {
                 // File handler
                 onFileChange={(file) => {
                   if (file) {
-                    const MAX_SIZE = 4 * 1024 * 1024; // 4MB
+                    const MAX_SIZE = 3.5 * 1024 * 1024; // 3.5MB
                     if (file.size > MAX_SIZE) {
                       const sizeMB = (file.size / (1024 * 1024)).toFixed(1);
                       setResumeFile(null);
                       setErrors((prev) => ({
                         ...prev,
-                        resumeFile: `File size is ${sizeMB}MB. Please compress your resume or upload a document under 4MB.`,
+                        resumeFile: `File size is ${sizeMB}MB. Please compress your resume or upload a document under 3.5MB.`,
                       }));
                       return;
                     }

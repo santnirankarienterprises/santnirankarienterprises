@@ -7,6 +7,19 @@ import { UTApi } from "uploadthing/server";
 export const maxDuration = 60;
 export const dynamic = "force-dynamic";
 
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type",
+};
+
+export async function OPTIONS() {
+  return new NextResponse(null, {
+    status: 204,
+    headers: corsHeaders,
+  });
+}
+
 export async function POST(request: Request) {
   try {
     const formData = await request.formData();
@@ -15,7 +28,7 @@ export async function POST(request: Request) {
     if (!file) {
       return NextResponse.json(
         { success: false, message: "No file uploaded" },
-        { status: 400 }
+        { status: 400, headers: corsHeaders }
       );
     }
 
@@ -45,7 +58,7 @@ export async function POST(request: Request) {
           message:
             "Please upload a PDF file (PDF is preferred; .docx and .doc are also supported).",
         },
-        { status: 400 }
+        { status: 400, headers: corsHeaders }
       );
     }
 
@@ -63,7 +76,7 @@ export async function POST(request: Request) {
           success: false,
           message: `File size is ${sizeMB}MB. Please upload a document under 4MB.`,
         },
-        { status: 400 }
+        { status: 400, headers: corsHeaders }
       );
     }
 
@@ -96,7 +109,7 @@ export async function POST(request: Request) {
             success: true,
             fileUrl,
             provider: "uploadthing",
-          });
+          }, { headers: corsHeaders });
         }
 
         if (resObj?.error) {
@@ -124,7 +137,7 @@ export async function POST(request: Request) {
           message:
             "Resume upload could not be completed. Please ensure your file is under 4MB and try again, or check your connection.",
         },
-        { status: 500 }
+        { status: 500, headers: corsHeaders }
       );
     }
 
@@ -145,7 +158,7 @@ export async function POST(request: Request) {
       success: true,
       fileUrl,
       provider: "local",
-    });
+    }, { headers: corsHeaders });
   } catch (error: any) {
     console.error("UPLOAD ROUTE ERROR:", error);
     return NextResponse.json(
@@ -155,7 +168,7 @@ export async function POST(request: Request) {
           error?.message ||
           "Upload failed. Please check your connection and try again.",
       },
-      { status: 500 }
+      { status: 500, headers: corsHeaders }
     );
   }
 }
