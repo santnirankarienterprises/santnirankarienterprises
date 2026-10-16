@@ -16,6 +16,7 @@ import {
   CheckCircle2,
   Clock,
   Receipt,
+  Loader2,
 } from "lucide-react";
 
 import { DashboardNav } from "@/components/dashboard/dashboard-nav";
@@ -38,6 +39,7 @@ export default function CandidateDashboardPage() {
   const [loading, setLoading] = useState(true);
   const [authorized, setAuthorized] = useState(false);
   const [paymentProcessing, setPaymentProcessing] = useState(false);
+  const [paymentRedirecting, setPaymentRedirecting] = useState(false);
 
   useEffect(() => {
     const loadDashboard = async () => {
@@ -141,6 +143,7 @@ export default function CandidateDashboardPage() {
         description: "Candidate Registration Fee",
         order_id: order.id,
         handler: async function (response: any) {
+          setPaymentRedirecting(true);
           try {
             // Verify Payment
             const verifyResponse = await fetch("/api/payment/verify", {
@@ -159,16 +162,19 @@ export default function CandidateDashboardPage() {
             const verifyResult = await verifyResponse.json();
 
             if (!verifyResult.success) {
+              setPaymentRedirecting(false);
               alert(verifyResult.message || "Payment verification failed.");
               setPaymentProcessing(false);
               return;
             }
 
-            // Payment Successfully Verified
-            alert("Payment successful! Unlocking your dashboard...");
-            window.location.reload(); // Reload to fetch updated payment status
+            // Payment successfully verified -> brief delay so candidate sees the confirmation before reload
+            setTimeout(() => {
+              window.location.reload();
+            }, 1200);
           } catch (error) {
             console.error("Payment verification error:", error);
+            setPaymentRedirecting(false);
             alert("Payment was completed, but verification failed. Please contact support.");
             setPaymentProcessing(false);
           }
@@ -236,11 +242,32 @@ export default function CandidateDashboardPage() {
       <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="afterInteractive" />
       <DashboardNav />
 
+      {/* Payment Success Redirecting Overlay */}
+      {paymentRedirecting && (
+        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/60 backdrop-blur-md p-4 animate-in fade-in duration-300">
+          <div className="w-full max-w-md rounded-3xl border border-white/20 bg-white p-8 sm:p-10 text-center shadow-2xl dark:border-zinc-800 dark:bg-zinc-900 animate-in zoom-in-95 duration-300">
+            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400">
+              <CheckCircle2 size={44} className="animate-pulse" />
+            </div>
+
+            <h3 className="mt-5 text-2xl font-bold text-zinc-900 dark:text-white">
+              Payment Successful!
+            </h3>
+
+            <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+              Please wait, redirecting to your dashboard...
+            </p>
+
+            <div className="mt-6 flex items-center justify-center gap-2.5 text-xs font-semibold text-orange-600 dark:text-orange-400">
+              <Loader2 size={18} className="animate-spin" />
+              <span>Unlocking your dashboard & interview schedule...</span>
+            </div>
+          </div>
+        </div>
+      )}
+
       <main className="mx-auto max-w-7xl px-4 pb-12 pt-32 sm:px-6 relative z-10">
 
-        {/* ========================================
-            UNPAID VIEW (PAYMENT WALL)
-        ======================================== */}
         {/* ========================================
             UNPAID VIEW (PAYMENT WALL)
         ======================================== */}

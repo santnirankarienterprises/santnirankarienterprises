@@ -53,7 +53,12 @@ export async function POST(req: Request) {
       );
     }
 
-    // Determine amount (Dynamic from GlobalSettings if set)
+    // =========================================================================
+    // TEMPORARY TESTING: ₹1 (100 paise)
+    // To revert back to ₹399, set amount = 39900
+    // =========================================================================
+    const amount = 100; // ₹1 in paise for testing
+    /*
     let amount = 39900; // default ₹399 in paise
     try {
       const settings: any = await prisma.$queryRaw`SELECT value FROM "GlobalSettings" WHERE key = 'PREMIUM_FEE' LIMIT 1`;
@@ -66,6 +71,7 @@ export async function POST(req: Request) {
     } catch {
       // fallback to 39900
     }
+    */
 
     const order = await razorpay.orders.create({
       amount,
