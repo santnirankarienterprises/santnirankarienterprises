@@ -482,18 +482,37 @@ export default function CandidateProfilePage() {
 
       let resumeUrl = "";
       if (resumeFile) {
-        const formData = new FormData();
-        formData.append("file", resumeFile);
+        const uploadController = new AbortController();
+        const timeoutId = setTimeout(() => uploadController.abort(), 45000);
 
-        const uploadRes = await fetch("/api/upload", {
-          method: "POST",
-          body: formData,
-        });
-        const uploadData = await uploadRes.json();
-        if (uploadData.success) {
-          resumeUrl = uploadData.fileUrl;
-        } else {
-          const errMsg = uploadData.message || "Failed to upload resume.";
+        try {
+          const formData = new FormData();
+          formData.append("file", resumeFile);
+
+          const uploadRes = await fetch("/api/upload", {
+            method: "POST",
+            body: formData,
+            signal: uploadController.signal,
+          });
+          clearTimeout(timeoutId);
+
+          const uploadData = await uploadRes.json();
+          if (uploadData.success) {
+            resumeUrl = uploadData.fileUrl;
+          } else {
+            const errMsg = uploadData.message || "Failed to upload resume. Please try again.";
+            alert(errMsg);
+            setErrors((prev) => ({ ...prev, resumeFile: errMsg }));
+            setIsSubmitting(false);
+            return;
+          }
+        } catch (uploadErr: any) {
+          clearTimeout(timeoutId);
+          console.error("Profile resume upload error:", uploadErr);
+          const errMsg =
+            uploadErr?.name === "AbortError"
+              ? "Resume upload timed out due to slow connection. Please try a smaller PDF file or check your network."
+              : "Failed to upload resume. Please check your internet connection.";
           alert(errMsg);
           setErrors((prev) => ({ ...prev, resumeFile: errMsg }));
           setIsSubmitting(false);
@@ -657,18 +676,26 @@ export default function CandidateProfilePage() {
                 // File handler
                 onFileChange={(file) => {
                   if (file) {
-                    const MAX_SIZE = 3 * 1024 * 1024; // 3MB
+                    const MAX_SIZE = 4 * 1024 * 1024; // 4MB
                     if (file.size > MAX_SIZE) {
                       const sizeMB = (file.size / (1024 * 1024)).toFixed(1);
                       setResumeFile(null);
                       setErrors((prev) => ({
                         ...prev,
-                        resumeFile: `File size is ${sizeMB}MB. Only documents under 3MB are allowed.`,
+                        resumeFile: `File size is ${sizeMB}MB. Please compress your resume or upload a document under 4MB.`,
                       }));
                       return;
                     }
-                    const ext = file.name.split(".").pop()?.toLowerCase();
-                    if (!["pdf", "doc", "docx"].includes(ext || "")) {
+                    const ext = file.name ? file.name.split(".").pop()?.toLowerCase() : "";
+                    const mime = file.type ? file.type.toLowerCase() : "";
+                    const isPdf = ext === "pdf" || mime === "application/pdf" || mime.includes("pdf");
+                    const isDoc =
+                      ["doc", "docx"].includes(ext || "") ||
+                      mime.includes("word") ||
+                      mime === "application/msword" ||
+                      mime === "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+
+                    if (!isPdf && !isDoc) {
                       setResumeFile(null);
                       setErrors((prev) => ({
                         ...prev,

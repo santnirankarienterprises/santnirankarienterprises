@@ -32,16 +32,24 @@ export default function FastApplySection() {
       return;
     }
 
-    const MAX_SIZE = 3 * 1024 * 1024; // 3MB
+    const MAX_SIZE = 4 * 1024 * 1024; // 4MB
     if (file.size > MAX_SIZE) {
       const sizeMB = (file.size / (1024 * 1024)).toFixed(1);
-      setError(`File size is ${sizeMB}MB. Only documents under 3MB are allowed.`);
+      setError(`File size is ${sizeMB}MB. Please compress your resume or upload a document under 4MB.`);
       setResumeFile(null);
       return;
     }
 
-    const ext = file.name.split(".").pop()?.toLowerCase();
-    if (!["pdf", "doc", "docx"].includes(ext || "")) {
+    const ext = file.name ? file.name.split(".").pop()?.toLowerCase() : "";
+    const mime = file.type ? file.type.toLowerCase() : "";
+    const isPdf = ext === "pdf" || mime === "application/pdf" || mime.includes("pdf");
+    const isDoc =
+      ["doc", "docx"].includes(ext || "") ||
+      mime.includes("word") ||
+      mime === "application/msword" ||
+      mime === "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+
+    if (!isPdf && !isDoc) {
       setError("Please upload a PDF file (PDF is preferred; .docx and .doc are also supported).");
       setResumeFile(null);
       return;
@@ -65,11 +73,14 @@ export default function FastApplySection() {
     }
 
     if (!resumeFile) {
-      setError("Please upload your resume (PDF preferred, max 3MB).");
+      setError("Please upload your resume (PDF preferred, max 4MB).");
       return;
     }
 
     setLoading(true);
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 45000); // 45 seconds timeout protection
 
     try {
       // 1. Upload resume
@@ -79,7 +90,10 @@ export default function FastApplySection() {
       const uploadRes = await fetch("/api/upload", {
         method: "POST",
         body: formData,
+        signal: controller.signal,
       });
+
+      clearTimeout(timeoutId);
 
       const uploadData = await uploadRes.json();
 
@@ -113,8 +127,13 @@ export default function FastApplySection() {
       setPhone("");
       setResumeFile(null);
     } catch (err: any) {
-      console.error(err);
-      setError("Something went wrong. Please check your connection and try again.");
+      clearTimeout(timeoutId);
+      console.error("Fast apply upload error:", err);
+      if (err.name === "AbortError") {
+        setError("Upload timed out due to a slow mobile connection. Please ensure your mobile data is active or try a smaller PDF file.");
+      } else {
+        setError("Network connection issue. Please check your internet connection and try again.");
+      }
     } finally {
       setLoading(false);
     }
@@ -161,14 +180,6 @@ export default function FastApplySection() {
                 <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
                   Our HR team is checking open opportunities against your resume. We will contact you on your phone number shortly.
                 </p>
-
-                <button
-                  type="button"
-                  onClick={() => setSuccess(false)}
-                  className="mt-6 inline-flex items-center gap-2 rounded-xl bg-zinc-900 px-5 py-2.5 text-xs font-semibold text-white shadow-sm hover:bg-zinc-800 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200 transition-colors"
-                >
-                  Upload Another Resume
-                </button>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
@@ -213,7 +224,7 @@ export default function FastApplySection() {
                       Upload Resume
                     </label>
                     <span className="text-[11px] font-medium text-zinc-500">
-                      PDF Preferred (Max 3MB)
+                      PDF Preferred (Max 4MB)
                     </span>
                   </div>
 
@@ -224,7 +235,7 @@ export default function FastApplySection() {
                   }`}>
                     <input
                       type="file"
-                      accept=".pdf,.doc,.docx"
+                      accept="application/pdf,.pdf,application/msword,.doc,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.docx"
                       onChange={(e) => handleFileChange(e.target.files?.[0] || null)}
                       className="absolute inset-0 cursor-pointer opacity-0"
                     />
@@ -250,7 +261,7 @@ export default function FastApplySection() {
                           Drop your resume here, or <span className="text-blue-600 underline">browse</span>
                         </p>
                         <p className="text-[11px] text-zinc-400">
-                          Supports PDF, DOCX (Max 3MB)
+                          Supports PDF, DOCX (Max 4MB)
                         </p>
                       </div>
                     )}

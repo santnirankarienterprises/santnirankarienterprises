@@ -312,13 +312,13 @@ export default function ProfileStep3({
               Upload Resume
             </label>
             <p className="mt-0.5 text-xs text-zinc-500 dark:text-zinc-400">
-              Please upload a PDF file (PDF is preferred; .docx and .doc are also supported). Max file size: <span className="font-semibold text-orange-600 dark:text-orange-400">3 MB</span>.
+              Please upload a PDF file (PDF is preferred; .docx and .doc are also supported). Max file size: <span className="font-semibold text-orange-600 dark:text-orange-400">4 MB</span>.
             </p>
           </div>
           <div className={`relative flex items-center justify-center w-full h-32 border-2 border-dashed rounded-xl transition-all duration-200 ${resumeFile ? 'border-orange-500 bg-orange-500/10' : 'border-zinc-300 dark:border-zinc-700 bg-white/50 dark:bg-zinc-900/50 hover:bg-orange-50 dark:hover:bg-orange-950/20 hover:border-orange-300 dark:hover:border-orange-700'}`}>
             <input
               type="file"
-              accept=".pdf,.doc,.docx"
+              accept="application/pdf,.pdf,application/msword,.doc,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.docx"
               onChange={(e) => onFileChange(e.target.files?.[0] || null)}
               className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
             />

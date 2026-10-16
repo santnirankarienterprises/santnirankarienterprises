@@ -524,17 +524,34 @@ Recruitment • Placement • Manpower Services`;
     try {
       let resumeUrl = "";
       if (resumeFile) {
-        const formData = new FormData();
-        formData.append("file", resumeFile);
-        const uploadRes = await fetch("/api/upload", {
-          method: "POST",
-          body: formData,
-        });
-        const uploadData = await uploadRes.json();
-        if (uploadData.success) {
-          resumeUrl = uploadData.fileUrl;
-        } else {
-          toast.error(uploadData.message || "Failed to upload resume.");
+        const uploadController = new AbortController();
+        const timeoutId = setTimeout(() => uploadController.abort(), 45000);
+
+        try {
+          const formData = new FormData();
+          formData.append("file", resumeFile);
+          const uploadRes = await fetch("/api/upload", {
+            method: "POST",
+            body: formData,
+            signal: uploadController.signal,
+          });
+          clearTimeout(timeoutId);
+
+          const uploadData = await uploadRes.json();
+          if (uploadData.success) {
+            resumeUrl = uploadData.fileUrl;
+          } else {
+            toast.error(uploadData.message || "Failed to upload resume.");
+            setIsAdding(false);
+            return;
+          }
+        } catch (uploadErr: any) {
+          clearTimeout(timeoutId);
+          toast.error(
+            uploadErr?.name === "AbortError"
+              ? "Resume upload timed out. Please check network connection."
+              : "Failed to upload resume."
+          );
           setIsAdding(false);
           return;
         }
@@ -1753,24 +1770,32 @@ _Manpower & Placement Services_
                 <div className="md:col-span-2">
                   <label className="block text-sm font-semibold text-zinc-700">Resume Upload (Optional)</label>
                   <p className="mb-2 text-xs text-zinc-500">
-                    Please upload a PDF file (PDF is preferred; .docx and .doc are also supported). Max 3MB.
+                    Please upload a PDF file (PDF is preferred; .docx and .doc are also supported). Max 4MB.
                   </p>
                   <div className="flex items-center gap-4 rounded-xl border border-dashed border-zinc-300 bg-zinc-50 p-4 transition-colors hover:border-blue-400 hover:bg-blue-50/50">
                     <input
                       type="file"
-                      accept=".pdf,.doc,.docx"
+                      accept="application/pdf,.pdf,application/msword,.doc,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.docx"
                       onChange={(e) => {
                         const file = e.target.files?.[0] || null;
                         if (file) {
-                          if (file.size > 3 * 1024 * 1024) {
+                          if (file.size > 4 * 1024 * 1024) {
                             const sizeMB = (file.size / (1024 * 1024)).toFixed(1);
-                            toast.error(`File size is ${sizeMB}MB. Only documents under 3MB are allowed.`);
+                            toast.error(`File size is ${sizeMB}MB. Only documents under 4MB are allowed.`);
                             e.target.value = "";
                             setResumeFile(null);
                             return;
                           }
-                          const ext = file.name.split(".").pop()?.toLowerCase();
-                          if (!["pdf", "doc", "docx"].includes(ext || "")) {
+                          const ext = file.name ? file.name.split(".").pop()?.toLowerCase() : "";
+                          const mime = file.type ? file.type.toLowerCase() : "";
+                          const isPdf = ext === "pdf" || mime === "application/pdf" || mime.includes("pdf");
+                          const isDoc =
+                            ["doc", "docx"].includes(ext || "") ||
+                            mime.includes("word") ||
+                            mime === "application/msword" ||
+                            mime === "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+
+                          if (!isPdf && !isDoc) {
                             toast.error("Please upload a PDF file (PDF is preferred; .docx and .doc are also supported).");
                             e.target.value = "";
                             setResumeFile(null);

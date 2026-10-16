@@ -13,13 +13,16 @@ export async function POST(req: Request) {
   try {
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature, userId } = await req.json();
 
-    if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
+    const key_id = (process.env.RAZORPAY_KEY_ID || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID)?.trim();
+    const key_secret = process.env.RAZORPAY_KEY_SECRET?.trim();
+
+    if (!key_id || !key_secret) {
       return NextResponse.json({ success: false, message: "Payment service is currently not configured." }, { status: 503 });
     }
 
     const razorpay = new Razorpay({
-      key_id: process.env.RAZORPAY_KEY_ID,
-      key_secret: process.env.RAZORPAY_KEY_SECRET,
+      key_id,
+      key_secret,
     });
 
     const resend = new Resend(process.env.RESEND_API_KEY);
@@ -31,7 +34,7 @@ export async function POST(req: Request) {
 
     // 2. VERIFY RAZORPAY SIGNATURE
     const body = razorpay_order_id + "|" + razorpay_payment_id;
-    const expectedSignature = crypto.createHmac("sha256", process.env.RAZORPAY_KEY_SECRET!).update(body).digest("hex");
+    const expectedSignature = crypto.createHmac("sha256", key_secret).update(body).digest("hex");
     if (expectedSignature !== razorpay_signature) {
       return NextResponse.json({ success: false, message: "Payment verification failed." }, { status: 400 });
     }
@@ -82,11 +85,9 @@ export async function POST(req: Request) {
     const receiptDate = new Date().toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
     const receiptTime = new Date().toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit", hour12: true });
 
-    // 11. CREATE PDF & EMAIL ASYNCHRONOUSLY (Non-blocking)
-    // We run this in the background so the user gets an instant success response!
-    (async () => {
-      try {
-        const pdfDoc = await PDFDocument.create();
+    // 11. CREATE PDF & EMAIL (Wrapped in try/catch so email errors never block successful verification)
+    try {
+      const pdfDoc = await PDFDocument.create();
         const page = pdfDoc.addPage([595, 842]);
         const regularFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
         const boldFont = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
@@ -264,7 +265,6 @@ export async function POST(req: Request) {
       } catch (emailError) {
         console.error("Failed to send receipt email:", emailError);
       }
-    })();
 
     // SUCCESS RESPONSE
     return NextResponse.json({

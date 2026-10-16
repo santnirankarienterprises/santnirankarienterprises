@@ -14,7 +14,8 @@ import {
   UserRound,
   Calendar,
   CheckCircle2,
-  Clock
+  Clock,
+  Receipt,
 } from "lucide-react";
 
 import { DashboardNav } from "@/components/dashboard/dashboard-nav";
@@ -119,7 +120,7 @@ export default function CandidateDashboardPage() {
       const order = orderResult.order;
 
       if (typeof window === "undefined" || !window.Razorpay) {
-        alert("Payment gateway is initializing. Please try again in a few seconds.");
+        alert("Payment gateway is initializing. If you use an ad-blocker, please disable it and try again.");
         setPaymentProcessing(false);
         return;
       }
@@ -362,11 +363,23 @@ export default function CandidateDashboardPage() {
                     Track Your all Interviews Updates.
                   </p>
                 </div>
-                <div className="rounded-2xl border border-white/20 bg-white/10 p-5 backdrop-blur-md shadow-inner">
-                  <p className="text-sm font-semibold uppercase tracking-wider text-white/70">Current Status</p>
-                  <p className="mt-1 text-2xl font-bold sm:text-3xl text-emerald-300 drop-shadow-md">
-                    {profile?.status || "Applied"}
-                  </p>
+                <div className="flex flex-wrap items-center gap-3">
+                  <div className="rounded-2xl border border-white/20 bg-white/10 p-5 backdrop-blur-md shadow-inner">
+                    <p className="text-sm font-semibold uppercase tracking-wider text-white/70">Current Status</p>
+                    <p className="mt-1 text-2xl font-bold sm:text-3xl text-emerald-300 drop-shadow-md">
+                      {profile?.status || "Applied"}
+                    </p>
+                  </div>
+                  {payment?.id && (
+                    <Link
+                      href={`/receipt/${payment.id}`}
+                      target="_blank"
+                      className="inline-flex items-center gap-2 rounded-2xl bg-white/95 px-5 py-4 text-sm font-bold text-zinc-900 shadow-lg hover:bg-white transition-all backdrop-blur-md"
+                    >
+                      <Receipt size={18} className="text-emerald-600" />
+                      <span>View Official Receipt</span>
+                    </Link>
+                  )}
                 </div>
               </div>
             </SectionCard>
