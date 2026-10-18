@@ -25,6 +25,7 @@ import {
   Loader2,
 } from "lucide-react";
 import { jobCategories } from "@/lib/job-categories";
+import { SearchableSelect } from "@/components/ui/searchable-select";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -592,56 +593,46 @@ export default function FastApplicantsPage() {
                   Job Category <span className="text-red-500">*</span>
                 </label>
                 <div className="relative mt-1.5">
-                  <select
-                    required
+                  <SearchableSelect
                     value={convertForm.selectedJobField}
-                    onChange={(e) => {
-                      const category = e.target.value;
+                    onChange={(val) => {
                       setConvertForm((prev) => ({
                         ...prev,
-                        selectedJobField: category,
+                        selectedJobField: val,
                         preferredJobField: "",
                       }));
                     }}
-                    className="w-full rounded-xl border border-zinc-200 bg-white py-2.5 px-3 text-sm text-zinc-900 focus:border-black focus:outline-none focus:ring-2 focus:ring-zinc-200"
-                  >
-                    <option value="">Select Job Category</option>
-                    {Object.keys(jobCategories).map((cat) => (
-                      <option key={cat} value={cat}>
-                        {cat}
-                      </option>
-                    ))}
-                  </select>
+                    options={Object.keys(jobCategories)}
+                    placeholder="Select Job Category"
+                    searchPlaceholder="Search category..."
+                  />
                 </div>
               </div>
 
               {/* Preferred Job Role (Second dropdown based on category) */}
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-zinc-700">
+                <label className="block text-xs font-bold uppercase tracking-wider text-zinc-700 mb-1.5">
                   Preferred Job Role <span className="text-red-500">*</span>
                 </label>
-                <div className="relative mt-1.5">
-                  <select
-                    required
-                    disabled={!convertForm.selectedJobField}
+                <div className="relative">
+                  <SearchableSelect
                     value={convertForm.preferredJobField}
-                    onChange={(e) =>
+                    onChange={(val) =>
                       setConvertForm((prev) => ({
                         ...prev,
-                        preferredJobField: e.target.value,
+                        preferredJobField: val,
                       }))
                     }
-                    className="w-full rounded-xl border border-zinc-200 bg-white py-2.5 px-3 text-sm text-zinc-900 focus:border-black focus:outline-none focus:ring-2 focus:ring-zinc-200 disabled:bg-zinc-100 disabled:text-zinc-400"
-                  >
-                    <option value="">
-                      {convertForm.selectedJobField ? "Select Preferred Role" : "Select Category First"}
-                    </option>
-                    {availableJobs.map((role) => (
-                      <option key={role} value={role}>
-                        {role}
-                      </option>
-                    ))}
-                  </select>
+                    options={availableJobs}
+                    disabled={!convertForm.selectedJobField}
+                    placeholder={
+                      convertForm.selectedJobField
+                        ? "Select Preferred Role"
+                        : "Select Category First"
+                    }
+                    disabledPlaceholder="Select Category First"
+                    searchPlaceholder="Search preferred role..."
+                  />
                 </div>
               </div>
 

@@ -1,3 +1,5 @@
+import { SearchableSelect } from "@/components/ui/searchable-select";
+
 type JobCategories = Record<string, string[]>;
 
 type Props = {
@@ -203,27 +205,14 @@ export default function ProfileStep3({
             Job Field
           </label>
 
-          <select
+          <SearchableSelect
             value={selectedJobField}
-            onChange={(e) =>
-              onJobFieldChange(e.target.value)
-            }
-            className={`h-11 w-full rounded-xl border bg-white px-3 transition-all duration-200 focus:outline-none dark:bg-zinc-900 ${
-              errors.selectedJobField
-                ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-200"
-                : "border-zinc-300 focus:border-black focus:ring-2 focus:ring-zinc-300 dark:border-zinc-700"
-            }`}
-          >
-            <option value="">
-              Select Job Field
-            </option>
-
-            {jobCategoryNames.map((field) => (
-              <option key={field} value={field}>
-                {field}
-              </option>
-            ))}
-          </select>
+            onChange={(val) => onJobFieldChange(val)}
+            options={jobCategoryNames}
+            placeholder="Select Job Field"
+            searchPlaceholder="Search job field..."
+            error={Boolean(errors.selectedJobField)}
+          />
 
           {errors.selectedJobField && (
             <p className="mt-1 text-sm text-red-500">
@@ -238,30 +227,20 @@ export default function ProfileStep3({
             Preferred Job
           </label>
 
-          <select
+          <SearchableSelect
             value={preferredJobField}
-            onChange={(e) =>
-              onChange("preferredJobField", e.target.value)
-            }
+            onChange={(val) => onChange("preferredJobField", val)}
+            options={availableJobs}
             disabled={!selectedJobField}
-            className={`h-11 w-full rounded-xl border bg-white px-3 transition-all duration-200 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-zinc-900 ${
-              errors.preferredJobField
-                ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-200"
-                : "border-zinc-300 focus:border-black focus:ring-2 focus:ring-zinc-300 dark:border-zinc-700"
-            }`}
-          >
-            <option value="">
-              {selectedJobField
+            placeholder={
+              selectedJobField
                 ? "Select Preferred Job"
-                : "First select Job Field"}
-            </option>
-
-            {availableJobs.map((job) => (
-              <option key={job} value={job}>
-                {job}
-              </option>
-            ))}
-          </select>
+                : "First select Job Field"
+            }
+            disabledPlaceholder="First select Job Field"
+            searchPlaceholder="Search preferred job role..."
+            error={Boolean(errors.preferredJobField)}
+          />
 
           {errors.preferredJobField && (
             <p className="mt-1 text-sm text-red-500">

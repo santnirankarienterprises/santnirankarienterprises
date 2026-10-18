@@ -8,6 +8,7 @@ import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { jobCategories} from "@/lib/job-categories";
+import { SearchableSelect } from "@/components/ui/searchable-select";
 import { CalendarDays, FileText, Zap, Receipt } from "lucide-react";
 
 import {
@@ -1678,7 +1679,7 @@ _Manpower & Placement Services_
       {/* ADD CANDIDATE MODAL */}
       {isAddModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
-          <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl">
+          <div className="w-full max-w-md max-h-[92vh] overflow-y-auto rounded-2xl bg-white p-6 shadow-xl">
             <div className="mb-4 flex items-center justify-between">
               <h2 className="text-xl font-bold">Add Candidate</h2>
               <button onClick={() => setIsAddModalOpen(false)} className="rounded-full p-1 hover:bg-zinc-100">
@@ -1750,33 +1751,38 @@ _Manpower & Placement Services_
 
                 <div>
                   <label className="mb-1 block text-sm font-semibold text-zinc-700">Job Category *</label>
-                  <select
-                    required
+                  <SearchableSelect
                     value={addForm.selectedJobField}
-                    onChange={(e) => setAddForm({ ...addForm, selectedJobField: e.target.value, preferredJobField: "" })}
-                    className="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm outline-none transition focus:border-blue-500 focus:bg-white focus:ring-1 focus:ring-blue-500"
-                  >
-                    <option value="">Select Category</option>
-                    {Object.keys(jobCategories).map((cat) => (
-                      <option key={cat} value={cat}>{cat}</option>
-                    ))}
-                  </select>
+                    onChange={(val) =>
+                      setAddForm({ ...addForm, selectedJobField: val, preferredJobField: "" })
+                    }
+                    options={Object.keys(jobCategories)}
+                    placeholder="Select Category"
+                    searchPlaceholder="Search category..."
+                    triggerClassName="border-zinc-200 bg-zinc-50"
+                  />
                 </div>
 
                 <div>
                   <label className="mb-1 block text-sm font-semibold text-zinc-700">Preferred Job *</label>
-                  <select
-                    required
-                    disabled={!addForm.selectedJobField}
+                  <SearchableSelect
                     value={addForm.preferredJobField}
-                    onChange={(e) => setAddForm({ ...addForm, preferredJobField: e.target.value })}
-                    className="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm outline-none transition focus:border-blue-500 focus:bg-white focus:ring-1 focus:ring-blue-500 disabled:opacity-50"
-                  >
-                    <option value="">Select Job</option>
-                    {addForm.selectedJobField && jobCategories[addForm.selectedJobField as keyof typeof jobCategories]?.map((job) => (
-                      <option key={job} value={job}>{job}</option>
-                    ))}
-                  </select>
+                    onChange={(val) =>
+                      setAddForm({ ...addForm, preferredJobField: val })
+                    }
+                    options={
+                      addForm.selectedJobField && jobCategories[addForm.selectedJobField as keyof typeof jobCategories]
+                        ? jobCategories[addForm.selectedJobField as keyof typeof jobCategories]
+                        : []
+                    }
+                    disabled={!addForm.selectedJobField}
+                    placeholder={
+                      addForm.selectedJobField ? "Select Job" : "Select Category first"
+                    }
+                    disabledPlaceholder="Select Category first"
+                    searchPlaceholder="Search job role..."
+                    triggerClassName="border-zinc-200 bg-zinc-50"
+                  />
                 </div>
 
                 <div className="md:col-span-2">
