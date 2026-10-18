@@ -86,7 +86,7 @@ export default function ContactSection() {
                     {/* Contact Information */}
                     <div className="space-y-4 sm:space-y-6">
                         {/* Address */}
-                        <div className="group relative rounded-3xl p-[2px] bg-gradient-to-r from-blue-700/50 via-violet-700/50 to-emerald-600/50 transition-all duration-500 hover:from-blue-600 hover:via-violet-600 hover:to-emerald-500 hover:-translate-y-1 hover:shadow-[0_20px_40px_-15px_rgba(37,99,235,0.3)]">
+                        <a href="https://maps.app.goo.gl/LWZkpfKNUPm84URp8" target="_blank" rel="noopener noreferrer" className="group relative block rounded-3xl p-[2px] bg-gradient-to-r from-blue-700/50 via-violet-700/50 to-emerald-600/50 transition-all duration-500 hover:from-blue-600 hover:via-violet-600 hover:to-emerald-500 hover:-translate-y-1 hover:shadow-[0_20px_40px_-15px_rgba(37,99,235,0.3)]">
                             <div className="relative flex items-center gap-5 overflow-hidden rounded-[22px] bg-white p-6 dark:bg-[#080808]">
                                 <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 dark:from-blue-900/10" />
                                 
@@ -102,7 +102,7 @@ export default function ContactSection() {
                                     </p>
                                 </div>
                             </div>
-                        </div>
+                        </a>
 
                         {/* Email */}
                         <a href="mailto:santnirankarienterprises1133@gmail.com" className="group relative block rounded-3xl p-[2px] bg-gradient-to-r from-blue-700/50 via-violet-700/50 to-emerald-600/50 transition-all duration-500 hover:from-blue-600 hover:via-violet-600 hover:to-emerald-500 hover:-translate-y-1 hover:shadow-[0_20px_40px_-15px_rgba(37,99,235,0.3)]">

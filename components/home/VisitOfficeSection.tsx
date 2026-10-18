@@ -1,9 +1,9 @@
 import { Clock3, ExternalLink, MapPin, Navigation } from "lucide-react";
 
 export default function VisitOfficeSection() {
-  const googleMapsUrl = "https://maps.app.goo.gl/41MkrLzXjKAprKr37";
+  const googleMapsUrl = "https://maps.app.goo.gl/LWZkpfKNUPm84URp8";
   const embedMapUrl =
-    "https://maps.google.com/maps?q=Sant+Nirankari+Enterprises,+Near+Raja+Biscuit+Chowk+and+Jasmine+Hotel,+SIDCUL,+Haridwar+249402&t=&z=16&ie=UTF8&iwloc=&output=embed";
+    "https://maps.google.com/maps?q=29.946328,78.064595+(Sant+Nirankari+Enterprises)&t=&z=17&ie=UTF8&iwloc=&output=embed";
 
   return (
     <section id="visit-office" className="relative overflow-hidden bg-white py-16 dark:bg-[#050505] sm:py-20 lg:py-24">
