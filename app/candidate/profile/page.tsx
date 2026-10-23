@@ -388,10 +388,6 @@ export default function CandidateProfilePage() {
           "Skills are required.";
       }
 
-      if (!resumeFile) {
-        newErrors.resumeFile = "Please upload your resume.";
-      }
-
       // Excel wali Job Field / Category
       if (!selectedJobField) {
         newErrors.selectedJobField =
