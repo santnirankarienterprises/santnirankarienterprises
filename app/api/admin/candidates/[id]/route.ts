@@ -20,7 +20,7 @@ export async function GET(
         user: true,
         interviews: {
           orderBy: { date: 'desc' }
-        }
+        },
       },
     });
 
@@ -34,9 +34,21 @@ export async function GET(
       );
     }
 
+    // Placement-fee tables may be deployed after the application code. Keep
+    // existing candidate details available until that migration has run.
+    let placementFee = null;
+    try {
+      placementFee = await prisma.placementFee.findUnique({
+        where: { candidateId: id },
+        include: { payments: { orderBy: { receivedAt: "desc" } } },
+      });
+    } catch (feeError: any) {
+      if (feeError?.code !== "P2021") throw feeError;
+    }
+
     return NextResponse.json({
       success: true,
-      candidate,
+      candidate: { ...candidate, placementFee },
     });
 
   } catch (error: any) {

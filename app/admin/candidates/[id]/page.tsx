@@ -3,6 +3,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function CandidateDetailsPage() {
   const params = useParams();
@@ -12,6 +13,10 @@ export default function CandidateDetailsPage() {
 
   const [candidate, setCandidate] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [resumeFile, setResumeFile] = useState<File | null>(null);
+  const [savingResume, setSavingResume] = useState(false);
+  const [feeForm, setFeeForm] = useState({ monthlySalary: "", targetAmount: "", paymentAmount: "", mode: "CASH", notes: "" });
+  const [savingFee, setSavingFee] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -37,6 +42,42 @@ export default function CandidateDetailsPage() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const uploadResume = async () => {
+    if (!resumeFile) return toast.error("Choose a PDF, DOC, or DOCX resume first.");
+    if (resumeFile.size > 4 * 1024 * 1024) return toast.error("Resume must be under 4MB.");
+    setSavingResume(true);
+    try {
+      const uploadData = new FormData();
+      uploadData.append("file", resumeFile);
+      const uploadResponse = await fetch("/api/upload", { method: "POST", body: uploadData });
+      const uploaded = await uploadResponse.json();
+      if (!uploadResponse.ok || !uploaded.success || !uploaded.fileUrl) throw new Error(uploaded.message || "Upload failed.");
+      const response = await fetch(`/api/admin/candidates/${id}/resume`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ resumeUrl: uploaded.fileUrl }) });
+      const result = await response.json();
+      if (!response.ok || !result.success) throw new Error(result.message || "Unable to save resume.");
+      setCandidate((current: any) => ({ ...current, resumeUrl: result.resumeUrl }));
+      setResumeFile(null);
+      toast.success("Resume uploaded for this candidate.");
+    } catch (error: any) { toast.error(error.message || "Unable to upload resume."); }
+    finally { setSavingResume(false); }
+  };
+
+  const savePlacementFee = async (event: React.FormEvent) => {
+    event.preventDefault();
+    const targetAmount = feeForm.targetAmount || (feeForm.monthlySalary ? String(Number(feeForm.monthlySalary) / 2) : "");
+    if (targetAmount === "") return toast.error("Enter the monthly salary or the total placement fee.");
+    setSavingFee(true);
+    try {
+      const response = await fetch(`/api/admin/candidates/${id}/placement-fee`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...feeForm, targetAmount }) });
+      const result = await response.json();
+      if (!response.ok || !result.success) throw new Error(result.message || "Unable to save fee record.");
+      setCandidate((current: any) => ({ ...current, placementFee: result.placementFee }));
+      setFeeForm((current) => ({ ...current, targetAmount, paymentAmount: "" }));
+      toast.success("Placement fee record saved.");
+    } catch (error: any) { toast.error(error.message || "Unable to save fee record."); }
+    finally { setSavingFee(false); }
   };
 
   if (loading) {
@@ -190,7 +231,7 @@ export default function CandidateDetailsPage() {
                 />
               </div>
 
-              {candidate.resumeUrl && (
+              {candidate.resumeUrl ? (
                 <div className="md:col-span-2 mt-4 rounded-xl border border-blue-200/50 bg-gradient-to-r from-blue-50 to-indigo-50 p-5 dark:from-blue-900/20 dark:to-indigo-900/20">
                   <h3 className="mb-3 text-sm font-bold tracking-tight text-blue-900 dark:text-blue-200">Candidate Resume</h3>
                   <a 
@@ -202,8 +243,34 @@ export default function CandidateDetailsPage() {
                     View & Download PDF
                   </a>
                 </div>
+              ) : (
+                <div className="md:col-span-2 mt-4 rounded-xl border border-dashed border-amber-300 bg-amber-50 p-5">
+                  <h3 className="text-sm font-bold text-amber-900">No resume uploaded</h3>
+                  <p className="mt-1 text-sm text-amber-800">Upload the candidate’s resume here when they could not upload it themselves.</p>
+                  <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center">
+                    <input type="file" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" onChange={(e) => setResumeFile(e.target.files?.[0] || null)} className="block w-full text-sm text-zinc-600" />
+                    <button type="button" onClick={uploadResume} disabled={!resumeFile || savingResume} className="shrink-0 rounded-lg bg-amber-600 px-4 py-2 text-sm font-semibold text-white disabled:opacity-60">{savingResume ? "Uploading..." : "Upload Resume"}</button>
+                  </div>
+                </div>
               )}
             </div>
+          </section>
+
+          <section className="mb-10 rounded-2xl border border-zinc-100 bg-white p-6 shadow-[0_2px_20px_-10px_rgba(0,0,0,0.05)] sm:p-8">
+            <h2 className="mb-2 flex items-center gap-3 text-xl font-bold tracking-tight text-zinc-900"><div className="h-2 w-2 rounded-full bg-amber-500" />Placement Fee Collection</h2>
+            <p className="mb-6 text-sm text-zinc-500">Separate from premium registration payments. Set the agency fee (normally 50% of first month’s salary) and record every amount received.</p>
+            {(() => { const fee = candidate.placementFee; const paid = fee?.payments?.reduce((sum: number, item: any) => sum + item.amount, 0) || 0; const target = fee?.targetAmount || 0; const remaining = Math.max(target - paid, 0); return <>
+              <div className="mb-6 grid gap-3 sm:grid-cols-3"><FeeStat label="Total fee" value={target} /><FeeStat label="Collected" value={paid} color="text-emerald-700" /><FeeStat label="Remaining" value={remaining} color={remaining ? "text-amber-700" : "text-emerald-700"} /></div>
+              <form onSubmit={savePlacementFee} className="grid gap-4 rounded-xl bg-zinc-50 p-4 md:grid-cols-2">
+                <label className="text-sm font-semibold text-zinc-700">First month salary (₹)<input type="number" min="0" value={feeForm.monthlySalary} onChange={(e) => setFeeForm({ ...feeForm, monthlySalary: e.target.value, targetAmount: e.target.value ? String(Number(e.target.value) / 2) : "" })} placeholder="e.g. 20000" className="mt-1 w-full rounded-lg border p-2 font-normal" /></label>
+                <label className="text-sm font-semibold text-zinc-700">Total agency fee (₹)<input type="number" min="0" step="0.01" value={feeForm.targetAmount || (fee?.targetAmount ? String(fee.targetAmount / 100) : "")} onChange={(e) => setFeeForm({ ...feeForm, targetAmount: e.target.value })} placeholder="50% is filled from salary" className="mt-1 w-full rounded-lg border p-2 font-normal" /></label>
+                <label className="text-sm font-semibold text-zinc-700">Payment received now (₹)<input type="number" min="0" step="0.01" value={feeForm.paymentAmount} onChange={(e) => setFeeForm({ ...feeForm, paymentAmount: e.target.value })} placeholder="Leave blank to only set fee" className="mt-1 w-full rounded-lg border p-2 font-normal" /></label>
+                <label className="text-sm font-semibold text-zinc-700">Payment method<select value={feeForm.mode} onChange={(e) => setFeeForm({ ...feeForm, mode: e.target.value })} className="mt-1 w-full rounded-lg border p-2 font-normal"><option>CASH</option><option>ONLINE</option><option>UPI</option><option>BANK_TRANSFER</option></select></label>
+                <label className="md:col-span-2 text-sm font-semibold text-zinc-700">Note (optional)<input value={feeForm.notes} onChange={(e) => setFeeForm({ ...feeForm, notes: e.target.value })} placeholder="e.g. 30% collected; balance due after joining" className="mt-1 w-full rounded-lg border p-2 font-normal" /></label>
+                <button disabled={savingFee} className="md:col-span-2 rounded-lg bg-zinc-900 px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-60">{savingFee ? "Saving..." : "Save Fee / Record Payment"}</button>
+              </form>
+              {fee?.payments?.length > 0 && <div className="mt-5 space-y-2">{fee.payments.map((item: any) => <div key={item.id} className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-zinc-100 p-3 text-sm"><span className="font-semibold text-emerald-700">₹{(item.amount / 100).toLocaleString("en-IN")}</span><span className="text-zinc-600">{item.mode}{item.note ? ` · ${item.note}` : ""}</span><span className="text-zinc-500">{new Date(item.receivedAt).toLocaleDateString("en-IN")}</span></div>)}</div>}
+            </>; })()}
           </section>
 
           {/* Experience Details (Conditional) */}
@@ -296,6 +363,15 @@ function Info({
       <p className="wrap-break-word font-medium text-zinc-900 dark:text-zinc-200">
         {displayValue}
       </p>
+    </div>
+  );
+}
+
+function FeeStat({ label, value, color = "text-zinc-900" }: { label: string; value: number; color?: string }) {
+  return (
+    <div className="rounded-xl border border-zinc-100 bg-white p-4">
+      <p className="text-xs font-bold uppercase tracking-wider text-zinc-500">{label}</p>
+      <p className={`mt-1 text-xl font-bold ${color}`}>₹{(value / 100).toLocaleString("en-IN")}</p>
     </div>
   );
 }

@@ -78,9 +78,34 @@ model CandidateProfile {
   resumeUrl String?
 
   interviews Interview[]
+  placementFee PlacementFee?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+// This is separate from the Premium/registration Payment model. It records
+// the agency fee collected after a candidate is placed, including instalments.
+model PlacementFee {
+  id          String   @id @default(cuid())
+  candidateId String   @unique
+  candidate   CandidateProfile @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  targetAmount Int     @default(0) // paise
+  notes       String?
+  payments    PlacementFeePayment[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model PlacementFeePayment {
+  id             String       @id @default(cuid())
+  placementFeeId String
+  placementFee   PlacementFee @relation(fields: [placementFeeId], references: [id], onDelete: Cascade)
+  amount         Int          // paise
+  mode           String       @default("CASH")
+  note           String?
+  receivedAt     DateTime     @default(now())
+  createdAt      DateTime     @default(now())
 }
 
 model Interview {
