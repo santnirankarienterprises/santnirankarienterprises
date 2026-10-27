@@ -37,6 +37,7 @@ export async function POST(request: Request) {
       expExpectedSalary,
       fullName,
       resumeUrl,
+      jobId,
     } = body;
 
     // Check userId
@@ -149,6 +150,21 @@ export async function POST(request: Request) {
           profileCompleted: true,
         },
       });
+
+    if (jobId) {
+      const job = await prisma.job.findFirst({
+        where: { id: jobId, isActive: true },
+        select: { id: true },
+      });
+
+      if (job) {
+        await prisma.jobApplication.upsert({
+          where: { jobId_candidateId: { jobId: job.id, candidateId: profile.id } },
+          update: { status: "APPLIED" },
+          create: { jobId: job.id, candidateId: profile.id },
+        });
+      }
+    }
 
     console.log(
       "USER UPDATE SUCCESS:",

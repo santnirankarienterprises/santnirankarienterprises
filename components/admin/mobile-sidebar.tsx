@@ -11,6 +11,7 @@ import {
   X,
   Building2,
   Zap,
+  BriefcaseBusiness,
 } from "lucide-react";
 
 type Props = {
@@ -46,6 +47,11 @@ function MobileSidebarContent({
       name: "Fast Applicants",
       href: "/admin/fast-applicants",
       icon: Zap,
+    },
+    {
+      name: "Jobs",
+      href: "/admin/jobs",
+      icon: BriefcaseBusiness,
     },
     {
       name: "Employers",

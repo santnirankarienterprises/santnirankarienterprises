@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, BriefcaseBusiness, Building2, Sparkles, Users } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AuthButton } from "@/components/auth/auth-button";
 import { AuthInput } from "@/components/auth/auth-input";
 
@@ -14,6 +14,26 @@ type FormErrors = {
 };
 
 export default function RegisterPage() {
+  const jobId =
+    typeof window === "undefined"
+      ? null
+      : new URLSearchParams(window.location.search).get("jobId");
+  const jobPreview = typeof window === "undefined" ? null : {
+    jobCode: new URLSearchParams(window.location.search).get("job"),
+    sequence: null,
+    title: new URLSearchParams(window.location.search).get("title") || "",
+    company: null,
+  };
+  const [appliedJob, setAppliedJob] = useState<{ jobCode: string | null; sequence: number | null; title: string; company: string | null } | null>(null);
+
+  useEffect(() => {
+    if (!jobId) return;
+    localStorage.setItem("appliedJobId", jobId);
+    fetch(`/api/jobs/${jobId}`)
+      .then((response) => response.json())
+      .then((result) => { if (result.success) setAppliedJob(result.job); })
+      .catch(() => undefined);
+  }, [jobId]);
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -83,6 +103,7 @@ export default function RegisterPage() {
 
       localStorage.setItem("userId", result.user.id);
       localStorage.setItem("user", JSON.stringify(result.user));
+      if (jobId) localStorage.setItem("appliedJobId", jobId);
       window.dispatchEvent(new Event("storage"));
 
       window.location.href = "/candidate/profile";
@@ -258,6 +279,13 @@ export default function RegisterPage() {
 
                 {/* Header */}
                 <div className="mb-5">
+
+                  {(appliedJob || jobPreview?.jobCode) && (
+                    <div className="mb-4 rounded-xl border border-emerald-200 bg-emerald-50 p-3 text-sm text-emerald-900">
+                      <p className="font-bold">Applying for: {appliedJob?.sequence ? `Job ${appliedJob.sequence}` : appliedJob?.jobCode || jobPreview?.jobCode}</p>
+                      <p className="mt-1">{appliedJob?.title || jobPreview?.title}{appliedJob?.company ? ` · ${appliedJob.company}` : ""}</p>
+                    </div>
+                  )}
 
                   <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 via-violet-600 to-emerald-500 text-white shadow-lg shadow-violet-500/20">
                     <ArrowRight size={18} />

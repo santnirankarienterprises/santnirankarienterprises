@@ -1,3 +1,39 @@
-export default function Page() {
-  return <div></div>;
+"use client";
+import { FormEvent, useEffect, useState } from "react";
+import { Plus, Power, Trash2 } from "lucide-react";
+import { jobCategories } from "@/lib/job-categories";
+import { SearchableSelect } from "@/components/ui/searchable-select";
+type Job={id:string;jobCode:string|null;sequence:number|null;title:string;company:string|null;location:string;salary:string|null;isActive:boolean;_count:{applications:number}};
+const blank={title:"",company:"",location:"",employmentType:"Full-time",jobCategory:"",preferredJobField:"",salary:"",experience:"",openings:"",description:""};
+export default function AdminJobsPage(){
+ const [jobs,setJobs]=useState<Job[]>([]),[form,setForm]=useState(blank),[open,setOpen]=useState(false),[saving,setSaving]=useState(false),[customCategory,setCustomCategory]=useState(false),[customTitle,setCustomTitle]=useState(false);
+ const load=async()=>{const d=await(await fetch("/api/admin/jobs")).json();if(d.success)setJobs(d.jobs)};useEffect(()=>{load()},[]);
+ useEffect(()=>{
+   const rows=document.querySelectorAll<HTMLTableRowElement>("table tbody tr");
+   rows.forEach((row,index)=>{
+     const statusCell=row.children[5] as HTMLElement | undefined;
+     if (!statusCell || !jobs[index]) return;
+     statusCell.className=jobs[index].isActive
+       ? "font-bold text-emerald-600"
+       : "font-bold text-red-600";
+   });
+ },[jobs]);
+ let roles=form.jobCategory?jobCategories[form.jobCategory as keyof typeof jobCategories]||[]:[];
+ const allRoles=Array.from(new Set(Object.values(jobCategories).flat()));
+ if (!roles.length) roles=allRoles;
+ const set=(key:keyof typeof blank,value:string)=>setForm(current=>({...current,[key]:value}));
+ const submit=async(e:FormEvent<HTMLFormElement>)=>{e.preventDefault();setSaving(true);const details=Object.fromEntries(new FormData(e.currentTarget));const r=await fetch("/api/admin/jobs",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({...form,...details})});if(r.ok){setForm(blank);setOpen(false);load()}else alert((await r.json()).message||"Could not post job.");setSaving(false)};
+ const code=(j:Job)=>j.sequence?`Job ${j.sequence}`:j.jobCode||j.id;
+ const nextCode=`Job ${(Math.max(0,...jobs.map(j=>j.sequence||0))+1)}`;
+ return <div className="mx-auto max-w-7xl space-y-7"><div className="flex items-end justify-between"><div><p className="text-sm font-semibold text-orange-500">Recruitment portal</p><h1 className="text-3xl font-bold">Job manager</h1><p className="mt-1 text-sm text-zinc-500">Create and manage public job postings.</p></div><button onClick={()=>setOpen(true)} className="rounded-full bg-black px-6 py-3 font-bold text-white"><Plus className="mr-2 inline" size={18}/>Post New Job</button></div><div className="grid grid-cols-2 gap-4 lg:grid-cols-4"><Stat label="Total jobs" value={jobs.length}/><Stat label="Active jobs" value={jobs.filter(j=>j.isActive).length}/><Stat label="Closed jobs" value={jobs.filter(j=>!j.isActive).length}/><Stat label="Total applicants" value={jobs.reduce((n,j)=>n+j._count.applications,0)}/></div><div className="overflow-x-auto rounded-3xl border bg-white"><table className="w-full min-w-[800px]"><thead className="border-b bg-zinc-50 text-left text-xs uppercase text-zinc-500"><tr><th className="p-5">Job ID</th><th>Role</th><th>Location</th><th>Salary</th><th>Applicants</th><th>Status</th><th>Actions</th></tr></thead><tbody>{jobs.length?jobs.map(j=><tr key={j.id} className="border-b"><td className="p-5 font-bold text-orange-500">{code(j)}</td><td><b>{j.title}</b><p className="text-sm text-zinc-500">{j.company||"Confidential company"}</p></td><td>{j.location}</td><td>{j.salary||"—"}</td><td>{j._count.applications}</td><td>{j.isActive?"Active":"Closed"}</td><td><button onClick={async()=>{await fetch(`/api/admin/jobs/${j.id}`,{method:"PATCH",headers:{"Content-Type":"application/json"},body:JSON.stringify({isActive:!j.isActive})});load()}}><Power size={17}/></button><button className="ml-3 text-red-500" onClick={async()=>{if(confirm("Delete this job?")){await fetch(`/api/admin/jobs/${j.id}`,{method:"DELETE"});load()}}}><Trash2 size={17}/></button></td></tr>):<tr><td colSpan={7} className="p-10 text-center text-zinc-500">No jobs posted yet.</td></tr>}</tbody></table></div>{open&&<div className="fixed inset-0 z-50 overflow-y-auto bg-black/50 p-4 py-10"><form onSubmit={submit} className="mx-auto max-w-4xl rounded-[30px] bg-white p-9 shadow-2xl"><div className="mb-8 flex justify-between"><div><h2 className="text-2xl font-bold">Post a new job</h2><p className="mt-1 text-zinc-500">Public Job ID: <b className="text-orange-600">{nextCode}</b></p></div><button type="button" onClick={()=>setOpen(false)} className="text-3xl">×</button></div><div className="grid gap-5 md:grid-cols-2"><Field label="Job title" value={form.title} onChange={v=>set("title",v)} required/><Field label="Location" value={form.location} onChange={v=>set("location",v)} required/><div className="md:col-span-2"><div className="mb-1 flex justify-between"><b>Job category *</b><button type="button" className="text-sm text-orange-600" onClick={()=>setCustomCategory(!customCategory)}>+ Type Custom Category</button></div>{customCategory?<Field label="" value={form.jobCategory} onChange={v=>set("jobCategory",v)} required/>:<SearchableSelect value={form.jobCategory} onChange={v=>{set("jobCategory",v);set("preferredJobField","")}} options={Object.keys(jobCategories)} placeholder="Select job category" />}</div><div className="md:col-span-2"><div className="mb-1 flex justify-between"><b>Preferred job field *</b><button type="button" className="text-sm text-orange-600" onClick={()=>setCustomTitle(!customTitle)}>+ Type Custom Title</button></div>{customTitle?<Field label="" value={form.preferredJobField} onChange={v=>set("preferredJobField",v)} required/>:<SearchableSelect value={form.preferredJobField} onChange={v=>set("preferredJobField",v)} options={roles} placeholder="Select or search job title" />}</div></div><button disabled={saving} className="mt-7 rounded-xl bg-black px-5 py-3 font-bold text-white">{saving?"Publishing...":"Publish job"}</button></form></div>}</div>}
+function Field({label,value,onChange,required=false}:{label:string;value:string;onChange:(v:string)=>void;required?:boolean}){return <><label>{label}<input required={required} value={value} onChange={e=>onChange(e.target.value)} className="mt-1 block h-11 w-full rounded-xl border px-3"/></label>{label==="Location"&&<><label>Company<input name="company" placeholder="Company name (optional)" className="mt-1 block h-11 w-full rounded-xl border px-3"/></label><label>Salary<input name="salary" placeholder="₹25,000 / month" className="mt-1 block h-11 w-full rounded-xl border px-3"/></label><label>Experience<input name="experience" placeholder="1–2 Years" className="mt-1 block h-11 w-full rounded-xl border px-3"/></label><label>Openings<input name="openings" type="number" min="1" placeholder="1" className="mt-1 block h-11 w-full rounded-xl border px-3"/></label><label className="md:col-span-2">Description<textarea name="description" placeholder="Describe the job role, responsibilities, and benefits" className="mt-1 block min-h-28 w-full rounded-xl border p-3"/></label><label className="md:col-span-2">Requirements<textarea name="requirements" placeholder="Add qualifications, skills, and experience requirements" className="mt-1 block min-h-28 w-full rounded-xl border p-3"/></label></>}</>}
+function Stat({label,value}:{label:string;value:number}){
+  const tone = label === "Closed jobs"
+    ? "border-red-200 bg-gradient-to-br from-red-50 to-rose-100/70 text-red-700"
+    : label === "Active jobs"
+    ? "border-emerald-200 bg-gradient-to-br from-emerald-50 to-teal-100/70 text-emerald-700"
+    : label === "Total applicants"
+    ? "border-violet-200 bg-gradient-to-br from-violet-50 to-indigo-100/70 text-violet-700"
+    : "border-orange-200 bg-gradient-to-br from-orange-50 to-amber-100/70 text-orange-700";
+  return <div className={`rounded-3xl border p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg ${tone}`}><p className="text-3xl font-extrabold tracking-tight">{value}</p><p className="mt-1 text-sm font-semibold opacity-80">{label}</p></div>
 }

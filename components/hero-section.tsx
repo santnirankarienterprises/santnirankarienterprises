@@ -5,6 +5,7 @@ import {
   ArrowRight,
   Briefcase,
   ChevronRight,
+  FileText,
   Globe,
   Star,
   Users,
@@ -31,7 +32,6 @@ export function HeroSection() {
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] dark:opacity-[0.05]" />
 
       </div>
-
 
       {/* =========================================
           MAIN CONTENT
@@ -97,46 +97,56 @@ export function HeroSection() {
               CANDIDATE CTA
           ===================================== */}
 
-          <Link
-            href="/register"
-            className="
-              group
-              flex
-              h-14
-              w-full
-              items-center
-              justify-center
-              gap-2
-              rounded-2xl
-              bg-gradient-to-r
-              from-blue-600
-              via-violet-600
-              to-emerald-500
-              px-8
-              text-sm
-              font-bold
-              text-white
+          <div className="flex w-full flex-col items-center gap-3 sm:w-auto">
+            <Link
+              href="/register"
+              className="
+                group
+                flex
+                h-14
+                w-full
+                items-center
+                justify-center
+                gap-2
+                rounded-2xl
+                bg-gradient-to-r
+                from-blue-600
+                via-violet-600
+                to-emerald-500
+                px-8
+                text-sm
+                font-bold
+                text-white
 
-              shadow-[0_8px_20px_-8px_rgba(37,99,235,0.6)]
+                shadow-[0_8px_20px_-8px_rgba(37,99,235,0.6)]
 
-              transition-all
-              duration-300
+                transition-all
+                duration-300
 
-              hover:-translate-y-1
-              hover:shadow-[0_8px_30px_-8px_rgba(37,99,235,0.8)]
+                hover:-translate-y-1
+                hover:shadow-[0_8px_30px_-8px_rgba(37,99,235,0.8)]
 
-              sm:w-auto
-            "
-          >
+                sm:w-auto
+              "
+            >
 
-            Start Your Journey
+              Start Your Journey
 
-            <ArrowRight
-              size={17}
-              className="transition-transform duration-300 group-hover:translate-x-1"
-            />
+              <ArrowRight
+                size={17}
+                className="transition-transform duration-300 group-hover:translate-x-1"
+              />
 
-          </Link>
+            </Link>
+
+            <Link
+              href="/terms"
+              className="inline-flex items-center gap-2 text-xs font-semibold text-blue-700 underline decoration-blue-300 underline-offset-4 transition hover:text-blue-900 dark:text-blue-300 dark:decoration-blue-500/70 dark:hover:text-blue-100"
+            >
+              <FileText size={14} aria-hidden="true" />
+              Terms &amp; Conditions
+            </Link>
+          </div>
 
 
           {/* =====================================

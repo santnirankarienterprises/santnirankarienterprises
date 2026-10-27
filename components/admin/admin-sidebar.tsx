@@ -10,6 +10,7 @@ import {
   LogOut,
   Building2,
   Zap,
+  BriefcaseBusiness,
 } from "lucide-react";
 
 function AdminSidebarContent() {
@@ -53,6 +54,11 @@ function AdminSidebarContent() {
       name: "Fast Applicants",
       href: "/admin/fast-applicants",
       icon: Zap,
+    },
+    {
+      name: "Jobs",
+      href: "/admin/jobs",
+      icon: BriefcaseBusiness,
     },
     {
       name: "Employers",

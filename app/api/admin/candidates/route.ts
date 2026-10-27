@@ -20,7 +20,11 @@ export async function GET(req: Request) {
         },
         _count: {
           select: { interviews: true }
-        }
+        },
+        jobApplications: {
+          include: { job: { select: { id: true, jobCode: true, sequence: true, title: true } } },
+          orderBy: { createdAt: "desc" },
+        },
       },
       orderBy: {
         createdAt: "desc",

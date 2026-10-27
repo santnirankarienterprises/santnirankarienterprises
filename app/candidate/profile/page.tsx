@@ -63,6 +63,30 @@ export default function CandidateProfilePage() {
   const [errors, setErrors] = useState<
     Record<string, string>
   >({});
+  const [appliedJob, setAppliedJob] = useState<{
+    code: string;
+    category: string;
+    title: string;
+  } | null>(null);
+
+  useEffect(() => {
+    const jobId = localStorage.getItem("appliedJobId");
+    if (!jobId) return;
+
+    fetch(`/api/jobs/${jobId}`)
+      .then((response) => response.json())
+      .then((result) => {
+        if (!result.success) return;
+        setAppliedJob({
+          code: result.job.sequence ? `Job ${result.job.sequence}` : result.job.jobCode || "Selected job",
+          category: result.job.jobCategory || "Not specified",
+          title: result.job.title,
+        });
+        if (result.job.jobCategory) setSelectedJobField(result.job.jobCategory);
+        if (result.job.preferredJobField) setPreferredJobField(result.job.preferredJobField);
+      })
+      .catch((error) => console.error("Unable to load selected job", error));
+  }, []);
 
 
 
@@ -110,8 +134,11 @@ export default function CandidateProfilePage() {
         setCollege(profile.college || "");
         setPassingYear(profile.passingYear || "");
         setSkills(profile.skills || "");
-        setSelectedJobField(profile.selectedJobField || "");
-        setPreferredJobField(profile.preferredJobField || "");
+        const hasSelectedJob = Boolean(localStorage.getItem("appliedJobId"));
+        if (!hasSelectedJob) {
+          setSelectedJobField(profile.selectedJobField || "");
+          setPreferredJobField(profile.preferredJobField || "");
+        }
         setExperience(profile.experience || "");
 
         setExpIndustry(profile.expIndustry || "");
@@ -126,10 +153,11 @@ export default function CandidateProfilePage() {
         // Load saved Job
         // ========================================
 
-        const savedJob =
-          profile.preferredJobField || "";
+        const savedJob = hasSelectedJob ? "" : profile.preferredJobField || "";
 
-        setPreferredJobField(savedJob);
+        if (!hasSelectedJob) {
+          setPreferredJobField(savedJob);
+        }
 
         // Saved Job se uska Job Field / Category find karo
         if (savedJob) {
@@ -569,6 +597,7 @@ export default function CandidateProfilePage() {
             expTotalYears: experience === "Experienced" ? expTotalYears : "",
             expPastSalary: experience === "Experienced" ? expPastSalary : "",
             expExpectedSalary: experience === "Experienced" ? expExpectedSalary : "",
+            jobId: localStorage.getItem("appliedJobId"),
             
             resumeUrl,
           }),
@@ -582,6 +611,8 @@ export default function CandidateProfilePage() {
         alert(result.message);
         return;
       }
+
+      localStorage.removeItem("appliedJobId");
 
       router.push(
         "/candidate/dashboard"
@@ -618,6 +649,13 @@ export default function CandidateProfilePage() {
           <div className="mt-4">
             <ProfileProgress step={step} />
           </div>
+
+          {appliedJob && (
+            <div className="mt-5 rounded-2xl border border-emerald-200 bg-emerald-50 px-5 py-4 text-sm text-emerald-950 dark:border-emerald-500/30 dark:bg-emerald-500/10 dark:text-emerald-100">
+              <p className="font-bold">Applying for {appliedJob.code}: {appliedJob.title}</p>
+              <p className="mt-1">Job category: {appliedJob.category}</p>
+            </div>
+          )}
 
           <div className="mt-6 rounded-2xl border border-white/50 bg-white/40 p-8 backdrop-blur-md shadow-sm dark:border-zinc-800/60 dark:bg-zinc-900/40">
             {step === 1 && (

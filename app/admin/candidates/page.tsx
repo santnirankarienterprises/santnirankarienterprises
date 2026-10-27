@@ -994,6 +994,9 @@ _Manpower & Placement Services_
                         Preferred Job
                       </th>
                       <th className="p-4 text-left">
+                        Applied Job
+                      </th>
+                      <th className="p-4 text-left">
                         Interviews
                       </th>
                       <th className="p-4 text-left">
@@ -1092,6 +1095,19 @@ _Manpower & Placement Services_
 
                             <td className="p-4">
                               {candidate.preferredJobField || "-"}
+                            </td>
+
+                            <td className="p-4">
+                              {candidate.jobApplications?.[0]?.job ? (
+                                <div>
+                                  <p className="font-semibold text-orange-600">
+                                    {candidate.jobApplications[0].job.sequence
+                                      ? `Job ${candidate.jobApplications[0].job.sequence}`
+                                      : candidate.jobApplications[0].job.jobCode || candidate.jobApplications[0].job.id}
+                                  </p>
+                                  <p className="text-xs text-zinc-500">{candidate.jobApplications[0].job.title}</p>
+                                </div>
+                              ) : "-"}
                             </td>
 
                             <td className="p-4 text-center">
@@ -1307,6 +1323,15 @@ _Manpower & Placement Services_
                           </span>
                           <p className="mt-1 wrap-break-words text-zinc-600">
                             {candidate.preferredJobField || "-"}
+                          </p>
+                        </div>
+
+                        <div>
+                          <span className="font-medium text-zinc-700">Applied Job</span>
+                          <p className="mt-1 wrap-break-words text-zinc-600">
+                            {candidate.jobApplications?.[0]?.job
+                              ? `${candidate.jobApplications[0].job.sequence ? `Job ${candidate.jobApplications[0].job.sequence}` : candidate.jobApplications[0].job.jobCode || candidate.jobApplications[0].job.id} — ${candidate.jobApplications[0].job.title}`
+                              : "-"}
                           </p>
                         </div>
 

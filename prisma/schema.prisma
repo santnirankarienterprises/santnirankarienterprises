@@ -78,10 +78,47 @@ model CandidateProfile {
   resumeUrl String?
 
   interviews Interview[]
+  jobApplications JobApplication[]
   placementFee PlacementFee?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Job {
+  id             String           @id @default(cuid())
+  jobCode        String?
+  sequence       Int?
+  title          String
+  company        String?
+  location       String
+  employmentType String
+  description    String?
+  requirements   String?
+  salary         String?
+  experience     String?
+  openings       Int?
+  jobCategory    String?
+  preferredJobField String?
+  isActive       Boolean          @default(true)
+  applications   JobApplication[]
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+}
+
+model JobApplication {
+  id          String           @id @default(cuid())
+  jobId       String
+  candidateId String
+  status      String           @default("APPLIED")
+  job         Job              @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  candidate   CandidateProfile @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  @@unique([jobId, candidateId])
+  @@index([jobId])
+  @@index([candidateId])
 }
 
 // This is separate from the Premium/registration Payment model. It records

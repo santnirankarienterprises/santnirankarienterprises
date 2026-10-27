@@ -54,7 +54,8 @@ export function SearchableSelect({
 
   // Current selected option
   const selectedOption = useMemo(() => {
-    return normalizedOptions.find((opt) => opt.value === value);
+    return normalizedOptions.find((opt) => opt.value === value) ||
+      (value ? { label: value, value } : undefined);
   }, [normalizedOptions, value]);
 
   // Filter options based on search query
